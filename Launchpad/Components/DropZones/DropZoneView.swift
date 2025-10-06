@@ -11,11 +11,12 @@ struct DropZoneView: View {
    let totalPages: Int
    let draggedItem: AppGridItem?
    let onNavigate: () -> Void
+   let transparency: Double
 
    @State private var isHovered = false
    @State private var hoverTimer: Timer?
 
-   private let hoverDelay: TimeInterval = 0.8
+   private let hoverDelay: TimeInterval = LaunchPadConstants.hoverDelay
 
    private var canNavigate: Bool {
       switch direction {
@@ -44,8 +45,8 @@ struct DropZoneView: View {
 
    var body: some View {
       Rectangle()
-         .fill(shouldShowChevron ? Color.accentColor.opacity(0.3) : Color.clear)
-         .frame(width: 60)
+         .fill(shouldShowChevron ? Color.accentColor.opacity(0.2 * transparency) : Color.clear)
+         .frame(width: LaunchPadConstants.dropZoneWidth)
          .overlay(alignment: alignment) {
             if shouldShowChevron {
                VStack {
@@ -53,7 +54,7 @@ struct DropZoneView: View {
                   Image(systemName: chevronIcon)
                      .font(.system(size: 20, weight: .medium))
                      .foregroundColor(.accentColor)
-                     .opacity(0.8)
+                     .opacity(0.8 * transparency)
                   Spacer()
                }
                .padding(padding)

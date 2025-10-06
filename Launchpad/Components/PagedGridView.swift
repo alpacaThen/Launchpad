@@ -2,11 +2,11 @@ import AppKit
 import SwiftUI
 
 struct PagedGridView: View {
+   
    @Binding var pages: [[AppGridItem]]
    var settings: LaunchpadSettings
    var showSettings: () -> Void
 
-   @GestureState private var dragOffset: CGFloat = 0
    @State private var currentPage = 0
    @State private var lastScrollTime = Date.distantPast
    @State private var accumulatedScrollX: CGFloat = 0
@@ -17,7 +17,7 @@ struct PagedGridView: View {
 
    var body: some View {
       VStack(spacing: 0) {
-         SearchBarView(searchText: $searchText)
+         SearchBarView(searchText: $searchText, transparency: settings.transparency)
          GeometryReader { geo in
             if searchText.isEmpty {
                HStack(spacing: 0) {
@@ -33,11 +33,10 @@ struct PagedGridView: View {
                      .frame(width: geo.size.width, height: geo.size.height)
                   }
                }
-               .offset(x: -CGFloat(currentPage) * geo.size.width + dragOffset)
-               .animation(.interpolatingSpring(stiffness: 300, damping: 100), value: currentPage)
+               .offset(x: -CGFloat(currentPage) * geo.size.width)
+               .animation(LaunchPadConstants.springAnimation, value: currentPage)
                .onAppear(perform: setupEventMonitoring)
                .onDisappear(perform: cleanupEventMonitoring)
-               //.background(Color(.red))
             } else {
                SearchResultsView(
                   apps: filteredApps(),
@@ -45,22 +44,22 @@ struct PagedGridView: View {
                   onItemTap: handleItemTap
                )
                .frame(width: geo.size.width, height: geo.size.height)
-               //.background(Color(.blue))
             }
          }
          PageIndicatorView(
             currentPage: $currentPage,
             pageCount: pages.count,
             isFolderOpen: selectedFolder != nil,
-            searchText: searchText
+            searchText: searchText,
+            settings: settings
          )
       }
-      //.background(Color(.green))
 
       FolderDetailView(
          pages: $pages,
          folder: $selectedFolder,
          settings: settings,
+         onItemTap: handleItemTap
       )
 
       PageDropZonesView(
@@ -68,7 +67,8 @@ struct PagedGridView: View {
          totalPages: pages.count,
          draggedItem: draggedItem,
          onNavigateLeft: navigateToPreviousPage,
-         onNavigateRight: navigateToNextPage
+         onNavigateRight: navigateToNextPage,
+         transparency: settings.transparency
       )
    }
 
@@ -170,14 +170,14 @@ struct PagedGridView: View {
    private func navigateToPreviousPage() {
       guard currentPage > 0 else { return }
 
-      withAnimation(.interpolatingSpring(stiffness: 300, damping: 100)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          currentPage = currentPage - 1
       }
    }
 
    private func navigateToNextPage() {
       if currentPage < pages.count - 1 {
-         withAnimation(.interpolatingSpring(stiffness: 300, damping: 100)) {
+         withAnimation(LaunchPadConstants.springAnimation) {
             currentPage += 1
          }
       } else {
@@ -187,7 +187,7 @@ struct PagedGridView: View {
 
    private func createNewPage() {
       pages.append([])
-      withAnimation(.interpolatingSpring(stiffness: 300, damping: 100)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          currentPage = pages.count - 1
       }
    }

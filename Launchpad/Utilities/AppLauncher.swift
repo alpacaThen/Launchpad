@@ -1,5 +1,4 @@
 import AppKit
-import Foundation
 
 @MainActor
 final class AppLauncher {
@@ -9,7 +8,7 @@ final class AppLauncher {
     }
     
     static func exit() {
-        print("Exiting Launchpad")
+        print("Exiting Launchpad.")
         NSApp.hide(nil)
     }
 }

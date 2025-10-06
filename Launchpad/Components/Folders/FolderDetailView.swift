@@ -1,14 +1,16 @@
-import Foundation
 import SwiftUI
 
 struct FolderDetailView: View {
     @Binding var pages: [[AppGridItem]]
     @Binding var folder: Folder?
     let settings: LaunchpadSettings
+    let onItemTap: (AppGridItem) -> Void
     
     @State private var editingName = false
     @State private var draggedApp: AppInfo?
     @State private var isAnimatingIn = false
+    @State private var opacity: Double = 0
+    @State private var headerOffset: CGFloat = -20
     @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
@@ -18,36 +20,16 @@ struct FolderDetailView: View {
                     .contentShape(Rectangle())
                     .onDrop(
                         of: [.text],
-                        delegate: FolderRemoveDropDelegate(folder: Binding(get: { folder! }, set: { folder = $0 }), draggedApp: $draggedApp, onRemoveApp: addAppToPage)
+                        delegate: RemoveDropDelegate(pages: $pages, folder: Binding(get: { folder! }, set: { folder = $0 }), draggedApp: $draggedApp, appsPerPage: settings.appsPerPage)
                     )
                     .onTapGesture {
-                        saveFolder()
+                        dismissWithAnimation()
                     }
                 
-                VStack(spacing: 24) {
-                    HStack {
-                        Spacer()
-                        if editingName {
-                            TextField(L10n.folderNamePlaceholder, text: Binding(get: { folder!.name }, set: { folder!.name = $0 }))
-                                .textFieldStyle(.roundedBorder)
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                                .multilineTextAlignment(.center)
-                                .onSubmit { editingName = false }
-                        } else {
-                            Text(folder!.name)
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                                .foregroundColor(colorScheme == .dark ? .white : .primary)
-                                .onTapGesture { editingName = true }
-                        }
-                        Spacer()
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 24)
-                    
+                VStack(spacing: 10) {
+                    FolderNameView(folder: Binding(get: { folder! }, set: { folder = $0 }), editingName: $editingName, opacity: opacity, offset: headerOffset)
                     GeometryReader { geo in
-                        let layout = LayoutMetrics(size: geo.size, columns: settings.folderColumns, rows: settings.folderRows, iconSize: settings.iconSize)
+                        let layout = LayoutMetrics(size: geo.size, columns: settings.folderColumns, rows: settings.folderRows + 1, iconSize: settings.iconSize)
                         
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVGrid(
@@ -56,8 +38,14 @@ struct FolderDetailView: View {
                             ) {
                                 ForEach(folder!.apps) { app in
                                     AppIconView(app: app, layout: layout, isDragged: draggedApp?.id == app.id)
+                                        .onTapGesture { onItemTap(.app(app))  }
+                                        .scaleEffect(draggedApp?.id == app.id ? LaunchPadConstants.draggedAppScale : 1.0)
+                                        .opacity(draggedApp?.id == app.id ? LaunchPadConstants.draggedAppOpacity : 1.0)
+                                        .animation(.easeOut(duration: 0.15), value: draggedApp?.id == app.id)
                                         .onDrag {
-                                            draggedApp = app
+                                            withAnimation(.easeOut(duration: 0.15)) {
+                                                draggedApp = app
+                                            }
                                             return NSItemProvider(object: app.id.uuidString as NSString)
                                         }
                                         .onDrop(
@@ -70,26 +58,79 @@ struct FolderDetailView: View {
                                             ))
                                 }
                             }
+                            .padding(.vertical, 20)
                         }
+                        .scrollBounceBehavior(.basedOnSize)
                     }
+                    .opacity(opacity)
                 }
-                .frame(width: 1200, height: 800)
-                .background(VisualEffectView(material: .hudWindow, blendingMode: .behindWindow).cornerRadius(16))
-                .shadow(
-                    color: colorScheme == .dark ? .black.opacity(0.5) : .black.opacity(0.2),
-                    radius: 30, x: 0, y: 15
+                .frame(width: LaunchPadConstants.settingsWindowWidth, height: LaunchPadConstants.settingsWindowHeight)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.regularMaterial)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            Color.white.opacity((colorScheme == .dark ? 0.1 : 0.3) * settings.transparency),
+                                            Color.white.opacity(0.05 * settings.transparency)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(
+                                    LinearGradient(
+                                        colors: [
+                                            Color.white.opacity((colorScheme == .dark ? 0.3 : 0.5) * settings.transparency),
+                                            Color.white.opacity(0.1 * settings.transparency)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ),
+                                    lineWidth: 1
+                                )
+                        )
                 )
-                .shadow(
-                    color: colorScheme == .dark ? .black.opacity(0.3) : .black.opacity(0.08),
-                    radius: 5, x: 0, y: 2
-                )
-                .scaleEffect(isAnimatingIn ? 1.0 : 0.9)
+                .shadow(color: .black.opacity(0.15 * settings.transparency), radius: 40, x: 0, y: 20)
+                .shadow(color: .black.opacity(0.1 * settings.transparency), radius: 10, x: 0, y: 5)
+                .scaleEffect(isAnimatingIn ? 1.0 : 0.85)
                 .opacity(isAnimatingIn ? 1.0 : 0.0)
                 .onAppear {
-                    withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) { isAnimatingIn = true }
+                    performEntranceAnimation()
                 }
                 .onTapGesture { editingName = false }
             }
+        }
+    }
+    
+    private func performEntranceAnimation() {
+        withAnimation(.interpolatingSpring(stiffness: 280, damping: 22)) {
+            isAnimatingIn = true
+        }
+        
+        withAnimation(.easeOut(duration: 0.3)) {
+            opacity = 1.0
+        }
+        
+        withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
+            headerOffset = 0
+        }
+    }
+    
+    private func dismissWithAnimation() {
+        withAnimation(.easeIn(duration: 0.1)) {
+            opacity = 0
+            headerOffset = -20
+            isAnimatingIn = false
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            saveFolder()
         }
     }
     
@@ -101,33 +142,5 @@ struct FolderDetailView: View {
         let newFolder = Folder(name: folder!.name, page: folder!.page, apps: folder!.apps)
         pages[pageIndex][itemIndex] = .folder(newFolder)
         folder = nil
-    }
-    
-    private func addAppToPage(app: AppInfo) {
-        guard let folder = folder,
-              let pageIndex = pages.firstIndex(where: { page in page.contains(where: { $0.id == folder.id }) }) else { return }
-        let updatedApp = AppInfo(name: app.name, icon: app.icon, path: app.path, page: pageIndex)
-        pages[pageIndex].append(.app(updatedApp))
-        handlePageOverflow(pageIndex: pageIndex)
-    }
-    
-    private func handlePageOverflow(pageIndex: Int) {
-        while pages[pageIndex].count > settings.appsPerPage {
-            let overflowItem = pages[pageIndex].removeLast()
-            let nextPage = pageIndex + 1
-            let updatedOverflowItem: AppGridItem
-            switch overflowItem {
-            case .app(let app):
-                updatedOverflowItem = .app(AppInfo(name: app.name, icon: app.icon, path: app.path, page: nextPage))
-            case .folder(let folder):
-                updatedOverflowItem = .folder(Folder(name: folder.name, page: nextPage, apps: folder.apps))
-            }
-            if nextPage >= pages.count {
-                pages.append([updatedOverflowItem])
-            } else {
-                pages[nextPage].insert(updatedOverflowItem, at: 0)
-                handlePageOverflow(pageIndex: nextPage)
-            }
-        }
     }
 }

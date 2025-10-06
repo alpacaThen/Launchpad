@@ -18,9 +18,9 @@ struct SinglePageView: View {
                spacing: layout.hSpacing
             ) {
                ForEach(pages[pageIndex]) { item in
-                  GridItemView(item: item, layout: layout, isDragged: draggedItem?.id == item.id
+                  GridItemView(item: item, layout: layout, isDragged: draggedItem?.id == item.id, transparency: settings.transparency
                   )
-                  .opacity(isFolderOpen ? 0.2 : 1)
+                  .opacity(isFolderOpen ? LaunchPadConstants.folderOpenOpacity : 1)
                   .onTapGesture { onItemTap(item)  }
                   .onDrag {
                      draggedItem = item
@@ -40,6 +40,7 @@ struct SinglePageView: View {
             }
             .padding(.horizontal, layout.hPadding)
             .padding(.vertical, layout.vPadding)
+            .frame(minHeight: pageGeo.size.height - layout.vPadding, alignment: .top)
          }
          .onDrop(of: [.text], delegate: PageDropDelegate(
             pages: $pages,

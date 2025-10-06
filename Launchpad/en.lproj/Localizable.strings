@@ -14,6 +14,7 @@
 // MARK: - Settings View
 "launchpad_settings" = "Launchpad Settings";
 "reset_to_defaults" = "Reset to Defaults";
+"features" = "Features";
 
 // MARK: - Layout Settings
 "layout" = "Layout";
@@ -25,6 +26,8 @@
 "drop_animation_delay" = "Drop Animation Delay";
 "page_scroll_debounce" = "Page Scroll Debounce";
 "page_scroll_threshold" = "Page Scroll Threshold";
+"show_dock" = "Show Dock";
+"transparency" = "Transparency";
 
 // MARK: - Actions Settings
 "actions" = "Actions";
@@ -33,6 +36,8 @@
 "import_layout" = "Import Layout";
 "reset_options" = "Reset Options";
 "clear_all_apps" = "Clear All Apps";
+"application_control" = "Application Control";
+"force_quit" = "Force Quit";
 
 // MARK: - Alerts and Confirmations
 "clear_all_apps_title" = "Clear All Apps";
@@ -63,3 +68,7 @@
 "number_200" = "200";
 "time_0_0s" = "0.0s";
 "time_3_0s" = "3.0s";
+
+// MARK: - Restart Warning
+"restart_required" = "Restart Required";
+"restart_warning_message" = "Some settings require a force restart of LaunchPad app to take effect.";

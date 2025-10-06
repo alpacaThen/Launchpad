@@ -3,14 +3,7 @@ import Foundation
 extension String {
     /// Returns the localized version of the string
     var localized: String {
-        let localized = NSLocalizedString(self, comment: "")
-        #if DEBUG
-        // Debug: Print localization info
-        let currentLanguage = Locale.current.language.languageCode?.identifier ?? "unknown"
-        let preferredLanguages = Locale.preferredLanguages.first ?? "unknown"
-        print("🌍 Localizing '\(self)' -> '\(localized)' (System: \(currentLanguage), Preferred: \(preferredLanguages))")
-        #endif
-        return localized
+        return NSLocalizedString(self, comment: "")
     }
     
     /// Returns the localized version of the string with arguments
@@ -32,6 +25,7 @@ struct L10n {
     // MARK: - Settings View
     static let launchpadSettings = "launchpad_settings".localized
     static let resetToDefaults = "reset_to_defaults".localized
+    static let features = "features".localized
     
     // MARK: - Layout Settings
     static let layout = "layout".localized
@@ -43,6 +37,8 @@ struct L10n {
     static let dropAnimationDelay = "drop_animation_delay".localized
     static let pageScrollDebounce = "page_scroll_debounce".localized
     static let pageScrollThreshold = "page_scroll_threshold".localized
+    static let showDock = "show_dock".localized
+    static let transparency = "transparency".localized
     
     // MARK: - Actions Settings
     static let actions = "actions".localized
@@ -51,6 +47,8 @@ struct L10n {
     static let importLayout = "import_layout".localized
     static let resetOptions = "reset_options".localized
     static let clearAllApps = "clear_all_apps".localized
+    static let applicationControl = "application_control".localized
+    static let forceQuit = "force_quit".localized
     
     // MARK: - Alerts and Confirmations
     static let clearAllAppsTitle = "clear_all_apps_title".localized
@@ -81,4 +79,8 @@ struct L10n {
     static let number200 = "number_200".localized
     static let time00s = "time_0_0s".localized
     static let time30s = "time_3_0s".localized
+    
+    // MARK: - Restart Warning
+    static let restartRequired = "restart_required".localized
+    static let restartWarningMessage = "restart_warning_message".localized
 }
