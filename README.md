@@ -6,7 +6,7 @@ If you like this project and want to support further development:
 
 <a href="https://www.buymeacoffee.com/Waikiki.com" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-**[📥 Download Launchpad v1.5](https://github.com/kristof12345/Launchpad/releases/download/v1.5/Launchpad.app.zip)**
+**[📥 Download Launchpad v1.6](https://github.com/kristof12345/Launchpad/releases/download/v1.6/Launchpad.app.zip)**
 
 ## ✨ Features
 
@@ -129,10 +129,15 @@ Create a keyboard shortcut using BetterTouchTool or similar:
 set appName to "Launchpad"
 
 tell application "System Events"
-	if visible of application process appName is true then
-		set visible of application process appName to false
+	if name of processes contains appName then
+		if visible of application process appName is true then
+			set visible of application process appName to false
+		else
+			tell me to tell application appName to activate
+		end if
 	else
 		tell me to tell application appName to activate
+		set visible of application process appName to true
 	end if
 end tell
 ```
