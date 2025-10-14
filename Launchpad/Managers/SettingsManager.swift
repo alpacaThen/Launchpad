@@ -42,7 +42,9 @@ final class SettingsManager: ObservableObject {
       scrollActivationThreshold: CGFloat? = nil,
       showDock: Bool? = nil,
       transparency: Double? = nil,
-      startAtLogin: Bool? = nil
+      startAtLogin: Bool? = nil,
+      resetOnRelaunch: Bool? = nil,
+      productKey: String? = nil
    ) {
       settings = LaunchpadSettings(
          columns: columns ?? settings.columns,
@@ -56,6 +58,8 @@ final class SettingsManager: ObservableObject {
          showDock: showDock ?? settings.showDock,
          transparency: transparency ?? settings.transparency,
          startAtLogin: startAtLogin ?? settings.startAtLogin,
+         resetOnRelaunch: resetOnRelaunch ?? settings.resetOnRelaunch,
+         productKey: productKey ?? settings.productKey
       )
    }
    

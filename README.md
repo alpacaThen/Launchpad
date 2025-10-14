@@ -6,7 +6,7 @@ If you like this project and want to support further development:
 
 <a href="https://www.buymeacoffee.com/Waikiki.com" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-**[📥 Download Launchpad v1.6](https://github.com/kristof12345/Launchpad/releases/download/v1.6/Launchpad.app.zip)**
+**[📥 Download Launchpad v2.1](https://github.com/kristof12345/Launchpad/releases/download/v2.1/Launchpad.app.zip)**
 
 ## ✨ Features
 
@@ -17,15 +17,16 @@ If you like this project and want to support further development:
 - Responsive layout adapts to any screen size
 - Consistent alignment across all views
 
-![LaunchPad Main Interface](Documentation/Launchpad-1.png)
+![LaunchPad Main Interface](docs/images/Launchpad-1.png)
 
 ### 🔍 **Smart Search**
 - Real-time fuzzy search as you type
+- Press Enter to launch the first result
 - Vertical scrolling through results
 - Search within folders automatically
 - Clean empty state for no results
 
-![Search Functionality](Documentation/Launchpad-2.png)
+![Search Functionality](docs/images/Launchpad-2.png)
 
 ### 🗂️ **Folders & Organization**
 - Drag one app onto another to create folders
@@ -36,21 +37,22 @@ If you like this project and want to support further development:
 - Auto-save all layout changes
 - Smart overflow to new pages
 
-![Folder](Documentation/Launchpad-4.png)
-![Folders](Documentation/Launchpad-5.png)
+![Folder](docs/images/Launchpad-4.png)
+![Folders](docs/images/Launchpad-5.png)
 
 ### 🎨 **Modern Folder Styles**
 
-![New Folder Styles](Documentation/Launchpad-6.png)
+![New Folder Styles](docs/images/Launchpad-6.png)
 
 ### ⚙️ **Customizable Settings**
 
-![Settings Panel](Documentation/Launchpad-7.png)
+![Settings Panel](docs/images/Launchpad-7.png)
 
 ### 🎮 **Navigation Methods**
 
 #### ⌨️ **Keyboard**
 - `←/→` – Navigate pages
+- `ENTER` – Launch first search result
 - `CMD + ,` – Open settings
 - `ESC` – Close app
 
@@ -68,7 +70,7 @@ If you like this project and want to support further development:
 
 ## ⚙️ **Settings & Customization**
 
-![Settings](Documentation/Launchpad-3.png)
+![Settings](docs/images/Launchpad-3.png)
 
 ### 🎛️ **Grid Layout**
 - **Columns**: 2–20 per page
@@ -87,6 +89,7 @@ If you like this project and want to support further development:
 ### 💾 **Layout Management**
 - **Auto-save**: All changes saved automatically
 - **Export/Import**: Backup layouts as JSON
+- **Import from Old Launchpad**: Import your layout from macOS's native Launchpad
 - **Reset Options**: Return to defaults
 - **Cross-Device**: Share layouts between machines
 
@@ -100,12 +103,29 @@ If you like this project and want to support further development:
 5. All changes auto-saved
 
 ### 💡 **Daily Usage**
-- **Search**: Type to filter instantly
+- **Search**: Type to filter instantly, press Enter to launch first result
 - **Navigate**: Arrow keys, dots, or scroll
 - **Launch**: Click any app icon
 - **Organize**: Drag to rearrange or create folders
 - **Rename**: Click folder names
-- **Exit**: Press ESC or activate another app
+- **Exit**: Press ESC, activate another app, or click the Launchpad dock icon when already open
+
+### 📦 **Importing from Old macOS Launchpad**
+
+If you've used the native macOS Launchpad before and have customized your app layout, you can import it:
+
+1. Open Settings (CMD + ,)
+2. Go to the **Actions** tab
+3. Click **Import from Old Launchpad**
+4. Your existing layout will be imported automatically
+
+**How it works:**
+- Reads your existing Launchpad database at `/private$(getconf DARWIN_USER_DIR)com.apple.dock.launchpad/db/db`
+- Preserves your app positions and page organization
+- Maintains folder structures and names
+- Merges with newly discovered apps not in old layout
+
+**Note:** This feature requires that you have previously used and customized the native macOS Launchpad. If the database is not found, the import will fail gracefully.
 
 ## 🏗️ **Technical Overview**
 
@@ -123,7 +143,7 @@ If you like this project and want to support further development:
 
 Create a keyboard shortcut using BetterTouchTool or similar:
 
-![BetterTouchTool Config](Documentation/Launchpad-8.png)
+![BetterTouchTool Config](docs/images/Launchpad-8.png)
 
 ```applescript
 set appName to "Launchpad"
