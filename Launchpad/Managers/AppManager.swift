@@ -83,10 +83,6 @@ final class AppManager: ObservableObject {
             let name2 = item2.name.lowercased()
             return name1 < name2
          }
-         // Reset page numbers after sorting
-         for i in 0..<allItems.count {
-            allItems[i].setPage(0)
-         }
       case .defaultLayout:
          // Load the saved layout from UserDefaults
          let apps = discoverApps()
