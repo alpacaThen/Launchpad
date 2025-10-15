@@ -61,6 +61,9 @@ struct L10n {
    // MARK: - Search
    static let searchPlaceholder = "search_placeholder".localized
    static let noAppsFound = "no_apps_found".localized
+   static let sortBy = "sort_by".localized
+   static let sortByDefault = "sort_by_default".localized
+   static let sortByName = "sort_by_name".localized
    
    // MARK: - Folder Management
    static let untitledFolder = "untitled_folder".localized

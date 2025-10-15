@@ -57,6 +57,17 @@ enum AppGridItem: Identifiable, Equatable {
       return folder
     }
   }
+  
+  mutating func setPage(_ newPage: Int) {
+    switch self {
+    case .app(var app):
+      app.page = newPage
+      self = .app(app)
+    case .folder(var folder):
+      folder.page = newPage
+      self = .folder(folder)
+    }
+  }
 
   static func == (lhs: AppGridItem, rhs: AppGridItem) -> Bool {
     lhs.id == rhs.id

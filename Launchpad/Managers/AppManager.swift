@@ -70,6 +70,32 @@ final class AppManager: ObservableObject {
       let allItems = pages.flatMap { $0 }
       pages = groupItemsByPage(items: allItems, appsPerPage: appsPerPage)
    }
+   
+   func sortItems(by sortOrder: SortOrder, appsPerPage: Int) {
+      print("Sort items by \(sortOrder.rawValue).")
+      var allItems = pages.flatMap { $0 }
+      
+      switch sortOrder {
+      case .name:
+         // Sort alphabetically by name
+         allItems.sort { item1, item2 in
+            let name1 = item1.name.lowercased()
+            let name2 = item2.name.lowercased()
+            return name1 < name2
+         }
+         // Reset page numbers after sorting
+         for i in 0..<allItems.count {
+            allItems[i].setPage(0)
+         }
+      case .defaultLayout:
+         // Load the saved layout from UserDefaults
+         let apps = discoverApps()
+         allItems = loadLayoutFromUserDefaults(for: apps)
+      }
+      
+      pages = groupItemsByPage(items: allItems, appsPerPage: appsPerPage)
+      saveGridItems()
+   }
 
    private func discoverApps() -> [AppInfo] {
       print("Discover apps.")

@@ -50,6 +50,9 @@
 // MARK: - Search
 "search_placeholder" = "Search";
 "no_apps_found" = "No apps found";
+"sort_by" = "Sort By";
+"sort_by_default" = "Default Layout";
+"sort_by_name" = "Name";
 
 // MARK: - Folder Management
 "untitled_folder" = "Untitled Folder";
