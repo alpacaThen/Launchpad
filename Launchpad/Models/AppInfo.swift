@@ -7,14 +7,18 @@ struct AppInfo: Identifiable, Equatable, Hashable {
    let icon: NSImage
    let path: String
    let bundleId: String
+   let lastOpenedDate: Date?
+   let installDate: Date?
    var page: Int
 
-   init(name: String, icon: NSImage, path: String, bundleId: String, page: Int = 0) {
+   init(name: String, icon: NSImage, path: String, bundleId: String, lastOpenedDate: Date? = nil, installDate: Date? = nil, page: Int = 0) {
       self.id = UUID()
       self.name = name
       self.icon = icon
       self.path = path
       self.bundleId = bundleId
+      self.lastOpenedDate = lastOpenedDate
+      self.installDate = installDate
       self.page = page
    }
 }

@@ -3,6 +3,9 @@ import Foundation
 enum SortOrder: String, Codable, CaseIterable {
    case defaultLayout = "default"
    case name = "name"
+   case itemType = "type"
+   case lastOpened = "lastOpened"
+   case installDate = "installDate"
    
    var displayName: String {
       switch self {
@@ -10,6 +13,12 @@ enum SortOrder: String, Codable, CaseIterable {
          return L10n.sortByDefault
       case .name:
          return L10n.sortByName
+      case .itemType:
+         return L10n.sortByType
+      case .lastOpened:
+         return L10n.sortByLastOpened
+      case .installDate:
+         return L10n.sortByInstallDate
       }
    }
 }

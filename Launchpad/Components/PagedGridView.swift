@@ -13,21 +13,14 @@ struct PagedGridView: View {
    @State private var searchText = ""
    @State private var draggedItem: AppGridItem?
    @State private var selectedFolder: Folder?
-   @State private var currentSortOrder: SortOrder
-
-   init(pages: Binding<[[AppGridItem]]>, showSettings: Binding<Bool>, settings: LaunchpadSettings) {
-      self._pages = pages
-      self._showSettings = showSettings
-      self.settings = settings
-      self._currentSortOrder = State(initialValue: settings.sortOrder)
-   }
+   @State private var currentSortOrder: SortOrder = SortOrder.defaultLayout;
 
    var body: some View {
       VStack(spacing: 0) {
          SearchBarView(
             searchText: searchText,
             transparency: settings.transparency,
-            onSortOrderChange: handleSortOrderChange,
+            onSortOrderChange: handleSort,
             onSettingsOpen: { showSettings = true },
             currentSortOrder: $currentSortOrder
          )
@@ -254,11 +247,9 @@ struct PagedGridView: View {
 
       AppLauncher.launch(path: firstApp.path)
    }
-   
-   private func handleSortOrderChange(_ sortOrder: SortOrder) {
-      print("Sort order changed to: \(sortOrder.rawValue)")
+
+   private func handleSort(sortOrder: SortOrder) {
       AppManager.shared.sortItems(by: sortOrder, appsPerPage: settings.appsPerPage)
-      SettingsManager.shared.updateSettings(sortOrder: sortOrder)
    }
 
    private func handleAppActivation() {
