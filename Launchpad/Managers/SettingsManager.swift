@@ -45,7 +45,7 @@ final class SettingsManager: ObservableObject {
       startAtLogin: Bool? = nil,
       resetOnRelaunch: Bool? = nil,
       productKey: String? = nil,
-      sortOrder: SortOrder? = nil
+      customAppLocations: [String]? = nil
    ) {
       settings = LaunchpadSettings(
          columns: columns ?? settings.columns,
@@ -61,7 +61,7 @@ final class SettingsManager: ObservableObject {
          startAtLogin: startAtLogin ?? settings.startAtLogin,
          resetOnRelaunch: resetOnRelaunch ?? settings.resetOnRelaunch,
          productKey: productKey ?? settings.productKey,
-         sortOrder: sortOrder ?? settings.sortOrder
+         customAppLocations: customAppLocations ?? settings.customAppLocations
       )
    }
    

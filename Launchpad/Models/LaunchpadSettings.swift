@@ -14,7 +14,7 @@ struct LaunchpadSettings: Codable, Equatable {
    var startAtLogin: Bool
    var resetOnRelaunch: Bool
    var productKey: String
-   var sortOrder: SortOrder
+   var customAppLocations: [String]
 
    static let defaultColumns = 7
    static let defaultRows = 5
@@ -29,7 +29,7 @@ struct LaunchpadSettings: Codable, Equatable {
    static let defaultStartAtLogin = false
    static let defaultResetOnRelaunch = true
    static let defaultProductKey = ""
-   static let defaultSortOrder = SortOrder.defaultLayout
+   static let defaultCustomAppLocations: [String] = []
 
    init(
       columns: Int = defaultColumns,
@@ -45,7 +45,7 @@ struct LaunchpadSettings: Codable, Equatable {
       startAtLogin: Bool = defaultStartAtLogin,
       resetOnRelaunch: Bool = defaultResetOnRelaunch,
       productKey: String = defaultProductKey,
-      sortOrder: SortOrder = defaultSortOrder
+      customAppLocations: [String] = defaultCustomAppLocations
    ) {
       self.columns = max(4, min(12, columns))
       self.rows = max(3, min(10, rows))
@@ -60,7 +60,7 @@ struct LaunchpadSettings: Codable, Equatable {
       self.startAtLogin = startAtLogin
       self.resetOnRelaunch = resetOnRelaunch
       self.productKey = productKey
-      self.sortOrder = sortOrder
+      self.customAppLocations = customAppLocations
    }
 
    var appsPerPage: Int {
@@ -68,6 +68,6 @@ struct LaunchpadSettings: Codable, Equatable {
    }
 
    var isActivated: Bool {
-      return LaunchPadConstants.productKey.isEmpty || productKey == LaunchPadConstants.productKey
+      return LaunchPadKey.productKey.isEmpty || productKey == LaunchPadKey.productKey
    }
 }

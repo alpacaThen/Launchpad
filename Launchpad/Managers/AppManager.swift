@@ -5,20 +5,31 @@ import Foundation
 final class AppManager: ObservableObject {
    private let userDefaults = UserDefaults.standard
    private let gridItemsKey = "LaunchpadGridItems"
+   private let hiddenAppsKey = "LaunchpadHiddenApps"
 
    static let shared = AppManager()
 
    private init() {
       self.pages = [[]]
+      self.hiddenAppPaths = Set(userDefaults.stringArray(forKey: hiddenAppsKey) ?? [])
    }
 
    @Published var pages: [[AppGridItem]]
+   @Published var hiddenAppPaths: Set<String> {
+      didSet {
+         saveHiddenApps()
+      }
+   }
 
    func loadGridItems(appsPerPage: Int) {
       print("Load grid items.")
       let apps = discoverApps()
       let gridItems = loadLayoutFromUserDefaults(for: apps)
-      pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
+      // Filter out hidden apps
+      let visibleItems = gridItems.filter { item in
+         !isItemHidden(item)
+      }
+      pages = groupItemsByPage(items: visibleItems, appsPerPage: appsPerPage)
    }
 
    func saveGridItems() {
@@ -95,8 +106,10 @@ final class AppManager: ObservableObject {
 
    private func discoverApps() -> [AppInfo] {
       print("Discover apps.")
-      let appPaths = ["/Applications", "/System/Applications"]
-      return appPaths.flatMap { discoverAppsRecursively(directory: $0) }.sorted { $0.name.lowercased() < $1.name.lowercased() }
+      let defaultPaths = ["/Applications", "/System/Applications"]
+      let customPaths = SettingsManager.shared.settings.customAppLocations
+      let allPaths = defaultPaths + customPaths
+      return allPaths.flatMap { discoverAppsRecursively(directory: $0) }.sorted { $0.name.lowercased() < $1.name.lowercased() }
    }
 
    private func discoverAppsRecursively(directory: String, maxDepth: Int = 3, currentDepth: Int = 0) -> [AppInfo] {
@@ -109,7 +122,8 @@ final class AppManager: ObservableObject {
             let fallbackName = item.replacingOccurrences(of: ".app", with: "")
             let appName = getLocalizedAppName(for: URL(fileURLWithPath: fullPath), fallbackName: fallbackName)
             let icon = IconCache.shared.icon(forPath: fullPath)
-            foundApps.append(AppInfo(name: appName, icon: icon, path: fullPath))
+            let bundleId = Bundle(path: fullPath)?.bundleIdentifier ?? "unknown.bundle.\(fallbackName)"
+            foundApps.append(AppInfo(name: appName, icon: icon, path: fullPath, bundleId: bundleId))
          } else if shouldSearchDirectory(item: item, at: fullPath) {
             foundApps.append(contentsOf: discoverAppsRecursively(directory: fullPath, maxDepth: maxDepth, currentDepth: currentDepth + 1))
          }
@@ -157,7 +171,7 @@ final class AppManager: ObservableObject {
       let page = itemData["page"] as! Int
       let baseApp = appsByPath[path]
       if baseApp == nil {  return nil  }
-      return .app(AppInfo(name: baseApp!.name, icon: baseApp!.icon, path: baseApp!.path, page: page))
+      return .app(AppInfo(name: baseApp!.name, icon: baseApp!.icon, path: baseApp!.path, bundleId: baseApp!.bundleId, page: page))
 
    }
 
@@ -168,7 +182,7 @@ final class AppManager: ObservableObject {
          guard let path = appData["path"] as? String,
                let baseApp = appsByPath[path] else { return nil }
          let savedPage = appData["page"] as? Int ?? 0
-         return AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, page: savedPage)
+         return AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, bundleId: baseApp.bundleId, page: savedPage)
       }
       guard !folderApps.isEmpty else { return nil }
       let savedPage = itemData["page"] as? Int ?? 0
@@ -272,7 +286,43 @@ final class AppManager: ObservableObject {
 
       let maxPage = items.map(\.page).max() ?? 0
       for app in apps where !usedApps.contains(app.path) {
-         items.append(.app(AppInfo(name: app.name, icon: app.icon, path: app.path, page: maxPage)))
+         items.append(.app(AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, page: maxPage)))
+      }
+   }
+   
+   // MARK: - Hidden Apps Management
+   
+   private func saveHiddenApps() {
+      print("Save hidden apps.")
+      userDefaults.set(Array(hiddenAppPaths), forKey: hiddenAppsKey)
+      userDefaults.synchronize()
+   }
+   
+   func hideApp(path: String, appsPerPage: Int) {
+      print("Hide app: \(path)")
+      hiddenAppPaths.insert(path)
+      loadGridItems(appsPerPage: appsPerPage)
+   }
+   
+   func unhideApp(path: String, appsPerPage: Int) {
+      print("Unhide app: \(path)")
+      hiddenAppPaths.remove(path)
+      loadGridItems(appsPerPage: appsPerPage)
+   }
+   
+   func getHiddenApps() -> [AppInfo] {
+      let allApps = discoverApps()
+      return allApps.filter { hiddenAppPaths.contains($0.path) }
+   }
+   
+   private func isItemHidden(_ item: AppGridItem) -> Bool {
+      switch item {
+      case .app(let app):
+         return hiddenAppPaths.contains(app.path)
+      case .folder(let folder):
+         // If all apps in a folder are hidden, hide the folder
+         let allHidden = folder.apps.allSatisfy { hiddenAppPaths.contains($0.path) }
+         return allHidden && !folder.apps.isEmpty
       }
    }
 }

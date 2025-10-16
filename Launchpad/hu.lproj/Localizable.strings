@@ -38,6 +38,14 @@
 "application_control" = "Alkalmazás Vezérlés";
 "force_quit" = "Kilépés";
 
+// MARK: - Hidden Apps
+"hidden_apps" = "Rejtett Alkalmazások";
+"hide_app" = "Alkalmazás Elrejtése";
+"unhide_app" = "Alkalmazás Megjelenítése";
+"no_hidden_apps" = "Nincsenek rejtett alkalmazások";
+"hidden_apps_description" = "A rejtett alkalmazások itt jelennek meg. Kattints rájuk a megjelenítéshez.";
+"unhide_all_apps" = "Összes Megjelenítése";
+
 // MARK: - Alerts and Confirmations
 "clear_all_apps_title" = "Elrendezés Törlése";
 "clear_all_apps_message" = "Ez eltávolítja az összes alkalmazást az egyéni elrendezésből és visszaállítja az alapértelmezett ábécé sorrendet. Ez a művelet nem vonható vissza.";
@@ -79,3 +87,18 @@
 "activation_successful" = "Sikeres Aktiválás";
 "purchase_prompt" = "Még nincs licenced? Vásárolj egyet az összes funkció feloldásához.";
 "purchase_license" = "Licenc Vásárlása";
+
+// MARK: - Locations Settings
+"locations" = "Helyek";
+"locations_description" = "Adj hozzá egyéni mappákat, ahol a Launchpad alkalmazásokat keres. Alapértelmezetten a Launchpad az /Applications és /System/Applications mappákban keres.";
+"custom_locations" = "Egyéni Helyek";
+"no_custom_locations" = "Még nincsenek hozzáadott helyek";
+"add_location" = "Hely Hozzáadása";
+"location_placeholder" = "/útvonal/a/mappához";
+"browse_folder" = "Mappa böngészése";
+"add_location_help" = "Hely hozzáadása";
+"invalid_location" = "Érvénytelen Hely";
+"location_does_not_exist" = "A megadott útvonal nem létezik.";
+"location_not_directory" = "A megadott útvonal nem mappa.";
+"location_already_added" = "Ez a hely már hozzá lett adva.";
+"select_folder_message" = "Válassz egy mappát az alkalmazások kereséséhez";

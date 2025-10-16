@@ -4,20 +4,21 @@ struct SettingsView: View {
    private let settingsManager = SettingsManager.shared
    private let appManager = AppManager.shared
    let onDismiss: () -> Void
-   
+
    @State private var selectedTab: Int
    @State private var settings: LaunchpadSettings = SettingsManager.shared.settings
-   
+
    init(onDismiss: @escaping () -> Void, initialTab: Int = 0) {
       self.onDismiss = onDismiss;
       _selectedTab = State(initialValue: initialTab)
    }
-   
+
    var body: some View {
       ZStack {
          Color.black.opacity(0.4)
             .ignoresSafeArea()
             .onTapGesture(perform: onDismiss)
+
          VStack(spacing: 0) {
             HStack {
                Text(L10n.launchpadSettings)
@@ -30,40 +31,86 @@ struct SettingsView: View {
                   .font(.title3)
             }
             .padding(.bottom, 16)
-            
-            Picker("", selection: $selectedTab) {
-               Label(L10n.layout, systemImage: "grid").tag(0)
-               Label(L10n.features, systemImage: "sparkles").tag(1)
-               Label(L10n.actions, systemImage: "bolt").tag(2)
-               Label(L10n.activation, systemImage: "key.fill").tag(3)
-            }
-            .pickerStyle(.segmented)
-            .padding(.bottom, 16)
-            
-            Group {
-               if selectedTab == 0 {
-                  LayoutSettings(settings: $settings)
-               } else if selectedTab == 1 {
-                  FeaturesSettings(settings: $settings)
-               } else if selectedTab == 2 {
-                  ActionsSettings()
-               } else {
-                  ActivationSettings(settings: $settings)
+
+            HStack(spacing: 0) {
+               // Sidebar with vertical tabs
+               VStack(alignment: .leading, spacing: 4) {
+                  SidebarTabButton(
+                     icon: "grid",
+                     label: L10n.layout,
+                     isSelected: selectedTab == 0,
+                     action: { selectedTab = 0 }
+                  )
+                  SidebarTabButton(
+                     icon: "sparkles",
+                     label: L10n.features,
+                     isSelected: selectedTab == 1,
+                     action: { selectedTab = 1 }
+                  )
+                  SidebarTabButton(
+                     icon: "bolt",
+                     label: L10n.actions,
+                     isSelected: selectedTab == 2,
+                     action: { selectedTab = 2 }
+                  )
+                  SidebarTabButton(
+                     icon: "eye.slash",
+                     label: L10n.hiddenApps,
+                     isSelected: selectedTab == 3,
+                     action: { selectedTab = 3 }
+                  )
+                  SidebarTabButton(
+                     icon: "folder",
+                     label: L10n.locations,
+                     isSelected: selectedTab == 4,
+                     action: { selectedTab = 4 }
+                  )
+                  SidebarTabButton(
+                     icon: "key.fill",
+                     label: L10n.activation,
+                     isSelected: selectedTab == 5,
+                     action: { selectedTab = 5 }
+                  )
+                  Spacer()
+               }
+               .frame(width: 200)
+               .padding(.trailing, 16)
+
+               Divider()
+                  .padding(.trailing, 16)
+
+               // Content area
+               VStack {
+                  Group {
+                     if selectedTab == 0 {
+                        LayoutSettings(settings: $settings)
+                     } else if selectedTab == 1 {
+                        FeaturesSettings(settings: $settings)
+                     } else if selectedTab == 2 {
+                        ActionsSettings()
+                     } else if selectedTab == 3 {
+                        HiddenAppsSettings()
+                     } else if selectedTab == 4 {
+                        LocationsSettings(settings: $settings)
+                     } else {
+                        ActivationSettings(settings: $settings)
+                     }
+                  }
+
+                  Spacer()
+
+                  HStack(spacing: 16) {
+                     Button(L10n.resetToDefaults, action: reset).buttonStyle(.bordered)
+                     Spacer()
+                     Button(L10n.cancel, action: onDismiss).buttonStyle(.bordered)
+                     Button(L10n.apply, action: apply).buttonStyle(.borderedProminent)
+                  }
                }
             }
-            
-            Spacer()
-            
-            HStack(spacing: 16) {
-               Button(L10n.resetToDefaults, action: reset).buttonStyle(.bordered)
-               Spacer()
-               Button(L10n.cancel, action: onDismiss).buttonStyle(.bordered)
-               Button(L10n.apply, action: apply).buttonStyle(.borderedProminent)
-            }
          }
-         
+
          .padding(24)
-         .frame(width: 500, height: 460)
+         .frame(width: 720, height: 460)
          .background(
             RoundedRectangle(cornerRadius: 16)
                .fill(.regularMaterial)
@@ -74,21 +121,23 @@ struct SettingsView: View {
          )
       }
    }
-   
+
    private func apply() {
       updateSettings()
       onDismiss()
    }
-   
+
    private func reset() {
       settings = LaunchpadSettings()
       updateSettings()
    }
-   
+
    private func updateSettings() {
       let oldAppsPerPage = settingsManager.settings.appsPerPage
       let newAppsPerPage = settings.appsPerPage
-      
+      let oldLocations = settingsManager.settings.customAppLocations
+      let newLocations = settings.customAppLocations
+
       settingsManager.updateSettings(
          columns: settings.columns,
          rows: settings.rows,
@@ -102,12 +151,24 @@ struct SettingsView: View {
          transparency: settings.transparency,
          startAtLogin: settings.startAtLogin,
          resetOnRelaunch: settings.resetOnRelaunch,
-         productKey: settings.productKey
+         productKey: settings.productKey,
+         customAppLocations: settings.customAppLocations
       )
+
+      if(settings.showDock) {
+         NSMenu.setMenuBarVisible(true)
+      } else {
+         NSMenu.setMenuBarVisible(false)
+      }
       
       // Recalculate pages if the number of apps per page changed
       if oldAppsPerPage != newAppsPerPage {
          appManager.recalculatePages(appsPerPage: newAppsPerPage)
+      }
+
+      // Reload apps if custom locations changed
+      if oldLocations != newLocations {
+         appManager.loadGridItems(appsPerPage: settings.appsPerPage)
       }
    }
 }

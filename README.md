@@ -1,5 +1,10 @@
 # 🚀 LaunchPad
 
+[![Build](https://github.com/kristof12345/Launchpad/actions/workflows/build.yml/badge.svg)](https://github.com/kristof12345/Launchpad/actions/workflows/build.yml)
+[![Test](https://github.com/kristof12345/Launchpad/actions/workflows/test.yml/badge.svg)](https://github.com/kristof12345/Launchpad/actions/workflows/test.yml)
+[![macOS](https://img.shields.io/badge/macOS-15.6+-blue.svg)](https://www.apple.com/macos/)
+[![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
+
 A beautiful, modern macOS application launcher with glass morphism design, inspired by macOS Launchpad but with enhanced functionality and customization. As you might know, Apple removed Launchpad in macOS 26. This app offers a complete replacement with more features and a fully customizable, persistent grid.
 
 If you like this project and want to support further development:
@@ -120,6 +125,12 @@ If you like this project and want to support further development:
 - macOS 15.6 or later
 - Swift 6.0
 - Universal binary (Apple Silicon + Intel)
+
+## Hot corner support
+Use this free app to assign any app to your macOS hot corners:
+https://apps.apple.com/hu/app/hot-corners/id1672176975?l=hu&mt=12
+<img width="727" height="501" alt="Képernyőfotó 2025-10-16 - 16 00 06" src="https://github.com/user-attachments/assets/cb0368f1-aadb-4f03-9107-d6398c2fa8e7" />
+
 
 ## 🎹 AppleScript Integration
 

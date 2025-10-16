@@ -26,6 +26,7 @@ WorkspaceSettings.xcsettings
 /.build
 /Packages
 Package.resolved
+*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
 
 # CocoaPods
 Pods/
@@ -59,3 +60,5 @@ fastlane/test_output
 
 # Test output
 TestResults/
+*/LaunchPadKey.swift
+Launchpad/Utilities/LaunchPadKey.swift
