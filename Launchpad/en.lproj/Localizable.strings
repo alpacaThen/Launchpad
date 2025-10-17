@@ -59,11 +59,11 @@
 "search_placeholder" = "Search";
 "no_apps_found" = "No apps found";
 "sort_by" = "Sort By";
-"sort_by_default" = "Default Layout";
+"sort_by_default" = "Default";
 "sort_by_name" = "Name";
 "sort_by_type" = "Type (Folders First)";
-"sort_by_last_opened" = "Last Opened";
-"sort_by_install_date" = "Install Date";
+"sort_by_last_opened" = "Last Opened (BETA)";
+"sort_by_install_date" = "Install Date (BETA)";
 
 // MARK: - Folder Management
 "untitled_folder" = "Untitled Folder";
@@ -92,7 +92,7 @@
 "purchase_license" = "Purchase License";
 
 // MARK: - Locations Settings
-"locations" = "Locations";
+"locations" = "Locations (BETA)";
 "locations_description" = "Add custom folder locations where Launchpad will search for applications. By default, Launchpad searches in /Applications and /System/Applications.";
 "custom_locations" = "Custom Locations";
 "no_custom_locations" = "No custom locations added yet";
