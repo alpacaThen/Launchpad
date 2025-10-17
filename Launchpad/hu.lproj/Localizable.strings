@@ -26,6 +26,7 @@
 "show_dock" = "Dock Megjelenítése";
 "start_at_login" = "Automatikus Indítás";
 "reset_on_relaunch" = "Keresés törlése Újraindításkor";
+"show_icons_in_search" = "Rendezés megjelenítése";
 "transparency" = "Átlátszóság";
 
 // MARK: - Actions Settings

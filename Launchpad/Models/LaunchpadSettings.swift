@@ -13,6 +13,7 @@ struct LaunchpadSettings: Codable, Equatable {
    var transparency: Double
    var startAtLogin: Bool
    var resetOnRelaunch: Bool
+   var showIconsInSearch: Bool
    var productKey: String
    var customAppLocations: [String]
 
@@ -28,6 +29,7 @@ struct LaunchpadSettings: Codable, Equatable {
    static let defaultTransparency: Double = 1.0
    static let defaultStartAtLogin = false
    static let defaultResetOnRelaunch = true
+   static let defaultShowIconsInSearch = true
    static let defaultProductKey = ""
    static let defaultCustomAppLocations: [String] = []
 
@@ -44,6 +46,7 @@ struct LaunchpadSettings: Codable, Equatable {
       transparency: Double = defaultTransparency,
       startAtLogin: Bool = defaultStartAtLogin,
       resetOnRelaunch: Bool = defaultResetOnRelaunch,
+      showIconsInSearch: Bool = defaultShowIconsInSearch,
       productKey: String = defaultProductKey,
       customAppLocations: [String] = defaultCustomAppLocations
    ) {
@@ -59,8 +62,10 @@ struct LaunchpadSettings: Codable, Equatable {
       self.transparency = max(0.0, min(2.0, transparency))
       self.startAtLogin = startAtLogin
       self.resetOnRelaunch = resetOnRelaunch
+      self.showIconsInSearch = showIconsInSearch
       self.productKey = productKey
       self.customAppLocations = customAppLocations
+      self.productKey = productKey
    }
 
    var appsPerPage: Int {

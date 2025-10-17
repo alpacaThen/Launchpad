@@ -26,6 +26,7 @@
 "show_dock" = "Show Dock";
 "start_at_login" = "Start at Login";
 "reset_on_relaunch" = "Reset search on Relaunch";
+"show_icons_in_search" = "Show ordering options";
 "transparency" = "Transparency";
 
 // MARK: - Actions Settings

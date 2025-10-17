@@ -23,7 +23,8 @@ struct PagedGridView: View {
             sortOrder: $sortOrder,
             onSortChange: handleSort,
             onSettingsOpen: { showSettings = true },
-            transparency: settings.transparency
+            transparency: settings.transparency,
+            showIcons: settings.showIconsInSearch
          )
          .onTapGesture {}
 

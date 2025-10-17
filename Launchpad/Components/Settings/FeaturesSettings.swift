@@ -32,6 +32,11 @@ struct FeaturesSettings: View {
                isOn: $settings.resetOnRelaunch
             )
             
+            SettingsToggle(
+               title: L10n.showIconsInSearch,
+               isOn: $settings.showIconsInSearch
+            )
+            
             SettingsSlider(
                title: L10n.dropAnimationDelay,
                value: $settings.dropDelay,
