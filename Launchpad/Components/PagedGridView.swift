@@ -173,39 +173,21 @@ struct PagedGridView: View {
    }
 
    private func handleKeyEvent(event: NSEvent) -> NSEvent? {
+      print(event.keyCode)
       // Handle special keys
       switch event.keyCode {
       case 53:  // ESC
          AppLauncher.exit()
-         return event
       case 123:  // Left arrow
          navigateToPreviousPage()
-         return event
       case 124:  // Right arrow
          navigateToNextPage()
-         return event
       case 43:  // CMD + Comma
          showSettings = true
-         return event
-      case 51:  // Backspace
-         searchText = String(searchText.dropLast())
-         return event
+      case 36:  // Enter
+         launchFirstSearchResult()
       default:
          break
-      }
-
-      // Handle text input for search when no folder is open
-      guard selectedFolder == nil,
-            let characters = event.characters,
-            !characters.isEmpty,
-            let char = characters.first else {
-         return event
-      }
-
-      // Handle Enter key to launch first result
-      if char.isNewline {
-         launchFirstSearchResult()
-         return event
       }
 
       return event
