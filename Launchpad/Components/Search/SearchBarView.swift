@@ -12,7 +12,7 @@ struct SortMenuItemButtonStyle: ButtonStyle {
 }
 
 struct SearchBarView: View {
-   var searchText: String
+   @Binding var searchText: String
    var transparency: Double
    var onSortOrderChange: ((SortOrder) -> Void)?
    var onSettingsOpen: (() -> Void)?
@@ -79,7 +79,7 @@ struct SearchBarView: View {
          }
 
          // Search bar
-         Text(searchText.isEmpty ? L10n.searchPlaceholder : searchText)
+         TextField(L10n.searchPlaceholder, text: $searchText)
             .textFieldStyle(.plain)
             .font(.system(size: 16, weight: .regular))
             .padding(.horizontal, 8)

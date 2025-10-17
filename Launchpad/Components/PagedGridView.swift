@@ -18,7 +18,7 @@ struct PagedGridView: View {
    var body: some View {
       VStack(spacing: 0) {
          SearchBarView(
-            searchText: searchText,
+            searchText: $searchText,
             transparency: settings.transparency,
             onSortOrderChange: handleSort,
             onSettingsOpen: { showSettings = true },
@@ -206,11 +206,6 @@ struct PagedGridView: View {
       if char.isNewline {
          launchFirstSearchResult()
          return event
-      }
-
-      // Add printable characters to search text
-      if char.isLetter || char.isNumber || char.isWhitespace {
-         searchText += characters
       }
 
       return event
