@@ -11,18 +11,19 @@ struct PagedGridView: View {
    @State private var accumulatedScrollX: CGFloat = 0
    @State private var eventMonitor: Any?
    @State private var searchText = ""
+   @State private var selectedSearchIndex = 0
    @State private var draggedItem: AppGridItem?
    @State private var selectedFolder: Folder?
-   @State private var currentSortOrder: SortOrder = SortOrder.defaultLayout;
+   @State private var sortOrder: SortOrder = SortOrder.defaultLayout
 
    var body: some View {
       VStack(spacing: 0) {
          SearchBarView(
             searchText: $searchText,
-            transparency: settings.transparency,
-            onSortOrderChange: handleSort,
+            sortOrder: $sortOrder,
+            onSortChange: handleSort,
             onSettingsOpen: { showSettings = true },
-            currentSortOrder: $currentSortOrder
+            transparency: settings.transparency
          )
          .onTapGesture {}
 
@@ -47,6 +48,7 @@ struct PagedGridView: View {
                SearchResultsView(
                   apps: filteredApps(),
                   settings: settings,
+                  selectedIndex: selectedSearchIndex,
                   onItemTap: handleTap
                )
                .frame(width: geo.size.width, height: geo.size.height)
@@ -62,6 +64,9 @@ struct PagedGridView: View {
       }
       .onAppear(perform: setupEventMonitoring)
       .onDisappear(perform: cleanupEventMonitoring)
+      .onChange(of: searchText) {
+         selectedSearchIndex = 0
+      }
 
       FolderDetailView(
          pages: $pages,
@@ -124,9 +129,9 @@ struct PagedGridView: View {
 
          let isSelf = activatedApp.bundleIdentifier == Bundle.main.bundleIdentifier
          Task { @MainActor in
-            if (isSelf) {
+            if isSelf {
                print("Entering Launchpad.")
-               handleAppActivation();
+               handleAppActivation()
             } else {
                print("Exiting Launchpad.")
                AppLauncher.exit()
@@ -177,15 +182,41 @@ struct PagedGridView: View {
       // Handle special keys
       switch event.keyCode {
       case 53:  // ESC
-         AppLauncher.exit()
+         if !searchText.isEmpty {
+            searchText = ""
+            selectedSearchIndex = 0
+
+         } else {
+            AppLauncher.exit()
+         }
       case 123:  // Left arrow
-         navigateToPreviousPage()
+         if !searchText.isEmpty {
+            navigateSearchLeft()
+            return nil
+         } else if selectedFolder == nil {
+            navigateToPreviousPage()
+         }
       case 124:  // Right arrow
-         navigateToNextPage()
+         if !searchText.isEmpty {
+            navigateSearchRight()
+            return nil
+         } else if selectedFolder == nil {
+            navigateToNextPage()
+         }
+      case 125:  // Down arrow
+         if !searchText.isEmpty {
+            navigateSearchDown()
+            return nil
+         }
+      case 126:  // Up arrow
+         if !searchText.isEmpty {
+            navigateSearchUp()
+            return nil
+         }
       case 43:  // CMD + Comma
          showSettings = true
       case 36:  // Enter
-         launchFirstSearchResult()
+         launchSelectedSearchResult()
       default:
          break
       }
@@ -218,15 +249,67 @@ struct PagedGridView: View {
       }
    }
 
-   private func launchFirstSearchResult() {
+   private func launchSelectedSearchResult() {
       guard !searchText.isEmpty else { return }
-      guard let firstApp = filteredApps().first else { return }
+      let apps = filteredApps()
+      guard selectedSearchIndex >= 0 && selectedSearchIndex < apps.count else { return }
 
-      AppLauncher.launch(path: firstApp.path)
+      AppLauncher.launch(path: apps[selectedSearchIndex].path)
    }
 
    private func handleSort(sortOrder: SortOrder) {
       AppManager.shared.sortItems(by: sortOrder, appsPerPage: settings.appsPerPage)
+   }
+
+   private func navigateSearchLeft() {
+      let apps = filteredApps()
+      guard !apps.isEmpty else { return }
+
+      if selectedSearchIndex > 0 {
+         selectedSearchIndex -= 1
+      } else {
+         selectedSearchIndex = apps.count - 1
+      }
+   }
+
+   private func navigateSearchRight() {
+      let apps = filteredApps()
+      guard !apps.isEmpty else { return }
+
+      if selectedSearchIndex < apps.count - 1 {
+         selectedSearchIndex += 1
+      } else {
+         selectedSearchIndex = 0
+      }
+   }
+
+   private func navigateSearchUp() {
+      let apps = filteredApps()
+      guard !apps.isEmpty else { return }
+
+      let newIndex = selectedSearchIndex - settings.columns
+      if newIndex >= 0 {
+         selectedSearchIndex = newIndex
+      } else {
+         // Wrap to bottom row
+         let lastRowStartIndex = (apps.count - 1) / settings.columns * settings.columns
+         let columnOffset = selectedSearchIndex % settings.columns
+         selectedSearchIndex = min(lastRowStartIndex + columnOffset, apps.count - 1)
+      }
+   }
+
+   private func navigateSearchDown() {
+      let apps = filteredApps()
+      guard !apps.isEmpty else { return }
+
+      let newIndex = selectedSearchIndex + settings.columns
+      if newIndex < apps.count {
+         selectedSearchIndex = newIndex
+      } else {
+         // Wrap to top row
+         let columnOffset = selectedSearchIndex % settings.columns
+         selectedSearchIndex = min(columnOffset, apps.count - 1)
+      }
    }
 
    private func handleAppActivation() {
@@ -236,7 +319,7 @@ struct PagedGridView: View {
       }
 
       if !settings.isActivated {
-         showSettings = true;
+         showSettings = true
       }
    }
 }
