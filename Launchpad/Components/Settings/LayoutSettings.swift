@@ -17,7 +17,6 @@ struct LayoutSettings: View {
                SettingsNumberField(title: L10n.folderRows, value: $settings.folderRows, range: 1...6)
             }
             
-            
             SettingsSlider(
                title: L10n.iconSize,
                value: $settings.iconSize,
