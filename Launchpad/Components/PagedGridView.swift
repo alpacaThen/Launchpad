@@ -26,7 +26,6 @@ struct PagedGridView: View {
             transparency: settings.transparency,
             showIcons: settings.showIconsInSearch
          )
-         .onTapGesture {}
 
          GeometryReader { geo in
             if searchText.isEmpty {
