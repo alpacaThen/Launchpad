@@ -1,16 +1,5 @@
 import SwiftUI
 
-// TODO: Move this to SortMenuItemButtonStyle.swift once Xcode project sync is fixed
-struct SortMenuItemButtonStyle: ButtonStyle {
-   func makeBody(configuration: Configuration) -> some View {
-      configuration.label
-         .background(
-            Rectangle()
-               .fill(configuration.isPressed ? Color.primary.opacity(0.08) : Color.primary.opacity(0.03))
-         )
-   }
-}
-
 struct SearchBarView: View {
    @Binding var searchText: String
    @Binding var sortOrder: SortOrder
@@ -18,15 +7,15 @@ struct SearchBarView: View {
    var onSettingsOpen: (() -> Void)?
    var transparency: Double
    var showIcons: Bool
-
+   
    @State private var showSortMenu = false
    @State private var hoveredItem: SortOrder?
    @FocusState private var isFocused: Bool
-
+   
    var body: some View {
       HStack(spacing: 12) {
          Spacer()
-
+         
          // Sort button
          if showIcons {
             Button(action: { showSortMenu.toggle() }) {
@@ -81,19 +70,19 @@ struct SearchBarView: View {
                .frame(minWidth: 220)
             }
          }
-
+         
          // Search bar
          HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                .foregroundColor(.secondary)
                .font(.system(size: 14))
-
+            
             TextField(L10n.searchPlaceholder, text: $searchText)
                .textFieldStyle(.plain)
                .font(.system(size: 16, weight: .regular))
                .focused($isFocused)
                .tint(.gray)
-
+            
             if !searchText.isEmpty {
                Button(action: {
                   searchText = "";
@@ -115,7 +104,7 @@ struct SearchBarView: View {
                .fill(Color(NSColor.windowBackgroundColor).opacity(0.4 * transparency))
          )
          .shadow(color: Color.black.opacity(0.2 * transparency), radius: 10, x: 0, y: 3)
-
+         
          // Settings button
          if showIcons {
             Button(action: { onSettingsOpen?() }) {
