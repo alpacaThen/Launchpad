@@ -26,6 +26,7 @@
 "show_dock" = "Dock Megjelenítése";
 "start_at_login" = "Automatikus Indítás";
 "reset_on_relaunch" = "Keresés törlése Újraindításkor";
+"show_icons_in_search" = "Rendezés megjelenítése";
 "transparency" = "Átlátszóság";
 
 // MARK: - Actions Settings
@@ -58,6 +59,12 @@
 // MARK: - Search
 "search_placeholder" = "Keresés";
 "no_apps_found" = "Nem található alkalmazás";
+"sort_by" = "Rendezés";
+"sort_by_default" = "Alapértelmezett";
+"sort_by_name" = "Név";
+"sort_by_type" = "Típus";
+"sort_by_last_opened" = "Megnyitás dátuma";
+"sort_by_install_date" = "Telepítés dátuma";
 
 // MARK: - Folder Management
 "untitled_folder" = "Névtelen Mappa";

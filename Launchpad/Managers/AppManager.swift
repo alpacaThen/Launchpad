@@ -25,10 +25,8 @@ final class AppManager: ObservableObject {
       print("Load grid items.")
       let apps = discoverApps()
       let gridItems = loadLayoutFromUserDefaults(for: apps)
-      // Filter out hidden apps
-      let visibleItems = gridItems.filter { item in
-         !isItemHidden(item)
-      }
+      let visibleItems = gridItems.filter { item in !isItemHidden(item) }
+
       pages = groupItemsByPage(items: visibleItems, appsPerPage: appsPerPage)
    }
 
@@ -82,6 +80,74 @@ final class AppManager: ObservableObject {
       pages = groupItemsByPage(items: allItems, appsPerPage: appsPerPage)
    }
 
+   func sortItems(by sortOrder: SortOrder, appsPerPage: Int) {
+      print("Sort order changed to: \(sortOrder.rawValue)")
+      var allItems = pages.flatMap { $0 }
+
+      switch sortOrder {
+      case .name:
+         sortByName(&allItems)
+      case .itemType:
+         sortByType(&allItems)
+      case .lastOpened:
+         sortByLastOpened(&allItems)
+      case .installDate:
+         sortByInstallDate(&allItems)
+      case .defaultLayout:
+         // Load the saved layout from UserDefaults
+         let apps = discoverApps()
+         allItems = loadLayoutFromUserDefaults(for: apps)
+      }
+
+      pages = groupItemsByPage(items: allItems, appsPerPage: appsPerPage)
+   }
+
+   fileprivate func sortByName(_ items: inout [AppGridItem]) {
+      items.sort { $0.name < $1.name }
+   }
+
+   fileprivate func sortByType(_ items: inout [AppGridItem]) {
+      items.sort { $0.isFolder != $1.isFolder ? $0.isFolder : $0.name < $1.name }
+   }
+
+   fileprivate func sortByLastOpened(_ items: inout [AppGridItem]) {
+      // Sort by last opened date (most recent first), with nil dates at the end
+      items.sort { item1, item2 in
+         let date1 = item1.lastOpenedDate
+         let date2 = item2.lastOpenedDate
+
+         // If both have dates, compare them (newer first)
+         if let d1 = date1, let d2 = date2 {
+            return d1 > d2
+         }
+         // If only first has date, it comes first
+         if date1 != nil { return true }
+         // If only second has date, it comes first
+         if date2 != nil { return false }
+         // If neither has date, sort by name
+         return item1.name < item2.name
+      }
+   }
+
+   fileprivate func sortByInstallDate(_ items: inout [AppGridItem]) {
+      // Sort by install date (most recent first), with nil dates at the end
+      items.sort { item1, item2 in
+         let date1 = item1.installDate
+         let date2 = item2.installDate
+
+         // If both have dates, compare them (newer first)
+         if let d1 = date1, let d2 = date2 {
+            return d1 > d2
+         }
+         // If only first has date, it comes first
+         if date1 != nil { return true }
+         // If only second has date, it comes first
+         if date2 != nil { return false }
+         // If neither has date, sort by name
+         return item1.name < item2.name
+      }
+   }
+
    private func discoverApps() -> [AppInfo] {
       print("Discover apps.")
       let defaultPaths = ["/Applications", "/System/Applications"]
@@ -95,15 +161,18 @@ final class AppManager: ObservableObject {
       else { return [] }
       var foundApps: [AppInfo] = []
       for item in contents {
-         let fullPath = "\(directory)/\(item)"
+         let path = "\(directory)/\(item)"
          if item.hasSuffix(".app") {
-            let fallbackName = item.replacingOccurrences(of: ".app", with: "")
-            let appName = getLocalizedAppName(for: URL(fileURLWithPath: fullPath), fallbackName: fallbackName)
-            let icon = IconCache.shared.icon(forPath: fullPath)
-            let bundleId = Bundle(path: fullPath)?.bundleIdentifier ?? "unknown.bundle.\(fallbackName)"
-            foundApps.append(AppInfo(name: appName, icon: icon, path: fullPath, bundleId: bundleId))
-         } else if shouldSearchDirectory(item: item, at: fullPath) {
-            foundApps.append(contentsOf: discoverAppsRecursively(directory: fullPath, maxDepth: maxDepth, currentDepth: currentDepth + 1))
+            let name = getLocalizedAppName(for: URL(fileURLWithPath: path), fallbackName: item.replacingOccurrences(of: ".app", with: ""))
+            let icon = IconCache.shared.icon(forPath: path)
+            let bundleId = Bundle(path: path)?.bundleIdentifier ?? "unknown.bundle.\(name)"
+
+            let installDate = try? FileManager.default.attributesOfItem(atPath: path)[.creationDate] as? Date
+            let lastOpenedDate = try? URL(fileURLWithPath: path).resourceValues(forKeys: [.contentAccessDateKey]).contentAccessDate
+
+            foundApps.append(AppInfo(name: name, icon: icon, path: path, bundleId: bundleId, lastOpenedDate: lastOpenedDate, installDate: installDate))
+         } else if shouldSearchDirectory(item: item, at: path) {
+            foundApps.append(contentsOf: discoverAppsRecursively(directory: path, maxDepth: maxDepth, currentDepth: currentDepth + 1))
          }
       }
       return foundApps
@@ -267,40 +336,36 @@ final class AppManager: ObservableObject {
          items.append(.app(AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, page: maxPage)))
       }
    }
-   
-   // MARK: - Hidden Apps Management
-   
+
    private func saveHiddenApps() {
       print("Save hidden apps.")
       userDefaults.set(Array(hiddenAppPaths), forKey: hiddenAppsKey)
       userDefaults.synchronize()
    }
-   
+
    func hideApp(path: String, appsPerPage: Int) {
       print("Hide app: \(path)")
       hiddenAppPaths.insert(path)
       loadGridItems(appsPerPage: appsPerPage)
    }
-   
+
    func unhideApp(path: String, appsPerPage: Int) {
       print("Unhide app: \(path)")
       hiddenAppPaths.remove(path)
       loadGridItems(appsPerPage: appsPerPage)
    }
-   
+
    func getHiddenApps() -> [AppInfo] {
       let allApps = discoverApps()
       return allApps.filter { hiddenAppPaths.contains($0.path) }
    }
-   
+
    private func isItemHidden(_ item: AppGridItem) -> Bool {
       switch item {
       case .app(let app):
          return hiddenAppPaths.contains(app.path)
-      case .folder(let folder):
-         // If all apps in a folder are hidden, hide the folder
-         let allHidden = folder.apps.allSatisfy { hiddenAppPaths.contains($0.path) }
-         return allHidden && !folder.apps.isEmpty
+      case .folder(_):
+         return false;
       }
    }
 }

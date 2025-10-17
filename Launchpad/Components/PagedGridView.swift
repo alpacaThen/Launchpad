@@ -14,15 +14,17 @@ struct PagedGridView: View {
    @State private var selectedSearchIndex = 0
    @State private var draggedItem: AppGridItem?
    @State private var selectedFolder: Folder?
+   @State private var sortOrder: SortOrder = SortOrder.defaultLayout
 
    var body: some View {
       VStack(spacing: 0) {
          SearchBarView(
             searchText: $searchText,
+            sortOrder: $sortOrder,
+            onSortChange: handleSort,
+            onSettingsOpen: { showSettings = true },
             transparency: settings.transparency,
-            onClear: {
-               searchText = ""
-            }
+            showIcons: settings.showIconsInSearch
          )
 
          GeometryReader { geo in
@@ -127,9 +129,9 @@ struct PagedGridView: View {
 
          let isSelf = activatedApp.bundleIdentifier == Bundle.main.bundleIdentifier
          Task { @MainActor in
-            if (isSelf) {
+            if isSelf {
                print("Entering Launchpad.")
-               handleAppActivation();
+               handleAppActivation()
             } else {
                print("Exiting Launchpad.")
                AppLauncher.exit()
@@ -176,16 +178,17 @@ struct PagedGridView: View {
    }
 
    private func handleKeyEvent(event: NSEvent) -> NSEvent? {
+      print(event.keyCode)
       // Handle special keys
       switch event.keyCode {
       case 53:  // ESC
          if !searchText.isEmpty {
             searchText = ""
             selectedSearchIndex = 0
-            return nil
+
+         } else {
+            AppLauncher.exit()
          }
-         AppLauncher.exit()
-         return event
       case 123:  // Left arrow
          if !searchText.isEmpty {
             navigateSearchLeft()
@@ -193,7 +196,6 @@ struct PagedGridView: View {
          } else if selectedFolder == nil {
             navigateToPreviousPage()
          }
-         return event
       case 124:  // Right arrow
          if !searchText.isEmpty {
             navigateSearchRight()
@@ -201,37 +203,24 @@ struct PagedGridView: View {
          } else if selectedFolder == nil {
             navigateToNextPage()
          }
-         return event
       case 125:  // Down arrow
          if !searchText.isEmpty {
             navigateSearchDown()
             return nil
          }
-         return event
       case 126:  // Up arrow
          if !searchText.isEmpty {
             navigateSearchUp()
             return nil
          }
-         return event
       case 43:  // CMD + Comma
          showSettings = true
-         return event
+      case 36:  // Enter
+         launchSelectedSearchResult()
       default:
          break
       }
 
-      // Handle Enter key to launch selected result when searching
-      if let characters = event.characters,
-         !characters.isEmpty,
-         let char = characters.first,
-         char.isNewline,
-         !searchText.isEmpty {
-         launchSelectedSearchResult()
-         return nil
-      }
-
-      // Let TextField handle all other keyboard input including Cmd+A, Cmd+X, Cmd+V, Cmd+C
       return event
    }
 
@@ -266,6 +255,10 @@ struct PagedGridView: View {
       guard selectedSearchIndex >= 0 && selectedSearchIndex < apps.count else { return }
 
       AppLauncher.launch(path: apps[selectedSearchIndex].path)
+   }
+
+   private func handleSort(sortOrder: SortOrder) {
+      AppManager.shared.sortItems(by: sortOrder, appsPerPage: settings.appsPerPage)
    }
 
    private func navigateSearchLeft() {
@@ -326,7 +319,7 @@ struct PagedGridView: View {
       }
 
       if !settings.isActivated {
-         showSettings = true;
+         showSettings = true
       }
    }
 }

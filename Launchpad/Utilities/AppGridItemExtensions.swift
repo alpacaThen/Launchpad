@@ -7,6 +7,18 @@ extension AppGridItem {
       case .folder: return ""
       }
    }
+   
+   var lastOpenedDate: Date? {
+      switch self {
+      case .app(let app): return app.lastOpenedDate
+      case .folder(let folder): return folder.apps.compactMap(\.lastOpenedDate).max() }
+   }
+   
+   var installDate: Date? {
+      switch self {
+      case .app(let app): return app.installDate
+      case .folder(let folder): return folder.apps.compactMap(\.installDate).max() }
+   }
 
    var appPaths: Set<String> {
       switch self {
@@ -47,7 +59,7 @@ extension AppGridItem {
    func withUpdatedPage(_ newPage: Int) -> AppGridItem {
       switch self {
       case .app(let app):
-         return .app(AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, page: newPage))
+         return .app(AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, lastOpenedDate: app.lastOpenedDate, installDate: app.installDate, page: newPage))
       case .folder(let folder):
          return .folder(Folder(name: folder.name, page: newPage, apps: folder.apps))
       }
