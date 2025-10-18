@@ -30,7 +30,7 @@ final class ActivationSettingsTests: XCTestCase {
 
    func testValidProductKeyActivatesApp() {
       var settings = LaunchpadSettings()
-      settings.productKey = LaunchPadConstants.productKey
+      settings.productKey = LaunchPadKey.productKey
       XCTAssertTrue(settings.isActivated, "Should be activated with valid product key")
    }
 
@@ -40,7 +40,9 @@ final class ActivationSettingsTests: XCTestCase {
       let testKey = "TEST-KEY-12345"
 
       // Update settings with product key
-      settingsManager.updateSettings(productKey: testKey)
+      var updatedSettings = settingsManager.settings
+      updatedSettings.productKey = testKey
+      settingsManager.saveSettings(newSettings: updatedSettings)
 
       // Verify it's saved
       XCTAssertEqual(settingsManager.settings.productKey, testKey, "Product key should be saved in settings")
@@ -48,11 +50,13 @@ final class ActivationSettingsTests: XCTestCase {
 
    func testActivationPersistence() {
       // Set valid product key
-      settingsManager.updateSettings(productKey: LaunchPadConstants.productKey)
+      var updatedSettings = settingsManager.settings
+      updatedSettings.productKey = LaunchPadKey.productKey
+      settingsManager.saveSettings(newSettings: updatedSettings)
 
       // Verify activation status
       XCTAssertTrue(settingsManager.settings.isActivated, "Settings should show as activated")
-      XCTAssertEqual(settingsManager.settings.productKey, LaunchPadConstants.productKey, "Product key should match constant")
+      XCTAssertEqual(settingsManager.settings.productKey, LaunchPadKey.productKey, "Product key should match constant")
    }
 
    func testProductKeyInSettingsInit() {
@@ -81,7 +85,7 @@ final class ActivationSettingsTests: XCTestCase {
 
    func testActivationStatusAfterDecoding() throws {
       var settings = LaunchpadSettings()
-      settings.productKey = LaunchPadConstants.productKey
+      settings.productKey = LaunchPadKey.productKey
 
       // Encode
       let encoder = JSONEncoder()

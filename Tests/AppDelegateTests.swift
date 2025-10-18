@@ -18,19 +18,35 @@ final class AppDelegateTests: XCTestCase {
     
     // MARK: - Dock Icon Re-click Tests
     
-    func testApplicationShouldHandleReopenWithVisibleWindows() {
-        // When the app has visible windows and the dock icon is clicked
+    func testApplicationShouldHandleReopenWhenAppIsVisible() {
+        // Given: App is visible (not hidden)
+        // When: Dock icon is clicked
         let result = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: true)
         
-        // The method should return false (don't show window again)
-        XCTAssertFalse(result, "Should return false when app has visible windows to hide the app")
+        // Then: Should return false to hide the app
+        XCTAssertFalse(result, "Should return false when app is visible to hide it")
     }
     
-    func testApplicationShouldHandleReopenWithoutVisibleWindows() {
-        // When the app has no visible windows and the dock icon is clicked
-        let result = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: false)
+    func testApplicationShouldHandleReopenWhenAppIsHidden() {
+        // Given: App was hidden
+        appDelegate.applicationDidHide(Notification(name: NSApplication.didHideNotification))
         
-        // The method should return true (allow default behavior to show window)
-        XCTAssertTrue(result, "Should return true when app has no visible windows to show the app")
+        // When: Dock icon is clicked
+        let result = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: true)
+        
+        // Then: Should return true to show the app
+        XCTAssertTrue(result, "Should return true when app was hidden to show it")
+    }
+    
+    func testApplicationShouldHandleReopenResetsHiddenState() {
+        // Given: App was hidden
+        appDelegate.applicationDidHide(Notification(name: NSApplication.didHideNotification))
+        
+        // When: Dock icon is clicked once
+        _ = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: true)
+        
+        // Then: Next click should hide again (state was reset)
+        let secondResult = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: true)
+        XCTAssertFalse(secondResult, "Should return false on second click after unhiding")
     }
 }

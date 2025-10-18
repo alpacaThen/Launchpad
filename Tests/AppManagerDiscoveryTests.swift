@@ -94,7 +94,7 @@ final class AppManagerDiscoveryTests: XCTestCase {
     func testPageGroupingWithSinglePage() {
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
         let apps = (0..<5).map { i in
-            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", page: 0))
+            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", bundleId: "com.test.app", page: 0))
         }
         
         // Simulate the grouping by setting pages directly
@@ -108,7 +108,7 @@ final class AppManagerDiscoveryTests: XCTestCase {
     func testPageGroupingWithMultiplePages() {
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
         let apps = (0..<15).map { i in
-            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", page: 0))
+            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", bundleId: "com.test.app", page: 0))
         }
         
         appManager.pages = [apps]
@@ -124,9 +124,9 @@ final class AppManagerDiscoveryTests: XCTestCase {
         
         // Create apps with non-consecutive page numbers (0, 2, 5)
         let apps = [
-            AppGridItem.app(AppInfo(name: "App 0", icon: mockIcon, path: "/App0.app", page: 0)),
-            AppGridItem.app(AppInfo(name: "App 1", icon: mockIcon, path: "/App1.app", page: 2)),
-            AppGridItem.app(AppInfo(name: "App 2", icon: mockIcon, path: "/App2.app", page: 5)),
+            AppGridItem.app(AppInfo(name: "App 0", icon: mockIcon, path: "/App0.app", bundleId: "com.test.app", page: 0)),
+            AppGridItem.app(AppInfo(name: "App 1", icon: mockIcon, path: "/App1.app", bundleId: "com.test.app", page: 2)),
+            AppGridItem.app(AppInfo(name: "App 2", icon: mockIcon, path: "/App2.app", bundleId: "com.test.app", page: 5)),
         ]
         
         // Set up the pages to simulate sparse page numbers
@@ -147,7 +147,7 @@ final class AppManagerDiscoveryTests: XCTestCase {
     
     func testPageGroupingPreservesAppData() {
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-        let originalApp = AppInfo(name: "Test App", icon: mockIcon, path: "/TestApp.app", page: 0)
+        let originalApp = AppInfo(name: "Test App", icon: mockIcon, path: "/TestApp.app", bundleId: "com.test.app", page: 0)
         let apps = [AppGridItem.app(originalApp)]
         
         appManager.pages = [apps]
@@ -169,9 +169,9 @@ final class AppManagerDiscoveryTests: XCTestCase {
     func testPageGroupingWithAppsAndFolders() {
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
         
-        let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/App1.app", page: 0)
-        let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/App2.app", page: 0)
-        let folderApp = AppInfo(name: "Folder App", icon: mockIcon, path: "/FolderApp.app", page: 0)
+        let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/App1.app", bundleId: "com.test.app", page: 0)
+        let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/App2.app", bundleId: "com.test.app", page: 0)
+        let folderApp = AppInfo(name: "Folder App", icon: mockIcon, path: "/FolderApp.app", bundleId: "com.test.app", page: 0)
         let folder = Folder(name: "Test Folder", page: 0, apps: [folderApp])
         
         let items = [
@@ -210,7 +210,7 @@ final class AppManagerDiscoveryTests: XCTestCase {
         // Set up a large dataset
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
         let largeAppSet = (0..<500).map { i in
-            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", page: 0))
+            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", bundleId: "com.test.app", page: 0))
         }
         
         appManager.pages = [largeAppSet]

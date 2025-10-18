@@ -31,8 +31,6 @@ final class SettingsManager: ObservableObject {
       return settings
    }
 
-
-
    func resetToDefaults() {
       settings = LaunchpadSettings()
    }

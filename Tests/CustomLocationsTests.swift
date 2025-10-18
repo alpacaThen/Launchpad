@@ -65,7 +65,9 @@ final class CustomLocationsTests: XCTestCase {
       let locations = ["/Users/test/Apps", "/Applications/Custom"]
       
       // When: Updating settings
-      settingsManager.updateSettings(customAppLocations: locations)
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations = locations
+      settingsManager.saveSettings(newSettings: updatedSettings)
       
       // Then: Settings should be persisted
       XCTAssertEqual(settingsManager.settings.customAppLocations, locations, "Custom locations should be persisted")
@@ -83,7 +85,9 @@ final class CustomLocationsTests: XCTestCase {
       
       // When: Updating with custom locations
       let newLocations = ["/Users/test/Applications"]
-      settingsManager.updateSettings(customAppLocations: newLocations)
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations = newLocations
+      settingsManager.saveSettings(newSettings: updatedSettings)
       
       // Then: Settings should be updated
       XCTAssertEqual(settingsManager.settings.customAppLocations, newLocations)
@@ -91,11 +95,16 @@ final class CustomLocationsTests: XCTestCase {
    
    func testUpdateSettingsPreservesOtherSettings() {
       // Given: Settings with specific values
-      settingsManager.updateSettings(columns: 8, rows: 6)
+      var initialSettings = settingsManager.settings
+      initialSettings.columns = 8
+      initialSettings.rows = 6
+      settingsManager.saveSettings(newSettings: initialSettings)
       
       // When: Updating only custom locations
       let locations = ["/opt/apps"]
-      settingsManager.updateSettings(customAppLocations: locations)
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations = locations
+      settingsManager.saveSettings(newSettings: updatedSettings)
       
       // Then: Other settings should be preserved
       XCTAssertEqual(settingsManager.settings.columns, 8)
@@ -111,7 +120,9 @@ final class CustomLocationsTests: XCTestCase {
       try? FileManager.default.createDirectory(at: mockAppPath, withIntermediateDirectories: true)
       
       // When: Adding custom location and loading apps
-      settingsManager.updateSettings(customAppLocations: [testDirectory.path])
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations = [testDirectory.path]
+      settingsManager.saveSettings(newSettings: updatedSettings)
       appManager.loadGridItems(appsPerPage: 20)
       
       // Then: Apps should be discovered from both default and custom locations
@@ -143,7 +154,9 @@ final class CustomLocationsTests: XCTestCase {
       try? FileManager.default.createDirectory(at: mockApp2, withIntermediateDirectories: true)
       
       // When: Adding multiple custom locations
-      settingsManager.updateSettings(customAppLocations: [customDir1.path, customDir2.path])
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations = [customDir1.path, customDir2.path]
+      settingsManager.saveSettings(newSettings: updatedSettings)
       appManager.loadGridItems(appsPerPage: 20)
       
       // Then: Apps should be discovered from all locations
@@ -165,7 +178,9 @@ final class CustomLocationsTests: XCTestCase {
       let invalidPath = "/this/path/does/not/exist"
       
       // When: Adding invalid custom location
-      settingsManager.updateSettings(customAppLocations: [invalidPath])
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations = [invalidPath]
+      settingsManager.saveSettings(newSettings: updatedSettings)
       
       // Then: Should not crash and should still discover default apps
       XCTAssertNoThrow(appManager.loadGridItems(appsPerPage: 20))

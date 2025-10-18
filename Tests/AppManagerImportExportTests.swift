@@ -36,9 +36,9 @@ final class AppManagerImportExportTests: XCTestCase {
     func testExportLayout() {
         // Given: Some test data
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-        let app1 = AppInfo(name: "Test App 1", icon: mockIcon, path: "/Applications/App1.app", page: 0)
-        let app2 = AppInfo(name: "Test App 2", icon: mockIcon, path: "/Applications/App2.app", page: 1)
-        let folderApp = AppInfo(name: "Folder App", icon: mockIcon, path: "/Applications/FolderApp.app", page: 0)
+        let app1 = AppInfo(name: "Test App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app", page: 0)
+        let app2 = AppInfo(name: "Test App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app", page: 1)
+        let folderApp = AppInfo(name: "Folder App", icon: mockIcon, path: "/Applications/FolderApp.app", bundleId: "com.test.app", page: 0)
         let folder = Folder(name: "Test Folder", page: 0, apps: [folderApp])
         
         appManager.pages = [
@@ -275,8 +275,8 @@ final class AppManagerImportExportTests: XCTestCase {
     func testExportImportRoundTrip() {
         // Given: Original layout with various item types
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-        let app1 = AppInfo(name: "Round Trip App", icon: mockIcon, path: "/Applications/Calculator.app", page: 0)
-        let folderApp = AppInfo(name: "Folder App", icon: mockIcon, path: "/Applications/TextEdit.app", page: 0)
+        let app1 = AppInfo(name: "Round Trip App", icon: mockIcon, path: "/Applications/Calculator.app", bundleId: "com.test.app", page: 0)
+        let folderApp = AppInfo(name: "Folder App", icon: mockIcon, path: "/Applications/TextEdit.app", bundleId: "com.test.app", page: 0)
         let folder = Folder(name: "Round Trip Folder", page: 1, apps: [folderApp])
         
        let originalLayout: [[AppGridItem]] = [
@@ -365,7 +365,7 @@ final class AppManagerImportExportTests: XCTestCase {
         // Create large dataset
         let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
         let largeDataset = (0..<1000).map { i in
-            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", page: i / 50))
+            AppGridItem.app(AppInfo(name: "App \(i)", icon: mockIcon, path: "/App\(i).app", bundleId: "com.test.app", page: i / 50))
         }
         
         // Group into pages

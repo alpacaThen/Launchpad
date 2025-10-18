@@ -119,9 +119,9 @@ final class AppManagerTests: XCTestCase {
 
    func testRecalculatePagesPreservesAppOrder() {
       // Given: Apps with specific names
-      let app1 = createMockApp(name: "App A", path: "/Applications/A.app", page: 0)
-      let app2 = createMockApp(name: "App B", path: "/Applications/B.app", page: 0)
-      let app3 = createMockApp(name: "App C", path: "/Applications/C.app", page: 0)
+      let app1 = createMockApp(name: "App A", path: "/Applications/A.app", bundleId: "com.test.app", page: 0)
+      let app2 = createMockApp(name: "App B", path: "/Applications/B.app", bundleId: "com.test.app", page: 0)
+      let app3 = createMockApp(name: "App C", path: "/Applications/C.app", bundleId: "com.test.app", page: 0)
 
       appManager.pages = [[.app(app1), .app(app2), .app(app3)]]
 
@@ -235,8 +235,8 @@ final class AppManagerTests: XCTestCase {
 
    func testFolderSerialization() {
       // Given: A folder with apps
-      let app1 = createMockApp(name: "App 1", path: "/Applications/App1.app", page: 0)
-      let app2 = createMockApp(name: "App 2", path: "/Applications/App2.app", page: 0)
+      let app1 = createMockApp(name: "App 1", path: "/Applications/App1.app", bundleId: "com.test.app", page: 0)
+      let app2 = createMockApp(name: "App 2", path: "/Applications/App2.app", bundleId: "com.test.app", page: 0)
       let folder = Folder(name: "Test Folder", page: 1, apps: [app1, app2])
       let folderItem = AppGridItem.folder(folder)
 
@@ -258,9 +258,9 @@ final class AppManagerTests: XCTestCase {
    func testUpdateItemPage() {
       // This tests the private updateItemPage method indirectly through groupItemsByPage
       let mockApps = [
-         createMockApp(name: "App 1", path: "/App1.app", page: 0),
-         createMockApp(name: "App 2", path: "/App2.app", page: 2), // Gap in pages
-         createMockApp(name: "App 3", path: "/App3.app", page: 1)
+         createMockApp(name: "App 1", path: "/App1.app", bundleId: "com.test.app", page: 0),
+         createMockApp(name: "App 2", path: "/App2.app", bundleId: "com.test.app", page: 2), // Gap in pages
+         createMockApp(name: "App 3", path: "/App3.app", bundleId: "com.test.app", page: 1)
       ]
 
       let gridItems = mockApps.map { AppGridItem.app($0) }
@@ -320,9 +320,9 @@ final class AppManagerTests: XCTestCase {
 
    // MARK: - Helper Methods
 
-   private func createMockApp(name: String, path: String, page: Int) -> AppInfo {
+   private func createMockApp(name: String, path: String, bundleId: String = "com.test.app", page: Int) -> AppInfo {
       let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      return AppInfo(name: name, icon: mockIcon, path: path, page: page)
+      return AppInfo(name: name, icon: mockIcon, path: path, bundleId: bundleId, page: page)
    }
 
    private func createMockApps(count: Int, startingPage: Int) -> [AppGridItem] {
