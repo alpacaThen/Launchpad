@@ -8,7 +8,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       isCurrentlyHidden = true
    }
 
-
    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
       if isCurrentlyHidden {
          isCurrentlyHidden = false
