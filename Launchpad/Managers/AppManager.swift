@@ -388,7 +388,9 @@ final class AppManager: ObservableObject {
       case .app(let app):
          return hiddenAppPaths.contains(app.path)
       case .folder(_):
-         return false;
+         return false
+      case .category:
+         return false  // Categories cannot be hidden
       }
    }
 }

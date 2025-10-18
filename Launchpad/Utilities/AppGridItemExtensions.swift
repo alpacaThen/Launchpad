@@ -5,6 +5,7 @@ extension AppGridItem {
       switch self {
       case .app(let app): return app.path
       case .folder: return ""
+      case .category: return ""
       }
    }
    
@@ -38,6 +39,8 @@ extension AppGridItem {
          return serialize(app)
       case .folder(let folder):
          return serialize(folder)
+      case .category:
+         return [:]  // Categories are not serialized as grid items
       }
    }
 

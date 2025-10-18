@@ -13,6 +13,8 @@ struct GridItemView: View {
             AppIconView(app: app, layout: layout, isDragged: isDragged)
          case .folder(let folder):
             FolderIconView(folder: folder, layout: layout, isDragged: isDragged, transparency: transparency)
+         case .category:
+            EmptyView()  // Categories are not displayed as grid items
          }
       }
    }
