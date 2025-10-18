@@ -66,6 +66,10 @@ struct SearchResultsView: View {
                onItemTap(.app(app))
             }
             .contextMenu {
+               CategoryContextMenu(app: app)
+               
+               Divider()
+               
                Button(action: {
                   AppManager.shared.hideApp(path: app.path, appsPerPage: settings.appsPerPage)
                }) {

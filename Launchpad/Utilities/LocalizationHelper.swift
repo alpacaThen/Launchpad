@@ -73,6 +73,26 @@ struct L10n {
    static let untitledFolder = "untitled_folder".localized
    static let newFolder = "new_folder".localized
    
+   // MARK: - Category Management
+   static let categories = "categories".localized
+   static let untitledCategory = "untitled_category".localized
+   static let newCategory = "new_category".localized
+   static let addToCategory = "add_to_category".localized
+   static let removeFromCategory = "remove_from_category".localized
+   static let manageCategories = "manage_categories".localized
+   static let deleteCategory = "delete_category".localized
+   static let deleteCategoryTitle = "delete_category_title".localized
+   static let deleteCategoryMessage = "delete_category_message".localized
+   static let openAllApps = "open_all_apps".localized
+   static let noCategories = "no_categories".localized
+   static let categoriesDescription = "categories_description".localized
+   static let createCategory = "create_category".localized
+   static let categoryName = "category_name".localized
+   static let renameCategory = "rename_category".localized
+   static let filterByCategory = "filter_by_category".localized
+   static let allApps = "all_apps".localized
+   static let clearCategories = "clear_categories".localized
+   
    // MARK: - Numbers
    static let number10 = "number_10".localized
    static let number200 = "number_200".localized

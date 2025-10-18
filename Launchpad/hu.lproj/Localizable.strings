@@ -70,6 +70,26 @@
 "untitled_folder" = "Névtelen Mappa";
 "new_folder" = "Új Mappa";
 
+// MARK: - Category Management
+"categories" = "Kategóriák";
+"untitled_category" = "Névtelen Kategória";
+"new_category" = "Új Kategória";
+"add_to_category" = "Hozzáadás Kategóriához";
+"remove_from_category" = "Eltávolítás Kategóriából";
+"manage_categories" = "Kategóriák Kezelése";
+"delete_category" = "Kategória Törlése";
+"delete_category_title" = "Kategória Törlése";
+"delete_category_message" = "Biztosan törölni szeretnéd ezt a kategóriát? Az alkalmazások nem kerülnek törlésre.";
+"open_all_apps" = "Összes Alkalmazás Megnyitása (Enter)";
+"no_categories" = "Még nincsenek kategóriák";
+"categories_description" = "Rendezd az alkalmazásaidat kategóriákba. Az alkalmazások több kategóriához is tartozhatnak.";
+"create_category" = "Kategória Létrehozása";
+"category_name" = "Kategória Neve";
+"rename_category" = "Kategória Átnevezése";
+"filter_by_category" = "Szűrés Kategória Szerint";
+"all_apps" = "Összes Alkalmazás";
+"clear_categories" = "Összes Kategória Törlése";
+
 // MARK: - Numbers
 "number_10" = "10";
 "number_200" = "200";

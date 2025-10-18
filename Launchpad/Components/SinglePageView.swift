@@ -24,6 +24,10 @@ struct SinglePageView: View {
                   .onTapGesture { onItemTap(item)  }
                   .contextMenu {
                      if case .app(let app) = item {
+                        CategoryContextMenu(app: app)
+                        
+                        Divider()
+                        
                         Button(action: {
                            AppManager.shared.hideApp(path: app.path, appsPerPage: settings.appsPerPage)
                         }) {

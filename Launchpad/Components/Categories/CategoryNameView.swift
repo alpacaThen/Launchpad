@@ -1,0 +1,59 @@
+import SwiftUI
+
+struct CategoryNameView: View {
+   @Binding var category: Category
+   @Binding var editingName: Bool
+   
+   let opacity: Double
+   let offset: CGFloat
+   
+   @FocusState private var nameFieldFocused: Bool
+   
+   var body: some View {
+      VStack(spacing: 16) {
+         HStack {
+            Spacer()
+            if editingName {
+               TextField("", text: $category.name)
+                  .textFieldStyle(.plain)
+                  .font(.title2.weight(.medium))
+                  .multilineTextAlignment(.center)
+                  .padding(.horizontal, 20)
+                  .padding(.vertical, 8)
+                  .background(
+                     RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.primary.opacity(0.08))
+                        .overlay(
+                           RoundedRectangle(cornerRadius: 8)
+                              .stroke(Color.primary.opacity(0.2), lineWidth: 1)
+                        )
+                  )
+                  .focused($nameFieldFocused)
+                  .onAppear {
+                     DispatchQueue.main.async { nameFieldFocused = true }
+                  }
+                  .onSubmit {
+                     withAnimation(.easeOut(duration: 0.2)) { editingName = false }
+                     nameFieldFocused = false
+                     CategoryManager.shared.renameCategory(category, newName: category.name)
+                  }
+            } else {
+               Text(category.name.isEmpty ? L10n.untitledCategory : category.name)
+                  .font(.title2.weight(.medium))
+                  .foregroundStyle(.primary)
+                  .padding(.horizontal, 16)
+                  .padding(.vertical, 8)
+                  .onTapGesture {
+                     withAnimation(.easeOut(duration: 0.2)) { editingName = true}
+                  }
+            }
+            Spacer()
+         }
+         
+         .padding(.horizontal, 32)
+      }
+      .offset(y: offset)
+      .opacity(opacity)
+      .padding(.vertical, 20)
+   }
+}
