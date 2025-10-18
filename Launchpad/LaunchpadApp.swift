@@ -32,13 +32,10 @@ struct LaunchpadApp: App {
 
    private func initialize() {
       guard !isInitialized else { return }
-      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
       isInitialized = true
-
-      if(settingsManager.settings.showDock) {
-         NSMenu.setMenuBarVisible(true)
-      } else {
-         NSMenu.setMenuBarVisible(false)
-      }
+      
+      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+      
+      NSMenu.setMenuBarVisible(settingsManager.settings.showDock)
    }
 }
