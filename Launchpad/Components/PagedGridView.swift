@@ -143,6 +143,9 @@ struct PagedGridView: View {
             } else {
                return folder.apps.filter { $0.name.lowercased().contains(searchTerm) }
             }
+         case .category:
+            // Categories don't contain apps directly in search, skip them
+            return []
          }
       }
    }
