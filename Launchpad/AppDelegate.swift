@@ -2,7 +2,7 @@ import AppKit
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
-   private var isCurrentlyHidden = false
+   private var isCurrentlyHidden = true
 
    func applicationDidHide(_ notification: Notification) {
       isCurrentlyHidden = true
