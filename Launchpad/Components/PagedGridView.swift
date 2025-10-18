@@ -314,6 +314,7 @@ struct PagedGridView: View {
       print("Entering Launchpad.")
       if settings.resetOnRelaunch {
          currentPage = 0
+         selectedFolder = nil
          searchText = ""
       }
       
