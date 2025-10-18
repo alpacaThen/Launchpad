@@ -287,37 +287,60 @@ final class AppManager: ObservableObject {
    private func importLayoutFromJSON(filePath: URL, appsPerPage: Int) {
       do {
          let jsonData = try Data(contentsOf: filePath)
-         let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
-         let allApps = discoverApps()
-         let appsByPath = Dictionary(uniqueKeysWithValues: allApps.map { ($0.path, $0) })
-         var gridItems: [AppGridItem] = []
-         for itemData in itemsArray {
-            let type = itemData["type"] as! String
-            switch type {
-            case "app":
-               if let gridItem = loadAppItem(from: itemData, appsByPath: appsByPath) {
-                  gridItems.append(gridItem)
-               }
-            case "folder":
-               if let gridItem = loadFolderItem(from: itemData, appsByPath: appsByPath) {
-                  gridItems.append(gridItem)
-               }
-            default:
-               break
-            }
+         guard let exportData = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
+            // Backward compatibility: try loading as array of items
+            let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
+            importItemsOnly(itemsArray: itemsArray, appsPerPage: appsPerPage)
+            return
          }
-         let newPages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
-         self.pages = newPages
+         
+         // New format with items and categories
+         if let itemsArray = exportData["items"] as? [[String: Any]] {
+            importItemsOnly(itemsArray: itemsArray, appsPerPage: appsPerPage)
+         }
+         
+         if let categoriesArray = exportData["categories"] as? [[String: Any]] {
+            CategoryManager.shared.importCategories(from: categoriesArray)
+         }
+         
          print("Import finished successfully from: \(filePath.path)")
       } catch {
          print("Failed to import layout: \(error)")
       }
    }
+   
+   private func importItemsOnly(itemsArray: [[String: Any]], appsPerPage: Int) {
+      let allApps = discoverApps()
+      let appsByPath = Dictionary(uniqueKeysWithValues: allApps.map { ($0.path, $0) })
+      var gridItems: [AppGridItem] = []
+      for itemData in itemsArray {
+         let type = itemData["type"] as! String
+         switch type {
+         case "app":
+            if let gridItem = loadAppItem(from: itemData, appsByPath: appsByPath) {
+               gridItems.append(gridItem)
+            }
+         case "folder":
+            if let gridItem = loadFolderItem(from: itemData, appsByPath: appsByPath) {
+               gridItems.append(gridItem)
+            }
+         default:
+            break
+         }
+      }
+      let newPages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
+      self.pages = newPages
+   }
 
    private func exportLayoutToJSON(filePath: URL) {
       do {
          let itemsData = pages.flatMap { $0 }.map { $0.serialize() }
-         let jsonData = try JSONSerialization.data(withJSONObject: itemsData, options: .prettyPrinted)
+         let categoriesData = CategoryManager.shared.exportCategories()
+         let exportData: [String: Any] = [
+            "items": itemsData,
+            "categories": categoriesData
+         ]
+         let jsonData = try JSONSerialization.data(withJSONObject: exportData, options: .prettyPrinted)
          try jsonData.write(to: filePath)
          print("Export finished successfully to \(filePath.path)!")
       } catch {
