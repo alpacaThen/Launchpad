@@ -2,6 +2,7 @@ import SwiftUI
 
 @main
 struct LaunchpadApp: App {
+   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
    @StateObject private var settingsManager = SettingsManager.shared
    @StateObject private var appManager = AppManager.shared
    @State private var showSettings = false
