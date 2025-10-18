@@ -2,13 +2,21 @@ import AppKit
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        // If the app has visible windows, hide it when the dock icon is clicked again
-        if flag {
-            AppLauncher.exit()
-            return false
-        }
-        // If no visible windows, allow the default behavior (show the window)
-        return true
-    }
+   private var isCurrentlyHidden = false
+
+   func applicationDidHide(_ notification: Notification) {
+      isCurrentlyHidden = true
+   }
+
+
+   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+      if isCurrentlyHidden {
+         isCurrentlyHidden = false
+         return true
+      } else {
+         AppLauncher.exit()
+         return false
+      }
+   }
 }
+
