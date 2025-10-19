@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct Category: Identifiable, Equatable, Codable {
    let id: UUID

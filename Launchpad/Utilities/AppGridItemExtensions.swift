@@ -24,7 +24,7 @@ extension AppGridItem {
       case .category: return nil
       }
    }
-
+   
    var appPaths: Set<String> {
       switch self {
       case .app(let app): return [app.path]
@@ -32,18 +32,15 @@ extension AppGridItem {
       case .category: return []
       }
    }
-
+   
    func serialize() -> [String: Any] {
       switch self {
-      case .app(let app):
-         return serialize(app)
-      case .folder(let folder):
-         return serialize(folder)
-      case .category:
-         return [:]  // Categories are not serialized as grid items
+      case .app(let app): return serialize(app)
+      case .folder(let folder): return serialize(folder)
+      case .category: return [:]
       }
    }
-
+   
    func serialize(_ folder: Folder) -> [String : Any] {
       return [
          "type": "folder",
@@ -53,7 +50,7 @@ extension AppGridItem {
          "apps": folder.apps.map(serialize)
       ]
    }
-
+   
    func serialize(_ app: AppInfo) -> [String: Any] {
       [
          "type": "app",
@@ -71,7 +68,7 @@ extension AppGridItem {
       case .folder(let folder):
          return .folder(Folder(name: folder.name, page: newPage, apps: folder.apps))
       case .category(let category):
-         return .category(category)  // Categories don't have pages
+         return .category(category)
       }
    }
 }
