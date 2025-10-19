@@ -297,7 +297,7 @@ final class AppManager: ObservableObject {
             // Backward compatibility: try loading as array of items
             let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
             importItemsOnly(itemsArray: itemsArray, appsPerPage: appsPerPage)
-            return
+            return (false, "Could not loat items from file:\n\(filePath.path)")
          }
          
          // New format with items and categories
