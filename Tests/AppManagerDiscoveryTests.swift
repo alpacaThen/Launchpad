@@ -191,6 +191,7 @@ final class AppManagerDiscoveryTests: XCTestCase {
             switch item {
             case .app: return "app"
             case .folder: return "folder"
+            case .category: return "category"
             }
         }
         
