@@ -62,7 +62,6 @@ You are **NOT** permitted to:
 To obtain a license for personal or commercial use:
 
 - Visit the official website: [https://kristof12345.github.io/Launchpad/](https://kristof12345.github.io/Launchpad/)
-- Contact the Developer at: [Your Contact Email]
 - License fees are determined by the Developer and may vary based on use case (personal vs. commercial).
 
 ### 5. Ownership and Intellectual Property
