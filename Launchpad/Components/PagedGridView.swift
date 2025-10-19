@@ -209,21 +209,24 @@ struct PagedGridView: View {
             searchText = ""
             selectedSearchIndex = 0
 
-         } else {
+         } else if selectedFolder == nil && selectedCategory == nil {
             AppLauncher.exit()
+         } else {
+            selectedFolder = nil
+            selectedCategory = nil
          }
       case 123:  // Left arrow
          if !searchText.isEmpty {
             navigateSearchLeft()
             return nil
-         } else if selectedFolder == nil && selectedCategory != nil {
+         } else if selectedFolder == nil && selectedCategory == nil {
             navigateToPreviousPage()
          }
       case 124:  // Right arrow
          if !searchText.isEmpty {
             navigateSearchRight()
             return nil
-         } else if selectedFolder == nil && selectedCategory != nil {
+         } else if selectedFolder == nil && selectedCategory == nil {
             navigateToNextPage()
          }
       case 125:  // Down arrow
