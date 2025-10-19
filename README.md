@@ -10,7 +10,7 @@ If you like this project and want to support further development:
 
 <a href="https://www.buymeacoffee.com/Waikiki.com" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-**[📥 Download Launchpad v2.5](https://github.com/kristof12345/Launchpad/releases/download/v2.5/Launchpad.app.zip)**
+**[📥 Download Launchpad v2.6](https://github.com/kristof12345/Launchpad/releases/download/v2.6/Launchpad.app.zip)**
 
 ## ✨ Features
 
@@ -43,14 +43,7 @@ If you like this project and want to support further development:
 
 ![Folder](docs/images/Launchpad-4.png)
 ![Folders](docs/images/Launchpad-5.png)
-
-### 🎨 **Modern Folder Styles**
-
-![New Folder Styles](docs/images/Launchpad-6.png)
-
-### ⚙️ **Customizable Settings**
-
-![Settings Panel](docs/images/Launchpad-7.png)
+![Folders](docs/images/Launchpad-3.png)
 
 ### 🎮 **Navigation Methods**
 
@@ -71,10 +64,9 @@ If you like this project and want to support further development:
 - Long press and drag to reorder
 - Swipe for page navigation
 
-
 ## ⚙️ **Settings & Customization**
 
-![Settings](docs/images/Launchpad-3.png)
+![Settings](docs/images/Launchpad-6.png)
 
 ### 🎛️ **Grid Layout**
 - **Columns**: 2–20 per page
@@ -130,29 +122,9 @@ Use this free app to assign any app to your macOS hot corners:
 https://apps.apple.com/hu/app/hot-corners/id1672176975?l=hu&mt=12
 <img width="727" height="501" alt="Képernyőfotó 2025-10-16 - 16 00 06" src="https://github.com/user-attachments/assets/cb0368f1-aadb-4f03-9107-d6398c2fa8e7" />
 
-
-## 🎹 AppleScript Integration
-
+## Custom gesture support
 Create a keyboard shortcut using BetterTouchTool or similar:
-
-![BetterTouchTool Config](docs/images/Launchpad-8.png)
-
-```applescript
-set appName to "Launchpad"
-
-tell application "System Events"
-	if name of processes contains appName then
-		if visible of application process appName is true then
-			set visible of application process appName to false
-		else
-			tell me to tell application appName to activate
-		end if
-	else
-		tell me to tell application appName to activate
-		set visible of application process appName to true
-	end if
-end tell
-```
+<img width="1512" height="456" alt="Képernyőfotó 2025-10-19 - 15 29 50" src="https://github.com/user-attachments/assets/79a83933-c7e9-4d05-a731-51477d6ea51b" />
 
 ## 🙏 Credits
 - Inspired by macOS Launchpad

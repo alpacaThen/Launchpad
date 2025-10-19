@@ -5,7 +5,7 @@ struct PagedGridView: View {
    @Binding var pages: [[AppGridItem]]
    @Binding var showSettings: Bool
    var settings: LaunchpadSettings
-   
+
    @State private var currentPage = 0
    @State private var lastScrollTime = Date.distantPast
    @State private var accumulatedScrollX: CGFloat = 0
@@ -104,7 +104,7 @@ struct PagedGridView: View {
       .onChange(of: searchText) {
          selectedSearchIndex = 0
       }
-      
+
       FolderDetailView(
          pages: $pages,
          folder: $selectedFolder,
@@ -128,10 +128,10 @@ struct PagedGridView: View {
          transparency: settings.transparency
       )
    }
-   
+
    private func filteredApps() -> [AppInfo] {
       guard !searchText.isEmpty else { return [] }
-      
+
       let searchTerm = searchText.lowercased()
       return pages.flatMap { $0 }.flatMap { item -> [AppInfo] in
          switch item {
@@ -149,7 +149,7 @@ struct PagedGridView: View {
          }
       }
    }
-   
+
    private func handleTap(item: AppGridItem) {
       switch item {
       case .app(let app):
@@ -160,7 +160,7 @@ struct PagedGridView: View {
          selectedCategory = category
       }
    }
-   
+
    private func setupEventMonitoring() {
       eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.scrollWheel, .keyDown]) { event in
          switch event.type {
@@ -172,13 +172,12 @@ struct PagedGridView: View {
             return event
          }
       }
-      
+
       NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main) { notification in
          guard let activatedApp = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else { return }
-         
-         let isSelf = activatedApp.bundleIdentifier == Bundle.main.bundleIdentifier
+
          Task { @MainActor in
-            if isSelf {
+            if activatedApp.bundleIdentifier == Bundle.main.bundleIdentifier {
                handleAppActivation()
             } else {
                AppLauncher.exit()
@@ -186,26 +185,26 @@ struct PagedGridView: View {
          }
       }
    }
-   
+
    private func cleanupEventMonitoring() {
       if let monitor = eventMonitor {
          NSEvent.removeMonitor(monitor)
          eventMonitor = nil
       }
    }
-   
+
    private func handleScrollEvent(event: NSEvent) -> NSEvent? {
       guard searchText.isEmpty && selectedFolder == nil else { return event }
-      
+
       let absX = abs(event.scrollingDeltaX)
       let absY = abs(event.scrollingDeltaY)
       guard absX > absY && absX > 0 else { return event }
-      
+
       let now = Date()
       guard now.timeIntervalSince(lastScrollTime) >= settings.scrollDebounceInterval else { return event }
-      
+
       accumulatedScrollX += event.scrollingDeltaX
-      
+
       if accumulatedScrollX <= -settings.scrollActivationThreshold {
          currentPage = min(currentPage + 1, pages.count - 1)
          resetScrollState(at: now)
@@ -215,15 +214,15 @@ struct PagedGridView: View {
          resetScrollState(at: now)
          return nil
       }
-      
+
       return event
    }
-   
+
    private func resetScrollState(at time: Date) {
       lastScrollTime = time
       accumulatedScrollX = 0
    }
-   
+
    private func handleKeyEvent(event: NSEvent) -> NSEvent? {
       print(event.keyCode)
       // Handle special keys
@@ -232,7 +231,7 @@ struct PagedGridView: View {
          if !searchText.isEmpty {
             searchText = ""
             selectedSearchIndex = 0
-            
+
          } else {
             AppLauncher.exit()
          }
@@ -271,18 +270,18 @@ struct PagedGridView: View {
       default:
          break
       }
-      
+
       return event
    }
-   
+
    private func navigateToPreviousPage() {
       guard currentPage > 0 else { return }
-      
+
       withAnimation(LaunchPadConstants.springAnimation) {
          currentPage = currentPage - 1
       }
    }
-   
+
    private func navigateToNextPage() {
       if currentPage < filteredPages.count - 1 {
          withAnimation(LaunchPadConstants.springAnimation) {
@@ -293,19 +292,19 @@ struct PagedGridView: View {
          createNewPage()
       }
    }
-   
+
    private func createNewPage() {
       pages.append([])
       withAnimation(LaunchPadConstants.springAnimation) {
          currentPage = pages.count - 1
       }
    }
-   
+
    private func launchSelectedSearchResult() {
       guard !searchText.isEmpty else { return }
       let apps = filteredApps()
       guard selectedSearchIndex >= 0 && selectedSearchIndex < apps.count else { return }
-      
+
       AppLauncher.launch(path: apps[selectedSearchIndex].path)
    }
    
@@ -319,33 +318,33 @@ struct PagedGridView: View {
    private func handleSort(sortOrder: SortOrder) {
       AppManager.shared.sortItems(by: sortOrder, appsPerPage: settings.appsPerPage)
    }
-   
+
    private func navigateSearchLeft() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       if selectedSearchIndex > 0 {
          selectedSearchIndex -= 1
       } else {
          selectedSearchIndex = apps.count - 1
       }
    }
-   
+
    private func navigateSearchRight() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       if selectedSearchIndex < apps.count - 1 {
          selectedSearchIndex += 1
       } else {
          selectedSearchIndex = 0
       }
    }
-   
+
    private func navigateSearchUp() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       let newIndex = selectedSearchIndex - settings.columns
       if newIndex >= 0 {
          selectedSearchIndex = newIndex
@@ -356,11 +355,11 @@ struct PagedGridView: View {
          selectedSearchIndex = min(lastRowStartIndex + columnOffset, apps.count - 1)
       }
    }
-   
+
    private func navigateSearchDown() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       let newIndex = selectedSearchIndex + settings.columns
       if newIndex < apps.count {
          selectedSearchIndex = newIndex
@@ -370,16 +369,15 @@ struct PagedGridView: View {
          selectedSearchIndex = min(columnOffset, apps.count - 1)
       }
    }
-   
+
    private func handleAppActivation() {
-      print("Entering Launchpad.")
       if settings.resetOnRelaunch {
          currentPage = 0
          selectedFolder = nil
          selectedCategory = nil
          searchText = ""
       }
-      
+
       if !settings.isActivated {
          showSettings = true
       }
