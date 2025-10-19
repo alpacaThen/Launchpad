@@ -7,7 +7,7 @@ struct CategorySettings: View {
    @State private var newCategoryName = ""
    @State private var showDeleteAlert = false
    @State private var categoryToDelete: Category?
-   
+
    var body: some View {
 
       VStack(alignment: .leading, spacing: 20) {
@@ -82,7 +82,7 @@ struct CategorySettings: View {
 
    private func createCategory() {
       guard !newCategoryName.isEmpty else { return }
-      _ = categoryManager.createCategory(name: newCategoryName)
+      categoryManager.createCategory(name: newCategoryName)
       newCategoryName = ""
    }
 }

@@ -3,6 +3,7 @@ import SwiftUI
 struct ActionsSettings: View {
    private let settingsManager = SettingsManager.shared
    private let appManager = AppManager.shared
+   private let categoryManager = CategoryManager.shared
 
    @State private var showingClearConfirmation = false
    @State private var showingImportAlert = false
@@ -116,18 +117,15 @@ struct ActionsSettings: View {
    }
 
    private func exportLayout() {
+      _ = categoryManager.exportCategories()
       let result = appManager.exportLayout()
-      if result.success {
-         alertTitle = L10n.exportSuccess
-         alertMessage = "Successfully exported layout to:\n\(result.path)"
-      } else {
-         alertTitle = L10n.exportFailed
-         alertMessage = "Failed to export layout. Please try again."
-      }
+      alertTitle = result.success ? L10n.exportSuccess : L10n.exportFailed;
+      alertMessage = result.message
       showingExportAlert = true
    }
 
    private func importLayout() {
+      _ = categoryManager.exportCategories()
       let result = appManager.importLayout(appsPerPage: settingsManager.settings.appsPerPage)
       alertTitle = result.success ? L10n.importSuccess : L10n.importFailed
       alertMessage = result.message

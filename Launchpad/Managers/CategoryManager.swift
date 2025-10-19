@@ -51,14 +51,14 @@ final class CategoryManager: ObservableObject {
       return category.appPaths.compactMap { appsByPath[$0] }
    }
 
-   func importCategoriesFromJSON() -> (success: Bool, message: String) {
+   func importCategories() -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadCategories.json")
       let result = importCategoriesFromJSON(filePath: filePath)
       saveCategories()
       return result
    }
 
-   func exportCategories() -> (success: Bool, path: String) {
+   func exportCategories() -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadCategories.json")
       return exportCategoriesToJSON(filePath: filePath)
    }
@@ -90,60 +90,56 @@ final class CategoryManager: ObservableObject {
       }
    }
 
-   private func exportCategoriesToJSON(filePath: URL) -> Bool {
-      do {
-         var exportData = categories.map { category in [
-            "id": category.id.uuidString,
-            "name": category.name,
-            "appPaths": Array(category.appPaths)
-         ] }
-
-         let jsonData = try JSONSerialization.data(withJSONObject: exportData, options: .prettyPrinted)
-         try jsonData.write(to: filePath)
-         print("Export finished successfully to \(filePath.path)!")
-         return true
-      } catch {
-         print("Failed to export layout: \(error)")
-         return false
-      }
-   }
    private func importCategoriesFromJSON(filePath: URL) -> (success: Bool, message: String) {
       guard FileManager.default.fileExists(atPath: filePath.path) else {
-         print("Import file not found at: \(filePath.path)")
-         return (false, "Layout file not found at:\n\(filePath.path)")
+         print("Categories file not found at \(filePath.path)")
+         return (false, "Categories file not found at \n\(filePath.path)")
       }
 
       do {
          let jsonData = try Data(contentsOf: filePath)
-         guard let exportData = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
-            // Backward compatibility: try loading as array of items
-            let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
-            return (false, "Could not loat items from file:\n\(filePath.path)")
-         }
+         let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
 
+         var categories: [Category] = []
+         for itemsData in itemsArray {
+            let idString = itemsData["id"] as! String
+            let id = UUID(uuidString: idString)!
+            let name = itemsData["name"] as! String
+            let paths = itemsData["appPaths"] as! [String]
 
-         if let data = exportData["categories"] as? [[String: Any]] {
-            categories = data.compactMap { dict in
-               guard let idString = dict["id"] as? String,
-                     let id = UUID(uuidString: idString),
-                     let name = dict["name"] as? String,
-                     let paths = dict["appPaths"] as? [String] else {
-                  return nil
-               }
-               return Category(id: id, name: name, appPaths: Set(paths))
-            }
-            saveCategories()
+            categories.append(Category(id: id, name: name, appPaths: Set(paths)))
          }
+         saveCategories()
+         print("Successfully imported categories from \(filePath.path)")
+         return (true, "Successfully imported layout from \n\(filePath.path)")
       } catch {
-         print("Failed to import layout: \(error)")
-         return (false, "Failed to import layout:\n\(error.localizedDescription)")
+         print("Failed to import categories \(error)")
+         return (false, "Failed to import categories \n\(error.localizedDescription)")
       }
    }
 
-   private func clearAllCategories() {
-      print("Clear all categories.")
-      categories = []
-      userDefaults.removeObject(forKey: categoriesKey)
-      userDefaults.synchronize()
+   private func exportCategoriesToJSON(filePath: URL) -> (success: Bool, message: String) {
+      do {
+         let exportData = categories.map { category in [
+            "id": category.id.uuidString,
+            "name": category.name,
+            "appPaths": Array(category.appPaths)
+         ]}
+
+         let jsonData = try JSONSerialization.data(withJSONObject: exportData, options: .prettyPrinted)
+         try jsonData.write(to: filePath)
+         print("Categories export finished successfully to \(filePath.path)")
+         return (true, "Categories export finished successfully to \n\(filePath.path)")
+      } catch {
+         print("Failed to export categories \(error)")
+         return (false, "Failed to export categories \n\(error.localizedDescription)")
+      }
    }
-}
+
+      private func clearAllCategories() {
+         print("Clear all categories.")
+         categories = []
+         userDefaults.removeObject(forKey: categoriesKey)
+         userDefaults.synchronize()
+      }
+   }
