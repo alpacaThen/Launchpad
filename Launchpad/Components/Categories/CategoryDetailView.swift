@@ -14,7 +14,7 @@ struct CategoryDetailView: View {
    
    var categoryApps: [AppInfo] {
       guard let category = category else { return [] }
-      return CategoryManager.shared.getAppsForCategory(category, from: allApps)
+      return CategoryManager.shared.getAppsForCategory(category: category, from: allApps)
    }
    
    var body: some View {

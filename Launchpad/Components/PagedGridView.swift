@@ -286,7 +286,7 @@ struct PagedGridView: View {
 
    private func launchAllAppsInCategory() {
       guard selectedCategory != nil else { return }
-      let categoryApps = CategoryManager.shared.getAppsForCategory(selectedCategory!, from: allApps())
+      let categoryApps = CategoryManager.shared.getAppsForCategory(category: selectedCategory!, from: allApps())
       for app in categoryApps {
          AppLauncher.launch(path: app.path)
       }

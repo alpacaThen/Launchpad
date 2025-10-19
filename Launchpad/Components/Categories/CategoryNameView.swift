@@ -35,7 +35,7 @@ struct CategoryNameView: View {
                   .onSubmit {
                      withAnimation(.easeOut(duration: 0.2)) { editingName = false }
                      nameFieldFocused = false
-                     CategoryManager.shared.renameCategory(category, newName: category.name)
+                     CategoryManager.shared.renameCategory(category: category, newName: category.name)
                   }
             } else {
                Text(category.name.isEmpty ? L10n.untitledCategory : category.name)

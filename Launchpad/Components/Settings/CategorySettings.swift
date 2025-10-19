@@ -7,40 +7,42 @@ struct CategorySettings: View {
    @State private var newCategoryName = ""
    @State private var showDeleteAlert = false
    @State private var categoryToDelete: Category?
-
+   
    var body: some View {
-      ScrollView {
-         VStack(alignment: .leading, spacing: 20) {
-            Text(L10n.categories)
-               .font(.headline)
 
-            Text(L10n.categoriesDescription)
+      VStack(alignment: .leading, spacing: 20) {
+         Text(L10n.categories)
+            .font(.headline)
+
+         Text(L10n.categoriesDescription)
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+
+         Divider()
+
+         // Create new category
+         VStack(alignment: .leading, spacing: 12) {
+            Text(L10n.createCategory)
                .font(.subheadline)
-               .foregroundColor(.secondary)
+               .fontWeight(.medium)
 
-            Divider()
+            HStack {
+               TextField(L10n.categoryName, text: $newCategoryName)
+                  .textFieldStyle(RoundedBorderTextFieldStyle())
 
-            // Create new category
-            VStack(alignment: .leading, spacing: 12) {
-               Text(L10n.createCategory)
-                  .font(.subheadline)
-                  .fontWeight(.medium)
-
-               HStack {
-                  TextField(L10n.categoryName, text: $newCategoryName)
-                     .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                  Button(action: createCategory) {
-                     Image(systemName: "plus.circle.fill")
-                        .font(.title2)
-                  }
-                  .buttonStyle(.borderless)
-                  .disabled(newCategoryName.isEmpty)
+               Button(action: createCategory) {
+                  Image(systemName: "plus.circle.fill")
+                     .font(.title2)
                }
+               .buttonStyle(.borderless)
+               .disabled(newCategoryName.isEmpty)
             }
+            .padding(.horizontal, 4)
+         }
 
-            Divider()
+         Divider()
 
+         ScrollView {
             // List of categories
             VStack(alignment: .leading, spacing: 12) {
                Text(L10n.manageCategories)
@@ -69,7 +71,7 @@ struct CategorySettings: View {
          }
          Button(L10n.deleteCategory, role: .destructive) {
             if let category = categoryToDelete {
-               categoryManager.deleteCategory(category)
+               categoryManager.deleteCategory(category: category)
             }
             categoryToDelete = nil
          }
@@ -148,7 +150,7 @@ struct CategoryRow: View {
 
    private func saveEdit() {
       if !editedName.isEmpty {
-         categoryManager.renameCategory(category, newName: editedName)
+         categoryManager.renameCategory(category: category, newName: editedName)
       } else {
          editedName = category.name
       }
