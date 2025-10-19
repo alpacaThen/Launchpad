@@ -58,6 +58,8 @@ struct L10n {
    static let importSuccessMessage = "import_success_message".localized
    static let importFailed = "import_failed".localized
    static let importFailedMessage = "import_failed_message".localized
+   static let exportSuccess = "export_success".localized
+   static let exportFailed = "export_failed".localized
    
    // MARK: - Search
    static let searchPlaceholder = "search_placeholder".localized

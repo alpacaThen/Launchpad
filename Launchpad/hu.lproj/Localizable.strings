@@ -55,6 +55,8 @@
 "import_success_message" = "Sikeresen importálva a régi macOS Launchpad elrendezés.";
 "import_failed" = "Sikertelen Importálás";
 "import_failed_message" = "Nem található vagy nem olvasható a régi Launchpad adatbázis. Győződj meg róla, hogy használtad korábban a régi Launchpad-et.";
+"export_success" = "Sikeres Exportálás";
+"export_failed" = "Sikertelen Exportálás";
 
 // MARK: - Search
 "search_placeholder" = "Keresés";

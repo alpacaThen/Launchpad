@@ -55,6 +55,8 @@
 "import_success_message" = "Successfully imported layout from old macOS Launchpad.";
 "import_failed" = "Import Failed";
 "import_failed_message" = "Could not find or read the old Launchpad database. Make sure you have used the old Launchpad before.";
+"export_success" = "Export Successful";
+"export_failed" = "Export Failed";
 
 // MARK: - Search
 "search_placeholder" = "Search";

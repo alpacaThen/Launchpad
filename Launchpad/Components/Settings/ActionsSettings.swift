@@ -6,8 +6,9 @@ struct ActionsSettings: View {
 
    @State private var showingClearConfirmation = false
    @State private var showingImportAlert = false
-   @State private var importAlertTitle = ""
-   @State private var importAlertMessage = ""
+   @State private var showingExportAlert = false
+   @State private var alertTitle = ""
+   @State private var alertMessage = ""
 
    var body: some View {
       VStack(alignment: .center, spacing: 20) {
@@ -101,20 +102,36 @@ struct ActionsSettings: View {
       } message: {
          Text(L10n.clearAllAppsMessage)
       }
-      .alert(importAlertTitle, isPresented: $showingImportAlert) {
+      .alert(alertTitle, isPresented: $showingImportAlert) {
          Button(L10n.ok) { }
       } message: {
-         Text(importAlertMessage)
+         Text(alertMessage)
+      }
+      .alert(alertTitle, isPresented: $showingExportAlert) {
+         Button(L10n.ok) { }
+      } message: {
+         Text(alertMessage)
       }
       .padding(.horizontal, 8)
    }
 
    private func exportLayout() {
-      appManager.exportLayout()
+      let result = appManager.exportLayout()
+      if result.success {
+         alertTitle = L10n.exportSuccess
+         alertMessage = "Successfully exported layout to:\n\(result.path)"
+      } else {
+         alertTitle = L10n.exportFailed
+         alertMessage = "Failed to export layout. Please try again."
+      }
+      showingExportAlert = true
    }
 
    private func importLayout() {
-      appManager.importLayout(appsPerPage: settingsManager.settings.appsPerPage)
+      let result = appManager.importLayout(appsPerPage: settingsManager.settings.appsPerPage)
+      alertTitle = result.success ? L10n.importSuccess : L10n.importFailed
+      alertMessage = result.message
+      showingImportAlert = true
    }
 
    private func clearGridItems() {
@@ -128,11 +145,11 @@ struct ActionsSettings: View {
    private func importFromOldLaunchpad() {
       let success = appManager.importFromOldLaunchpad(appsPerPage: settingsManager.settings.appsPerPage)
       if success {
-         importAlertTitle = L10n.importSuccess
-         importAlertMessage = L10n.importSuccessMessage
+         alertTitle = L10n.importSuccess
+         alertMessage = L10n.importSuccessMessage
       } else {
-         importAlertTitle = L10n.importFailed
-         importAlertMessage = L10n.importFailedMessage
+         alertTitle = L10n.importFailed
+         alertMessage = L10n.importFailedMessage
       }
       showingImportAlert = true
    }

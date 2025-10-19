@@ -36,15 +36,16 @@ final class AppManager: ObservableObject {
       userDefaults.set(itemsData, forKey: gridItemsKey)
    }
 
-   func importLayout(appsPerPage: Int) {
+   func importLayout(appsPerPage: Int) -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
-      importLayoutFromJSON(filePath: filePath, appsPerPage: appsPerPage)
+      let result = importLayoutFromJSON(filePath: filePath, appsPerPage: appsPerPage)
       saveGridItems()
+      return result
    }
 
-   func exportLayout() {
+   func exportLayout() -> (success: Bool, path: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
-      exportLayoutToJSON(filePath: filePath)
+      return exportLayoutToJSON(filePath: filePath)
    }
 
    func clearGridItems(appsPerPage: Int) {
@@ -284,7 +285,12 @@ final class AppManager: ObservableObject {
       return item.withUpdatedPage(page)
    }
 
-   private func importLayoutFromJSON(filePath: URL, appsPerPage: Int) {
+   private func importLayoutFromJSON(filePath: URL, appsPerPage: Int) -> (success: Bool, message: String) {
+      guard FileManager.default.fileExists(atPath: filePath.path) else {
+         print("Import file not found at: \(filePath.path)")
+         return (false, "Layout file not found at:\n\(filePath.path)")
+      }
+      
       do {
          let jsonData = try Data(contentsOf: filePath)
          guard let exportData = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
@@ -304,8 +310,10 @@ final class AppManager: ObservableObject {
          }
          
          print("Import finished successfully from: \(filePath.path)")
+         return (true, "Successfully imported layout from:\n\(filePath.path)")
       } catch {
          print("Failed to import layout: \(error)")
+         return (false, "Failed to import layout:\n\(error.localizedDescription)")
       }
    }
    
@@ -332,7 +340,7 @@ final class AppManager: ObservableObject {
       self.pages = newPages
    }
 
-   private func exportLayoutToJSON(filePath: URL) {
+   private func exportLayoutToJSON(filePath: URL) -> (success: Bool, path: String) {
       do {
          let itemsData = pages.flatMap { $0 }.map { $0.serialize() }
          let categoriesData = CategoryManager.shared.exportCategories()
@@ -343,8 +351,10 @@ final class AppManager: ObservableObject {
          let jsonData = try JSONSerialization.data(withJSONObject: exportData, options: .prettyPrinted)
          try jsonData.write(to: filePath)
          print("Export finished successfully to \(filePath.path)!")
+         return (true, filePath.path)
       } catch {
          print("Failed to export layout: \(error)")
+         return (false, "")
       }
    }
 
