@@ -13,8 +13,6 @@ final class CategoryManager: ObservableObject {
       loadCategories()
    }
    
-   // MARK: - Category Management
-   
    func createCategory(name: String) -> Category {
       let category = Category(name: name)
       categories.append(category)
@@ -32,8 +30,6 @@ final class CategoryManager: ObservableObject {
       categories[index].name = newName
       saveCategories()
    }
-   
-   // MARK: - App-Category Association
    
    func addAppToCategory(appPath: String, categoryId: UUID) {
       guard let index = categories.firstIndex(where: { $0.id == categoryId }) else { return }
@@ -55,8 +51,6 @@ final class CategoryManager: ObservableObject {
       let appsByPath = Dictionary(uniqueKeysWithValues: allApps.map { ($0.path, $0) })
       return category.appPaths.compactMap { appsByPath[$0] }
    }
-   
-   // MARK: - Persistence
    
    private func saveCategories() {
       print("Save categories.")
@@ -84,8 +78,6 @@ final class CategoryManager: ObservableObject {
          categories = []
       }
    }
-   
-   // MARK: - Import/Export
    
    func exportCategories() -> [[String: Any]] {
       return categories.map { category in
