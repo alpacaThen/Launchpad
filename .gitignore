@@ -60,5 +60,3 @@ fastlane/test_output
 
 # Test output
 TestResults/
-*/LaunchPadKey.swift
-Launchpad/Utilities/LaunchPadKey.swift
