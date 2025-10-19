@@ -38,7 +38,7 @@ struct SearchResultsView: View {
                      }
                   }
                   .padding(.horizontal, layout.hPadding)
-                  .padding(.vertical, layout.vPadding)
+                  .padding(.bottom, layout.vPadding)
                }
                .onChange(of: selectedIndex) { _, newIndex in
                   guard newIndex >= 0 && newIndex < apps.count else { return }

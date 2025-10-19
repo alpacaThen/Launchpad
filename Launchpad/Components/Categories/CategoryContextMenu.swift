@@ -2,13 +2,13 @@ import SwiftUI
 
 struct CategoryContextMenu: View {
    let app: AppInfo
-   
+
    @ObservedObject private var categoryManager = CategoryManager.shared
-   
+
    var appCategories: [Category] {
       categoryManager.getCategoriesForApp(appPath: app.path)
    }
-   
+
    var body: some View {
       if !categoryManager.categories.isEmpty {
          Menu {
