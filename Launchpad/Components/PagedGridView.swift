@@ -113,7 +113,6 @@ struct PagedGridView: View {
                return folder.apps.filter { $0.name.lowercased().contains(searchTerm) }
             }
          case .category:
-            // Categories don't contain apps directly in search, skip them
             return []
          }
       }
@@ -217,14 +216,14 @@ struct PagedGridView: View {
          if !searchText.isEmpty {
             navigateSearchLeft()
             return nil
-         } else if selectedFolder == nil {
+         } else if selectedFolder == nil && selectedCategory != nil {
             navigateToPreviousPage()
          }
       case 124:  // Right arrow
          if !searchText.isEmpty {
             navigateSearchRight()
             return nil
-         } else if selectedFolder == nil {
+         } else if selectedFolder == nil && selectedCategory != nil {
             navigateToNextPage()
          }
       case 125:  // Down arrow
@@ -240,8 +239,8 @@ struct PagedGridView: View {
       case 43:  // CMD + Comma
          showSettings = true
       case 36:  // Enter
-         if let category = selectedCategory {
-            launchAllAppsInCategory(category)
+         if selectedCategory != nil {
+            launchAllAppsInCategory()
          } else {
             launchSelectedSearchResult()
          }
@@ -265,8 +264,7 @@ struct PagedGridView: View {
          withAnimation(LaunchPadConstants.springAnimation) {
             currentPage += 1
          }
-      } else if selectedCategory == nil {
-         // Only allow creating new pages when not filtering by category
+      } else {
          createNewPage()
       }
    }
@@ -286,8 +284,9 @@ struct PagedGridView: View {
       AppLauncher.launch(path: apps[selectedSearchIndex].path)
    }
 
-   private func launchAllAppsInCategory(_ category: Category) {
-      let categoryApps = CategoryManager.shared.getAppsForCategory(category, from: allApps())
+   private func launchAllAppsInCategory() {
+      guard selectedCategory != nil else { return }
+      let categoryApps = CategoryManager.shared.getAppsForCategory(selectedCategory!, from: allApps())
       for app in categoryApps {
          AppLauncher.launch(path: app.path)
       }
