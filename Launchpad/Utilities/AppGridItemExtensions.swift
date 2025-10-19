@@ -5,25 +5,31 @@ extension AppGridItem {
       switch self {
       case .app(let app): return app.path
       case .folder: return ""
+      case .category: return ""
       }
    }
    
    var lastOpenedDate: Date? {
       switch self {
       case .app(let app): return app.lastOpenedDate
-      case .folder(let folder): return folder.apps.compactMap(\.lastOpenedDate).max() }
+      case .folder(let folder): return folder.apps.compactMap(\.lastOpenedDate).max()
+      case .category: return nil
+      }
    }
    
    var installDate: Date? {
       switch self {
       case .app(let app): return app.installDate
-      case .folder(let folder): return folder.apps.compactMap(\.installDate).max() }
+      case .folder(let folder): return folder.apps.compactMap(\.installDate).max()
+      case .category: return nil
+      }
    }
 
    var appPaths: Set<String> {
       switch self {
       case .app(let app): return [app.path]
       case .folder(let folder): return Set(folder.apps.map(\.path))
+      case .category: return []
       }
    }
 
@@ -33,6 +39,8 @@ extension AppGridItem {
          return serialize(app)
       case .folder(let folder):
          return serialize(folder)
+      case .category:
+         return [:]  // Categories are not serialized as grid items
       }
    }
 
@@ -62,6 +70,8 @@ extension AppGridItem {
          return .app(AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, lastOpenedDate: app.lastOpenedDate, installDate: app.installDate, page: newPage))
       case .folder(let folder):
          return .folder(Folder(name: folder.name, page: newPage, apps: folder.apps))
+      case .category(let category):
+         return .category(category)  // Categories don't have pages
       }
    }
 }

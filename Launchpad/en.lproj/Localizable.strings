@@ -70,6 +70,26 @@
 "untitled_folder" = "Untitled Folder";
 "new_folder" = "New Folder";
 
+// MARK: - Category Management
+"categories" = "Categories";
+"untitled_category" = "Untitled Category";
+"new_category" = "New Category";
+"add_to_category" = "Add to Category";
+"remove_from_category" = "Remove from Category";
+"manage_categories" = "Manage Categories";
+"delete_category" = "Delete Category";
+"delete_category_title" = "Delete Category";
+"delete_category_message" = "Are you sure you want to delete this category? Apps won't be deleted.";
+"open_all_apps" = "Open All Apps (Enter)";
+"no_categories" = "No categories created yet";
+"categories_description" = "Organize your apps into categories. Apps can belong to multiple categories.";
+"create_category" = "Create Category";
+"category_name" = "Category Name";
+"rename_category" = "Rename Category";
+"filter_by_category" = "Filter by Category";
+"all_apps" = "All Apps";
+"clear_categories" = "Clear All Categories";
+
 // MARK: - Numbers
 "number_10" = "10";
 "number_200" = "200";

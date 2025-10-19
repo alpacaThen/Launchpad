@@ -3,6 +3,7 @@ import SwiftUI
 enum AppGridItem: Identifiable, Equatable {
   case app(AppInfo)
   case folder(Folder)
+  case category(Category)
 
   var id: UUID {
     switch self {
@@ -10,6 +11,8 @@ enum AppGridItem: Identifiable, Equatable {
       return app.id
     case .folder(let folder):
       return folder.id
+    case .category(let category):
+      return category.id
     }
   }
 
@@ -19,6 +22,8 @@ enum AppGridItem: Identifiable, Equatable {
       return app.page
     case .folder(let folder):
       return folder.page
+    case .category:
+      return 0  // Categories are shown in a filter bar, not in pages
     }
   }
 
@@ -28,6 +33,8 @@ enum AppGridItem: Identifiable, Equatable {
       return app.name
     case .folder(let folder):
       return folder.name
+    case .category(let category):
+      return category.name
     }
   }
 
@@ -37,6 +44,8 @@ enum AppGridItem: Identifiable, Equatable {
       return false
     case .folder:
       return true
+    case .category:
+      return false
     }
   }
 
@@ -45,6 +54,8 @@ enum AppGridItem: Identifiable, Equatable {
     case .app(let app):
       return app
     case .folder:
+      return nil
+    case .category:
       return nil
     }
   }
@@ -55,6 +66,19 @@ enum AppGridItem: Identifiable, Equatable {
       return nil
     case .folder(let folder):
       return folder
+    case .category:
+      return nil
+    }
+  }
+  
+  var category: Category? {
+    switch self {
+    case .app:
+      return nil
+    case .folder:
+      return nil
+    case .category(let category):
+      return category
     }
   }
 

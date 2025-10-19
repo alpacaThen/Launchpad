@@ -15,7 +15,39 @@ struct PagedGridView: View {
    @State private var draggedItem: AppGridItem?
    @State private var selectedFolder: Folder?
    @State private var sortOrder: SortOrder = SortOrder.defaultLayout
-
+   @State private var selectedCategory: Category?
+   
+   var allApps: [AppInfo] {
+      pages.flatMap { $0 }.compactMap { item in
+         if case .app(let app) = item {
+            return app
+         }
+         return nil
+      }
+   }
+   
+   var filteredPages: [[AppGridItem]] {
+      guard let category = selectedCategory else {
+         return pages
+      }
+      
+      // Filter apps by category
+      let categoryAppPaths = category.appPaths
+      return pages.map { page in
+         page.filter { item in
+            switch item {
+            case .app(let app):
+               return categoryAppPaths.contains(app.path)
+            case .folder(let folder):
+               // Show folder if any of its apps are in the category
+               return folder.apps.contains { categoryAppPaths.contains($0.path) }
+            case .category:
+               return false
+            }
+         }
+      }.filter { !$0.isEmpty }  // Remove empty pages
+   }
+   
    var body: some View {
       VStack(spacing: 0) {
          SearchBarView(
@@ -26,11 +58,16 @@ struct PagedGridView: View {
             transparency: settings.transparency,
             showIcons: settings.showIconsInSearch
          )
-
+         
+         CategoryFilterBar(
+            selectedCategory: $selectedCategory,
+            transparency: settings.transparency
+         )
+         
          GeometryReader { geo in
             if searchText.isEmpty {
                HStack(spacing: 0) {
-                  ForEach(pages.indices, id: \.self) { pageIndex in
+                  ForEach(filteredPages.indices, id: \.self) { pageIndex in
                      SinglePageView(
                         pages: $pages,
                         draggedItem: $draggedItem,
@@ -56,7 +93,7 @@ struct PagedGridView: View {
          }
          PageIndicatorView(
             currentPage: $currentPage,
-            pageCount: pages.count,
+            pageCount: filteredPages.count,
             isFolderOpen: selectedFolder != nil,
             searchText: searchText,
             settings: settings
@@ -74,10 +111,17 @@ struct PagedGridView: View {
          settings: settings,
          onItemTap: handleTap
       )
-
+      
+      CategoryDetailView(
+         category: $selectedCategory,
+         allApps: allApps,
+         settings: settings,
+         onItemTap: handleTap
+      )
+      
       PageDropZonesView(
          currentPage: currentPage,
-         totalPages: pages.count,
+         totalPages: filteredPages.count,
          draggedItem: draggedItem,
          onNavigateLeft: navigateToPreviousPage,
          onNavigateRight: navigateToNextPage,
@@ -99,6 +143,9 @@ struct PagedGridView: View {
             } else {
                return folder.apps.filter { $0.name.lowercased().contains(searchTerm) }
             }
+         case .category:
+            // Categories don't contain apps directly in search, skip them
+            return []
          }
       }
    }
@@ -109,6 +156,8 @@ struct PagedGridView: View {
          AppLauncher.launch(path: app.path)
       case .folder(let folder):
          selectedFolder = folder
+      case .category(let category):
+         selectedCategory = category
       }
    }
 
@@ -213,7 +262,11 @@ struct PagedGridView: View {
       case 43:  // CMD + Comma
          showSettings = true
       case 36:  // Enter
-         launchSelectedSearchResult()
+         if let category = selectedCategory {
+            launchAllAppsInCategory(category)
+         } else {
+            launchSelectedSearchResult()
+         }
       default:
          break
       }
@@ -230,11 +283,12 @@ struct PagedGridView: View {
    }
 
    private func navigateToNextPage() {
-      if currentPage < pages.count - 1 {
+      if currentPage < filteredPages.count - 1 {
          withAnimation(LaunchPadConstants.springAnimation) {
             currentPage += 1
          }
-      } else {
+      } else if selectedCategory == nil {
+         // Only allow creating new pages when not filtering by category
          createNewPage()
       }
    }
@@ -253,7 +307,14 @@ struct PagedGridView: View {
 
       AppLauncher.launch(path: apps[selectedSearchIndex].path)
    }
-
+   
+   private func launchAllAppsInCategory(_ category: Category) {
+      let categoryApps = CategoryManager.shared.getAppsForCategory(category, from: allApps)
+      for app in categoryApps {
+         AppLauncher.launch(path: app.path)
+      }
+   }
+   
    private func handleSort(sortOrder: SortOrder) {
       AppManager.shared.sortItems(by: sortOrder, appsPerPage: settings.appsPerPage)
    }
@@ -313,6 +374,7 @@ struct PagedGridView: View {
       if settings.resetOnRelaunch {
          currentPage = 0
          selectedFolder = nil
+         selectedCategory = nil
          searchText = ""
       }
 
