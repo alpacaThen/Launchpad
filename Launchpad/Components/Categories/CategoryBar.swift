@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct CategoryFilterBar: View {
+struct CategoryBar: View {
    @ObservedObject private var categoryManager = CategoryManager.shared
    @Binding var selectedCategory: Category?
    let transparency: Double
-   
+
    var body: some View {
       ScrollView(.horizontal, showsIndicators: false) {
          HStack(spacing: 12) {
@@ -15,8 +15,7 @@ struct CategoryFilterBar: View {
             }
          }
          .padding(.horizontal, 56)
-         .padding(.vertical, 8)
       }
-      .frame(height: 44)
+      .frame(height: 40)
    }
 }

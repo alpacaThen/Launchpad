@@ -28,7 +28,7 @@ struct PagedGridView: View {
             showIcons: settings.showIconsInSearch
          )
 
-         CategoryFilterBar(
+         CategoryBar(
             selectedCategory: $selectedCategory,
             transparency: settings.transparency
          )

@@ -12,7 +12,7 @@ struct CategoryFilterButton: View {
             .font(.subheadline)
             .fontWeight(isSelected ? .semibold : .regular)
             .padding(.horizontal, 16)
-            .padding(.vertical, 6)
+            .padding(.vertical, 4)
             .background(
                RoundedRectangle(cornerRadius: 6)
                   .fill(isSelected ? Color.accentColor.opacity(0.8 * transparency) : Color.primary.opacity(0.1 * transparency))
