@@ -6,7 +6,7 @@ struct PagedGridView: View {
    @Binding var showSettings: Bool
    var settings: LaunchpadSettings
 
-   @State private var currentPage = 0
+   @State private var currentPage = 1  // Start at page 1 (first app page, 0 is category page)
    @State private var lastScrollTime = Date.distantPast
    @State private var accumulatedScrollX: CGFloat = 0
    @State private var eventMonitor: Any?
@@ -16,6 +16,11 @@ struct PagedGridView: View {
    @State private var selectedFolder: Folder?
    @State private var sortOrder: SortOrder = SortOrder.defaultLayout
    @State private var selectedCategory: Category?
+   
+   // Total pages including the category page at index 0
+   private var totalPages: Int {
+      return pages.count + 1  // +1 for category page
+   }
 
    var body: some View {
       VStack(spacing: 0) {
@@ -36,6 +41,15 @@ struct PagedGridView: View {
          GeometryReader { geo in
             if searchText.isEmpty {
                HStack(spacing: 0) {
+                  // Category page at index 0
+                  CategoryPageView(
+                     allApps: allApps(),
+                     settings: settings,
+                     onItemTap: handleTap
+                  )
+                  .frame(width: geo.size.width, height: geo.size.height)
+                  
+                  // Regular app pages
                   ForEach(pages.indices, id: \.self) { pageIndex in
                      SinglePageView(
                         pages: $pages,
@@ -62,7 +76,7 @@ struct PagedGridView: View {
          }
          PageIndicatorView(
             currentPage: $currentPage,
-            pageCount: pages.count,
+            pageCount: totalPages,
             isFolderOpen: selectedFolder != nil,
             searchText: searchText,
             settings: settings
@@ -90,7 +104,7 @@ struct PagedGridView: View {
 
       PageDropZonesView(
          currentPage: currentPage,
-         totalPages: pages.count,
+         totalPages: totalPages,
          draggedItem: draggedItem,
          onNavigateLeft: navigateToPreviousPage,
          onNavigateRight: navigateToNextPage,
@@ -183,11 +197,11 @@ struct PagedGridView: View {
       accumulatedScrollX += event.scrollingDeltaX
 
       if accumulatedScrollX <= -settings.scrollActivationThreshold {
-         currentPage = min(currentPage + 1, pages.count - 1)
+         currentPage = min(currentPage + 1, totalPages - 1)
          resetScrollState(at: now)
          return nil
       } else if accumulatedScrollX >= settings.scrollActivationThreshold {
-         currentPage = max(currentPage - 1, 0)
+         currentPage = max(currentPage - 1, 0)  // Allow going back to category page at 0
          resetScrollState(at: now)
          return nil
       }
@@ -255,7 +269,7 @@ struct PagedGridView: View {
    }
 
    private func navigateToPreviousPage() {
-      guard currentPage > 0 else { return }
+      guard currentPage > 0 else { return }  // Allow going to category page
 
       withAnimation(LaunchPadConstants.springAnimation) {
          currentPage = currentPage - 1
@@ -263,7 +277,7 @@ struct PagedGridView: View {
    }
 
    private func navigateToNextPage() {
-      if currentPage < pages.count - 1 {
+      if currentPage < totalPages - 1 {
          withAnimation(LaunchPadConstants.springAnimation) {
             currentPage += 1
          }
@@ -275,7 +289,7 @@ struct PagedGridView: View {
    private func createNewPage() {
       pages.append([])
       withAnimation(LaunchPadConstants.springAnimation) {
-         currentPage = pages.count - 1
+         currentPage = totalPages - 1
       }
    }
 
@@ -352,7 +366,7 @@ struct PagedGridView: View {
 
    private func handleAppActivation() {
       if settings.resetOnRelaunch {
-         currentPage = 0
+         currentPage = 1  // Reset to first app page, not category page
          selectedFolder = nil
          selectedCategory = nil
          searchText = ""

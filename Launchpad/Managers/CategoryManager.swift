@@ -13,10 +13,12 @@ final class CategoryManager: ObservableObject {
       loadCategories()
    }
 
-   func createCategory(name: String) {
+   @discardableResult
+   func createCategory(name: String) -> Category {
       let category = Category(name: name)
       categories.append(category)
       saveCategories()
+      return category
    }
 
    func deleteCategory(category: Category) {
@@ -57,10 +59,35 @@ final class CategoryManager: ObservableObject {
       saveCategories()
       return result
    }
+   
+   func importCategories(from data: [[String: Any]]) {
+      var importedCategories: [Category] = []
+      for itemsData in data {
+         guard let idString = itemsData["id"] as? String,
+               let id = UUID(uuidString: idString),
+               let name = itemsData["name"] as? String,
+               let paths = itemsData["appPaths"] as? [String] else {
+            print("Skipping invalid category entry")
+            continue
+         }
+
+         importedCategories.append(Category(id: id, name: name, appPaths: Set(paths)))
+      }
+      self.categories = importedCategories
+      saveCategories()
+   }
 
    func exportCategories() -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadCategories.json")
       return exportCategoriesToJSON(filePath: filePath)
+   }
+   
+   func exportCategories() -> [[String: Any]] {
+      return categories.map { category in [
+         "id": category.id.uuidString,
+         "name": category.name,
+         "appPaths": Array(category.appPaths)
+      ]}
    }
 
    private func saveCategories() {
@@ -142,10 +169,10 @@ final class CategoryManager: ObservableObject {
       }
    }
 
-      private func clearAllCategories() {
-         print("Clear all categories.")
-         categories = []
-         userDefaults.removeObject(forKey: categoriesKey)
-         userDefaults.synchronize()
-      }
+   func clearAllCategories() {
+      print("Clear all categories.")
+      categories = []
+      userDefaults.removeObject(forKey: categoriesKey)
+      userDefaults.synchronize()
    }
+}
