@@ -10,27 +10,40 @@ struct CategoryPageView: View {
    
    var body: some View {
       GeometryReader { geo in
-         let layout = LayoutMetrics(size: geo.size, columns: 2, rows: 3, iconSize: settings.iconSize)
-         
          ScrollView(.vertical, showsIndicators: false) {
-            LazyVGrid(
-               columns: GridLayoutUtility.createGridColumns(count: 2, cellWidth: layout.cellWidth * 2, spacing: layout.hSpacing * 2),
-               spacing: layout.vSpacing * 2
-            ) {
-               ForEach(categoryManager.categories) { category in
-                  CategoryBoxView(
-                     category: category,
-                     allApps: allApps,
-                     settings: settings,
-                     onItemTap: onItemTap,
-                     onCategoryTap: {
-                        onItemTap(.category(category))
-                     }
-                  )
+            VStack(spacing: 24) {
+               // Title
+               HStack {
+                  Text("App Library")
+                     .font(.system(size: 32, weight: .bold))
+                     .foregroundColor(.primary)
+                     .padding(.leading, 32)
+                  Spacer()
                }
+               .padding(.top, 20)
+               
+               // Categories grid
+               LazyVGrid(
+                  columns: [
+                     GridItem(.flexible(), spacing: 24),
+                     GridItem(.flexible(), spacing: 24)
+                  ],
+                  spacing: 24
+               ) {
+                  ForEach(categoryManager.categories) { category in
+                     CategoryBoxView(
+                        category: category,
+                        allApps: allApps,
+                        settings: settings,
+                        onItemTap: onItemTap,
+                        onCategoryTap: {
+                           onItemTap(.category(category))
+                        }
+                     )
+                  }
+               }
+               .padding(.horizontal, 32)
             }
-            .padding(.horizontal, layout.hPadding)
-            .padding(.vertical, layout.vPadding)
             .frame(minHeight: geo.size.height, alignment: .top)
          }
          .scrollBounceBehavior(.basedOnSize)

@@ -14,46 +14,38 @@ struct CategoryBoxView: View {
    }
    
    private var previewApps: [AppInfo] {
-      Array(categoryApps.prefix(4))
+      Array(categoryApps.prefix(9))
    }
    
    var body: some View {
-      VStack(alignment: .leading, spacing: 8) {
+      VStack(alignment: .leading, spacing: 12) {
          // Category name
          Text(category.name)
-            .font(.system(size: 16, weight: .semibold))
+            .font(.system(size: 18, weight: .bold))
             .foregroundColor(.primary)
-            .padding(.leading, 12)
-            .padding(.top, 12)
+            .padding(.leading, 16)
+            .padding(.top, 16)
          
-         // Apps grid
-         VStack(spacing: 8) {
-            HStack(spacing: 8) {
-               ForEach(previewApps.prefix(2)) { app in
-                  appButton(for: app)
-               }
-               if previewApps.count < 2 {
-                  ForEach(0..<(2 - previewApps.count), id: \.self) { _ in
-                     placeholderBox()
-                  }
-               }
+         // Apps grid - 3x3 layout like iOS App Library
+         LazyVGrid(
+            columns: [
+               GridItem(.flexible(), spacing: 8),
+               GridItem(.flexible(), spacing: 8),
+               GridItem(.flexible(), spacing: 8)
+            ],
+            spacing: 8
+         ) {
+            ForEach(previewApps) { app in
+               appButton(for: app)
             }
             
-            HStack(spacing: 8) {
-               if previewApps.count > 2 {
-                  ForEach(previewApps.dropFirst(2)) { app in
-                     appButton(for: app)
-                  }
-               }
-               if previewApps.count < 4 {
-                  ForEach(0..<(4 - previewApps.count), id: \.self) { _ in
-                     placeholderBox()
-                  }
-               }
+            // Fill remaining spots with placeholders
+            ForEach(0..<max(0, 9 - previewApps.count), id: \.self) { _ in
+               placeholderBox()
             }
          }
-         .padding(.horizontal, 12)
-         .padding(.bottom, 12)
+         .padding(.horizontal, 16)
+         .padding(.bottom, 16)
       }
       .background(
          RoundedRectangle(cornerRadius: 20)
@@ -86,6 +78,7 @@ struct CategoryBoxView: View {
                   )
             )
       )
+      .shadow(color: .black.opacity(0.15 * settings.transparency), radius: 20, x: 0, y: 10)
       .shadow(color: .black.opacity(0.1 * settings.transparency), radius: 10, x: 0, y: 5)
       .contentShape(Rectangle())
       .onTapGesture {
@@ -101,25 +94,27 @@ struct CategoryBoxView: View {
       Button(action: {
          onItemTap(.app(app))
       }) {
-         VStack(spacing: 4) {
+         VStack(spacing: 6) {
             Image(nsImage: app.icon)
                .interpolation(.high)
                .antialiased(true)
                .resizable()
                .aspectRatio(contentMode: .fit)
-               .frame(width: 48, height: 48)
-               .cornerRadius(8)
+               .frame(width: 56, height: 56)
+               .cornerRadius(10)
             
             Text(app.name)
-               .font(.system(size: 10))
-               .lineLimit(1)
+               .font(.system(size: 11))
+               .lineLimit(2)
+               .multilineTextAlignment(.center)
                .foregroundColor(.primary)
+               .frame(height: 28)
          }
          .frame(maxWidth: .infinity)
-         .padding(8)
+         .padding(10)
          .background(
-            RoundedRectangle(cornerRadius: 12)
-               .fill(Color.primary.opacity(0.05 * settings.transparency))
+            RoundedRectangle(cornerRadius: 14)
+               .fill(Color.primary.opacity(0.06 * settings.transparency))
          )
       }
       .buttonStyle(.plain)
