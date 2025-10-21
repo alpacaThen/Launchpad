@@ -53,17 +53,27 @@ final class DatabaseImportManager {
          print("[Importer] Root item found: rowId=\(rootItem.rowId)")
 
          // Find all pages (children of root)
+         guard let rootId = Int(rootItem.rowId) else {
+            print("[Importer] Invalid root item rowId")
+            return []
+         }
+         
          let pages = items
-            .filter { $0.parentId == Int(rootItem.rowId)! }
+            .filter { $0.parentId == rootId }
             .sorted { $0.ordering < $1.ordering }
 
          print("[Importer] Found \(pages.count) pages")
 
          // Process each page
          for (pageIndex, page) in pages.enumerated() {
+            guard let pageId = Int(page.rowId) else {
+               print("[Importer] Invalid page rowId at index \(pageIndex)")
+               continue
+            }
+            
             // Find all items on this page
             let pageItems = items
-               .filter { $0.parentId == Int(page.rowId)! }
+               .filter { $0.parentId == pageId }
                .sorted { $0.ordering < $1.ordering }
 
             print("[Importer] Page \(pageIndex): \(pageItems.count) items")
@@ -73,29 +83,37 @@ final class DatabaseImportManager {
                // If it's an app, add it to results
                if item.type == 4, let app = apps[item.rowId] {
                   print("[Importer] App: \(app.bundleId) -> page=\(pageIndex)")
-                  let baseApp = appsById[app.bundleId]
-                  if baseApp != nil {
-                     results.append(.app(AppInfo(name: baseApp!.name, icon: baseApp!.icon, path: baseApp!.path, bundleId: baseApp!.bundleId, page: pageIndex - 1)))
+                  if let baseApp = appsById[app.bundleId] {
+                     results.append(.app(AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, bundleId: baseApp.bundleId, lastOpenedDate: baseApp.lastOpenedDate, installDate: baseApp.installDate, page: pageIndex - 1)))
                   }
                }
                // If it's a folder (type 3), process apps inside it
                else {
+                  guard let itemId = Int(item.rowId) else {
+                     print("[Importer] Invalid folder item rowId")
+                     continue
+                  }
+                  
                   let folderName = groups[item.rowId]?.title ?? "Unknown"
-                  let folderPages = items.filter { $0.parentId == Int(item.rowId)! }
+                  let folderPages = items.filter { $0.parentId == itemId }
 
                   var folderItems : [AppInfo] = []
 
                   for folderPage in folderPages {
+                     guard let folderPageId = Int(folderPage.rowId) else {
+                        print("[Importer] Invalid folder page rowId")
+                        continue
+                     }
+                     
                      let folderApps = items
-                        .filter { $0.parentId == Int(folderPage.rowId)! }
+                        .filter { $0.parentId == folderPageId }
                         .sorted { $0.ordering < $1.ordering }
 
                      for folderApp in folderApps {
                         if let app = apps[folderApp.rowId] {
                            print("[Importer]   - \(app.bundleId)")
-                           let baseApp = appsById[app.bundleId]
-                           if baseApp != nil {
-                              folderItems.append(AppInfo(name: baseApp!.name, icon: baseApp!.icon, path: baseApp!.path, bundleId: baseApp!.bundleId, page: pageIndex - 1))
+                           if let baseApp = appsById[app.bundleId] {
+                              folderItems.append(AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, bundleId: baseApp.bundleId, lastOpenedDate: baseApp.lastOpenedDate, installDate: baseApp.installDate, page: pageIndex - 1))
                            }
                         }
                      }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CategorySettings: View {
-   @ObservedObject private var categoryManager = CategoryManager.shared
+   private let categoryManager = CategoryManager.shared
    @ObservedObject private var appManager = AppManager.shared
 
    @State private var newCategoryName = ""
@@ -91,7 +91,7 @@ struct CategoryRow: View {
    let category: Category
    let onDelete: () -> Void
 
-   @ObservedObject private var categoryManager = CategoryManager.shared
+   private let categoryManager = CategoryManager.shared
    @State private var isEditing = false
    @State private var editedName: String
 

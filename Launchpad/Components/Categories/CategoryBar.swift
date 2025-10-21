@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CategoryBar: View {
-   @ObservedObject private var categoryManager = CategoryManager.shared
+   private let categoryManager = CategoryManager.shared
    @Binding var selectedCategory: Category?
    let transparency: Double
 
@@ -9,7 +9,7 @@ struct CategoryBar: View {
       ScrollView(.horizontal, showsIndicators: false) {
          HStack(spacing: 12) {
             ForEach(categoryManager.categories) { category in
-               CategoryFilterButton(name: category.name, isSelected: selectedCategory?.id == category.id,transparency: transparency) {
+               CategoryFilterButton(name: category.name, isSelected: selectedCategory?.id == category.id, transparency: transparency) {
                   selectedCategory = category
                }
             }

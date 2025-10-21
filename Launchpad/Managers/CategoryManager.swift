@@ -98,17 +98,23 @@ final class CategoryManager: ObservableObject {
 
       do {
          let jsonData = try Data(contentsOf: filePath)
-         let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
-
-         var categories: [Category] = []
-         for itemsData in itemsArray {
-            let idString = itemsData["id"] as! String
-            let id = UUID(uuidString: idString)!
-            let name = itemsData["name"] as! String
-            let paths = itemsData["appPaths"] as! [String]
-
-            categories.append(Category(id: id, name: name, appPaths: Set(paths)))
+         guard let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]] else {
+            return (false, "Invalid JSON format")
          }
+
+         var importedCategories: [Category] = []
+         for itemsData in itemsArray {
+            guard let idString = itemsData["id"] as? String,
+                  let id = UUID(uuidString: idString),
+                  let name = itemsData["name"] as? String,
+                  let paths = itemsData["appPaths"] as? [String] else {
+               print("Skipping invalid category entry")
+               continue
+            }
+
+            importedCategories.append(Category(id: id, name: name, appPaths: Set(paths)))
+         }
+         self.categories = importedCategories
          saveCategories()
          print("Successfully imported categories from \(filePath.path)")
          return (true, "Successfully imported layout from \n\(filePath.path)")
