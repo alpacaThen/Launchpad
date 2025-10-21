@@ -139,4 +139,15 @@ struct L10n {
    static let noHiddenApps = "no_hidden_apps".localized
    static let hiddenAppsDescription = "hidden_apps_description".localized
    static let unhideAllApps = "unhide_all_apps".localized
+   
+   // MARK: - Background Settings
+   static let background = "background".localized
+   static let backgroundType = "background_type".localized
+   static let backgroundDefault = "background_default".localized
+   static let backgroundWallpaper = "background_wallpaper".localized
+   static let backgroundCustom = "background_custom".localized
+   static let customImagePath = "custom_image_path".localized
+   static let browseImage = "browse_image".localized
+   static let selectImageMessage = "select_image_message".localized
+   static let imageNotFound = "image_not_found".localized
 }

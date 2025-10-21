@@ -128,3 +128,14 @@
 "location_not_directory" = "A megadott útvonal nem mappa.";
 "location_already_added" = "Ez a hely már hozzá lett adva.";
 "select_folder_message" = "Válassz egy mappát az alkalmazások kereséséhez";
+
+// MARK: - Background Settings
+"background" = "Háttér";
+"background_type" = "Háttér Típusa";
+"background_default" = "Alapértelmezett (Elmosás)";
+"background_wallpaper" = "macOS Háttérkép";
+"background_custom" = "Egyéni Kép";
+"custom_image_path" = "Egyéni Kép Útvonala";
+"browse_image" = "Kép böngészése";
+"select_image_message" = "Válassz egy háttérképet";
+"image_not_found" = "A kép nem található a megadott útvonalon.";

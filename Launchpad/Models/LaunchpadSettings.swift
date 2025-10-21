@@ -1,5 +1,11 @@
 import Foundation
 
+enum BackgroundType: String, Codable, CaseIterable, Equatable {
+   case `default` = "default"
+   case wallpaper = "wallpaper"
+   case custom = "custom"
+}
+
 struct LaunchpadSettings: Codable, Equatable {
    var columns: Int
    var rows: Int
@@ -16,6 +22,8 @@ struct LaunchpadSettings: Codable, Equatable {
    var showIconsInSearch: Bool
    var productKey: String
    var customAppLocations: [String]
+   var backgroundType: BackgroundType
+   var customBackgroundPath: String
 
    static let defaultColumns = 7
    static let defaultRows = 5
@@ -32,6 +40,8 @@ struct LaunchpadSettings: Codable, Equatable {
    static let defaultShowIconsInSearch = true
    static let defaultProductKey = ""
    static let defaultCustomAppLocations: [String] = []
+   static let defaultBackgroundType: BackgroundType = .default
+   static let defaultCustomBackgroundPath = ""
 
    init(
       columns: Int = defaultColumns,
@@ -48,7 +58,9 @@ struct LaunchpadSettings: Codable, Equatable {
       resetOnRelaunch: Bool = defaultResetOnRelaunch,
       showIconsInSearch: Bool = defaultShowIconsInSearch,
       productKey: String = defaultProductKey,
-      customAppLocations: [String] = defaultCustomAppLocations
+      customAppLocations: [String] = defaultCustomAppLocations,
+      backgroundType: BackgroundType = defaultBackgroundType,
+      customBackgroundPath: String = defaultCustomBackgroundPath
    ) {
       self.columns = max(4, min(12, columns))
       self.rows = max(3, min(10, rows))
@@ -66,6 +78,8 @@ struct LaunchpadSettings: Codable, Equatable {
       self.productKey = productKey
       self.customAppLocations = customAppLocations
       self.productKey = productKey
+      self.backgroundType = backgroundType
+      self.customBackgroundPath = customBackgroundPath
    }
 
    var appsPerPage: Int {
