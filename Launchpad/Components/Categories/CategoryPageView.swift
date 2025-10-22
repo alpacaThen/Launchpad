@@ -4,24 +4,14 @@ struct CategoryPageView: View {
    let allApps: [AppInfo]
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
-   
+
    @ObservedObject private var categoryManager = CategoryManager.shared
    @Environment(\.colorScheme) private var colorScheme
-   
+
    var body: some View {
       GeometryReader { geo in
          ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 24) {
-               // Title
-               HStack {
-                  Text("App Library")
-                     .font(.system(size: 32, weight: .bold))
-                     .foregroundColor(.primary)
-                     .padding(.leading, 32)
-                  Spacer()
-               }
-               .padding(.top, 20)
-               
                // Categories grid
                LazyVGrid(
                   columns: [
