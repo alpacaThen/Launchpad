@@ -121,6 +121,7 @@
 "locations" = "Helyek";
 "locations_description" = "Adj hozzá egyéni mappákat, ahol a Launchpad alkalmazásokat keres.";
 "custom_locations" = "Egyéni Helyek";
+"custom_app_locations" = "Egyéni Alkalmazás Helyek";
 "no_custom_locations" = "Még nincsenek hozzáadott helyek";
 "add_location" = "Hely Hozzáadása";
 "location_placeholder" = "/útvonal/a/mappához";
