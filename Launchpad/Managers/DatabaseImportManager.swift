@@ -128,7 +128,7 @@ final class DatabaseImportManager {
 
          let data = pipe.fileHandleForReading.readDataToEndOfFile()
          if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
-            let dbPath = "/private\(output)com.apple.dock.launchpad/db2/db"
+            let dbPath = "/private\(output)com.apple.dock.launchpad/db/db"
             print("Old Launchpad database path: " + dbPath)
             return dbPath
          }
