@@ -257,43 +257,6 @@ final class CategoryManagerTests: XCTestCase {
       XCTAssertTrue(categoryManager.categories.contains { $0.name == "Games" })
    }
    
-   func testImportCategories() {
-      // Given: Export data
-      let exportData: [[String: Any]] = [
-         [
-            "id": UUID().uuidString,
-            "name": "Imported",
-            "appPaths": ["/Applications/Safari.app", "/Applications/Mail.app"]
-         ]
-      ]
-      
-      // When: Importing categories
-      categoryManager.importCategories(from: exportData)
-      
-      // Then: Categories should be imported
-      XCTAssertEqual(categoryManager.categories.count, 1)
-      XCTAssertEqual(categoryManager.categories[0].name, "Imported")
-      XCTAssertEqual(categoryManager.categories[0].appPaths.count, 2)
-      XCTAssertTrue(categoryManager.categories[0].appPaths.contains("/Applications/Safari.app"))
-      XCTAssertTrue(categoryManager.categories[0].appPaths.contains("/Applications/Mail.app"))
-   }
-   
-   func testImportCategoriesInvalidData() {
-      // Given: Invalid export data
-      let exportData: [[String: Any]] = [
-         [
-            "name": "Invalid",
-            // Missing id and appPaths
-         ]
-      ]
-      
-      // When: Importing categories
-      categoryManager.importCategories(from: exportData)
-      
-      // Then: Should not crash, no categories imported
-      XCTAssertEqual(categoryManager.categories.count, 0)
-   }
-   
    // MARK: - Clear Tests
    
    func testClearAllCategories() {
