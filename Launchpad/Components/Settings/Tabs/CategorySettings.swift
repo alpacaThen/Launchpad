@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CategorySettings: View {
-   private let categoryManager = CategoryManager.shared
+   @ObservedObject private var categoryManager = CategoryManager.shared
    @ObservedObject private var appManager = AppManager.shared
 
    @State private var newCategoryName = ""
@@ -60,6 +60,9 @@ struct CategorySettings: View {
                         categoryToDelete = category
                         showDeleteAlert = true
                      })
+                  }
+                  .onMove { source, destination in
+                     categoryManager.reorderCategories(from: source, to: destination)
                   }
                }
             }

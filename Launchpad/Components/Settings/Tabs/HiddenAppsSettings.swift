@@ -3,17 +3,20 @@ import SwiftUI
 struct HiddenAppsSettings: View {
    private let appManager = AppManager.shared
    private let settingsManager = SettingsManager.shared
-   
+
    @State private var hiddenApps: [AppInfo] = []
    @State private var showingUnhideAllConfirmation = false
-   
+
    var body: some View {
       VStack(alignment: .leading, spacing: 20) {
+         Text(L10n.hiddenApps)
+            .font(.headline)
+
          Text(L10n.hiddenAppsDescription)
             .font(.subheadline)
             .foregroundColor(.secondary)
             .padding(.horizontal, 8)
-         
+
          if hiddenApps.isEmpty {
             VStack(spacing: 12) {
                Image(systemName: "eye.slash")
@@ -37,7 +40,7 @@ struct HiddenAppsSettings: View {
                .padding(.horizontal, 8)
             }
             .frame(maxHeight: 300)
-            
+
             Button(action: { showingUnhideAllConfirmation = true }) {
                HStack {
                   Image(systemName: "eye")
@@ -66,16 +69,16 @@ struct HiddenAppsSettings: View {
          Text("This will restore all hidden apps to the grid.")
       }
    }
-   
+
    private func refreshHiddenApps() {
       hiddenApps = appManager.getHiddenApps()
    }
-   
+
    private func unhideApp(_ app: AppInfo) {
       appManager.unhideApp(path: app.path, appsPerPage: settingsManager.settings.appsPerPage)
       refreshHiddenApps()
    }
-   
+
    private func unhideAllApps() {
       for app in hiddenApps {
          appManager.unhideApp(path: app.path, appsPerPage: settingsManager.settings.appsPerPage)
@@ -87,20 +90,20 @@ struct HiddenAppsSettings: View {
 struct HiddenAppRow: View {
    let app: AppInfo
    let onUnhide: () -> Void
-   
+
    var body: some View {
       HStack(spacing: 12) {
          Image(nsImage: app.icon)
             .resizable()
             .frame(width: 32, height: 32)
             .cornerRadius(6)
-         
+
          Text(app.name)
             .font(.body)
             .foregroundColor(.primary)
-         
+
          Spacer()
-         
+
          Button(action: onUnhide) {
             Image(systemName: "eye")
                .foregroundColor(.blue)

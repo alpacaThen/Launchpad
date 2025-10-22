@@ -37,7 +37,7 @@ struct CategoryDetailView: View {
                         spacing: layout.vSpacing
                      ) {
                         ForEach(categoryApps) { app in
-                           AppIconView(app: app, layout: layout, isDragged: false)
+                           AppIconView(app: app, layout: layout, isDragged: false, settings: settings)
                               .onTapGesture { onItemTap(.app(app))  }
                         }
                      }

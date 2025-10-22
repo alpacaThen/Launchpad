@@ -30,6 +30,11 @@ final class CategoryManager: ObservableObject {
       saveCategories()
    }
 
+   func reorderCategories(from source: IndexSet, to destination: Int) {
+      categories.move(fromOffsets: source, toOffset: destination)
+      saveCategories()
+   }
+
    func addAppToCategory(appPath: String, categoryId: UUID) {
       guard let index = categories.firstIndex(where: { $0.id == categoryId }) else { return }
       categories[index].appPaths.insert(appPath)
