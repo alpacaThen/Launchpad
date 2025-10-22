@@ -8,24 +8,28 @@ struct CategoryPageView: View {
    @ObservedObject private var categoryManager = CategoryManager.shared
    
    var body: some View {
-      ScrollView(.vertical, showsIndicators: false) {
-         VStack(spacing: 24) {
-            LazyVGrid(
-               columns: GridLayoutUtility.createFlexibleGridColumns(count: 5, spacing: 36),
-               spacing: 36
-            ) {
-               ForEach(categoryManager.categories) { category in
-                  CategoryBoxView(
-                     category: category,
-                     allApps: allApps,
-                     settings: settings,
-                     onItemTap: onItemTap
-                  )
+      if categoryManager.categories.isEmpty {
+         EmptyCategoriesView()
+      } else {
+         ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 24) {
+               LazyVGrid(
+                  columns: GridLayoutUtility.createFlexibleGridColumns(count: 5, spacing: 36),
+                  spacing: 36
+               ) {
+                  ForEach(categoryManager.categories) { category in
+                     CategoryBoxView(
+                        category: category,
+                        allApps: allApps,
+                        settings: settings,
+                        onItemTap: onItemTap
+                     )
+                  }
                }
+               .padding(.horizontal, 72)
             }
-            .padding(.horizontal, 72)
+            .scrollBounceBehavior(.basedOnSize)
          }
-         .scrollBounceBehavior(.basedOnSize)
       }
    }
 }
