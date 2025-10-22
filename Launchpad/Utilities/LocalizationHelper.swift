@@ -89,6 +89,8 @@ struct L10n {
    static let deleteCategoryMessage = "delete_category_message".localized
    static let openAllApps = "open_all_apps".localized
    static let noCategories = "no_categories".localized
+   static let noCategoriesTitle = "no_categories_title".localized
+   static let noCategoriesSubtitle = "no_categories_subtitle".localized
    static let categoriesDescription = "categories_description".localized
    static let createCategory = "create_category".localized
    static let categoryName = "category_name".localized
@@ -143,4 +145,16 @@ struct L10n {
    static let noHiddenApps = "no_hidden_apps".localized
    static let hiddenAppsDescription = "hidden_apps_description".localized
    static let unhideAllApps = "unhide_all_apps".localized
+   
+   // MARK: - Background Settings
+   static let background = "background".localized
+   static let backgroundType = "background_type".localized
+   static let backgroundDefault = "background_default".localized
+   static let backgroundWallpaper = "background_wallpaper".localized
+   static let backgroundCustom = "background_custom".localized
+   static let backgroundBlur = "background_blur".localized
+   static let customImagePath = "custom_image_path".localized
+   static let browseImage = "browse_image".localized
+   static let selectImageMessage = "select_image_message".localized
+   static let imageNotFound = "image_not_found".localized
 }

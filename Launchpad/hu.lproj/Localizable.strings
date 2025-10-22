@@ -86,6 +86,8 @@
 "delete_category_message" = "Biztosan törölni szeretnéd ezt a kategóriát? Az alkalmazások nem kerülnek törlésre.";
 "open_all_apps" = "Összes Alkalmazás Megnyitása (Enter)";
 "no_categories" = "Még nincsenek kategóriák";
+"no_categories_title" = "Nincsenek Kategóriák";
+"no_categories_subtitle" = "Hozz létre kategóriákat a beállításokban az alkalmazások rendezéséhez";
 "categories_description" = "Rendezd az alkalmazásaidat különböző kategóriákba.";
 "create_category" = "Kategória Létrehozása";
 "category_name" = "Kategória Neve";
@@ -132,3 +134,15 @@
 "location_not_directory" = "A megadott útvonal nem mappa.";
 "location_already_added" = "Ez a hely már hozzá lett adva.";
 "select_folder_message" = "Válassz egy mappát az alkalmazások kereséséhez";
+
+// MARK: - Background Settings
+"background" = "Háttér";
+"background_type" = "Háttér Típusa";
+"background_default" = "Elmosódás";
+"background_wallpaper" = "Háttérkép";
+"background_custom" = "Egyéni Kép";
+"background_blur" = "Háttér Elmosódás";
+"custom_image_path" = "Egyéni Kép Útvonala";
+"browse_image" = "Kép böngészése";
+"select_image_message" = "Válassz egy háttérképet";
+"image_not_found" = "A kép nem található a megadott útvonalon.";

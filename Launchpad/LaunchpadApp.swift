@@ -22,10 +22,11 @@ struct LaunchpadApp: App {
             .onTapGesture(perform: AppLauncher.exit)
 
             if showSettings {
-               SettingsView(onDismiss: { showSettings = false }, initialTab: settingsManager.settings.isActivated ? 0 : 6)
+               SettingsView(onDismiss: { showSettings = false }, initialTab: settingsManager.settings.isActivated ? 0 : 7)
             }
          }
-         .background(VisualEffectView(material: .fullScreenUI, blendingMode: .behindWindow))
+         .background(
+            BackgroundView(settings: settingsManager.settings))
          .onAppear(perform: initialize)
       }
    }

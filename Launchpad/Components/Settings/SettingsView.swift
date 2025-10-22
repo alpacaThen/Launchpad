@@ -48,34 +48,40 @@ struct SettingsView: View {
                      action: { selectedTab = 1 }
                   )
                   SidebarTabButton(
-                     icon: "bolt",
-                     label: L10n.actions,
+                     icon: "photo",
+                     label: L10n.background,
                      isSelected: selectedTab == 2,
                      action: { selectedTab = 2 }
                   )
                   SidebarTabButton(
-                     icon: "eye.slash",
-                     label: L10n.hiddenApps,
+                     icon: "bolt",
+                     label: L10n.actions,
                      isSelected: selectedTab == 3,
                      action: { selectedTab = 3 }
                   )
                   SidebarTabButton(
-                     icon: "tag.fill",
-                     label: L10n.categories,
+                     icon: "eye.slash",
+                     label: L10n.hiddenApps,
                      isSelected: selectedTab == 4,
                      action: { selectedTab = 4 }
                   )
                   SidebarTabButton(
-                     icon: "folder",
-                     label: L10n.locations,
+                     icon: "tag.fill",
+                     label: L10n.categories,
                      isSelected: selectedTab == 5,
                      action: { selectedTab = 5 }
                   )
                   SidebarTabButton(
-                     icon: "key.fill",
-                     label: L10n.activation,
+                     icon: "folder",
+                     label: L10n.locations,
                      isSelected: selectedTab == 6,
                      action: { selectedTab = 6 }
+                  )
+                  SidebarTabButton(
+                     icon: "key.fill",
+                     label: L10n.activation,
+                     isSelected: selectedTab == 7,
+                     action: { selectedTab = 7 }
                   )
                   Spacer()
                }
@@ -93,12 +99,14 @@ struct SettingsView: View {
                      } else if selectedTab == 1 {
                         FeaturesSettings(settings: $settings)
                      } else if selectedTab == 2 {
-                        ActionsSettings()
+                        BackgroundSettings(settings: $settings)
                      } else if selectedTab == 3 {
-                        HiddenAppsSettings()
+                        ActionsSettings()
                      } else if selectedTab == 4 {
-                        CategorySettings()
+                        HiddenAppsSettings()
                      } else if selectedTab == 5 {
+                        CategorySettings()
+                     } else if selectedTab == 6 {
                         LocationsSettings(settings: $settings)
                      } else {
                         ActivationSettings(settings: $settings)

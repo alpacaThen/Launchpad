@@ -5,7 +5,6 @@ struct CategoryBoxView: View {
    let allApps: [AppInfo]
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
-   let onCategoryTap: () -> Void
    
    @Environment(\.colorScheme) private var colorScheme
    
@@ -19,24 +18,20 @@ struct CategoryBoxView: View {
    
    var body: some View {
       VStack(alignment: .leading, spacing: 12) {
-         // Category name
+         let layout = LayoutMetrics(size: CGSize(width: 600, height: 600), columns: 3, rows: 3, iconSize: settings.iconSize)
          Text(category.name)
             .font(.system(size: 18, weight: .bold))
             .foregroundColor(.primary)
             .padding(.leading, 16)
             .padding(.top, 16)
          
-         // Apps grid - 3x3 layout like iOS App Library
          LazyVGrid(
-            columns: [
-               GridItem(.flexible(), spacing: 8),
-               GridItem(.flexible(), spacing: 8),
-               GridItem(.flexible(), spacing: 8)
-            ],
+            columns: GridLayoutUtility.createFlexibleGridColumns(count: 3, spacing: 12),
             spacing: 8
          ) {
             ForEach(previewApps) { app in
-               appButton(for: app)
+               AppIconView(app: app, layout: layout, isDragged: false, settings: settings)
+                  .onTapGesture { onItemTap(.app(app))  }
             }
             
             // Fill remaining spots with placeholders
@@ -63,61 +58,13 @@ struct CategoryBoxView: View {
                      )
                   )
             )
-            .overlay(
-               RoundedRectangle(cornerRadius: 20)
-                  .stroke(
-                     LinearGradient(
-                        colors: [
-                           Color.white.opacity((colorScheme == .dark ? 0.3 : 0.5) * settings.transparency),
-                           Color.white.opacity(0.1 * settings.transparency)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                     ),
-                     lineWidth: 1
-                  )
-            )
       )
-      .shadow(color: .black.opacity(0.15 * settings.transparency), radius: 20, x: 0, y: 10)
-      .shadow(color: .black.opacity(0.1 * settings.transparency), radius: 10, x: 0, y: 5)
       .contentShape(Rectangle())
       .onTapGesture {
-         if categoryApps.isEmpty {
-            // Do nothing if category is empty
-         } else {
-            onCategoryTap()
+         if !categoryApps.isEmpty {
+            onItemTap(.category(category))
          }
       }
-   }
-   
-   private func appButton(for app: AppInfo) -> some View {
-      Button(action: {
-         onItemTap(.app(app))
-      }) {
-         VStack(spacing: 6) {
-            Image(nsImage: app.icon)
-               .interpolation(.high)
-               .antialiased(true)
-               .resizable()
-               .aspectRatio(contentMode: .fit)
-               .frame(width: 56, height: 56)
-               .cornerRadius(10)
-            
-            Text(app.name)
-               .font(.system(size: 11))
-               .lineLimit(2)
-               .multilineTextAlignment(.center)
-               .foregroundColor(.primary)
-               .frame(height: 28)
-         }
-         .frame(maxWidth: .infinity)
-         .padding(10)
-         .background(
-            RoundedRectangle(cornerRadius: 14)
-               .fill(Color.primary.opacity(0.06 * settings.transparency))
-         )
-      }
-      .buttonStyle(.plain)
    }
    
    private func placeholderBox() -> some View {
