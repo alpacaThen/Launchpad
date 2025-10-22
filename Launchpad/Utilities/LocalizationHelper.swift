@@ -89,6 +89,8 @@ struct L10n {
    static let deleteCategoryMessage = "delete_category_message".localized
    static let openAllApps = "open_all_apps".localized
    static let noCategories = "no_categories".localized
+   static let noCategoriesTitle = "no_categories_title".localized
+   static let noCategoriesSubtitle = "no_categories_subtitle".localized
    static let categoriesDescription = "categories_description".localized
    static let createCategory = "create_category".localized
    static let categoryName = "category_name".localized

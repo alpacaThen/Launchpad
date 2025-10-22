@@ -86,6 +86,8 @@
 "delete_category_message" = "Biztosan törölni szeretnéd ezt a kategóriát? Az alkalmazások nem kerülnek törlésre.";
 "open_all_apps" = "Összes Alkalmazás Megnyitása (Enter)";
 "no_categories" = "Még nincsenek kategóriák";
+"no_categories_title" = "Nincsenek Kategóriák";
+"no_categories_subtitle" = "Hozz létre kategóriákat a beállításokban az alkalmazások rendezéséhez";
 "categories_description" = "Rendezd az alkalmazásaidat különböző kategóriákba.";
 "create_category" = "Kategória Létrehozása";
 "category_name" = "Kategória Neve";
