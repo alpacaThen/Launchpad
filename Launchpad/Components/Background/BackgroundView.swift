@@ -8,12 +8,13 @@ struct BackgroundView: View {
       Group {
          switch settings.backgroundType {
          case .default:
-            WindowBackground(material: .fullScreenUI, blendingMode: .behindWindow)
+            WindowBackground()
          case .wallpaper:
             WallpaperBackground(blur: settings.backgroundBlur)
          case .custom:
             ImageBackground(path: settings.customBackgroundPath, blur: settings.backgroundBlur)
          }
       }
+      .ignoresSafeArea()
    }
 }

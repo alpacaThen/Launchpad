@@ -4,36 +4,34 @@ import AppKit
 struct ImageBackground: View {
    let path: String
    let blur: Double
-   @State private var customImage: NSImage?
-   
+   @State private var image: NSImage?
+
    var body: some View {
-      Group {
-         if let image = customImage {
-            Image(nsImage: image)
+      ZStack {
+         if image != nil {
+            Image(nsImage: image!)
                .resizable()
                .aspectRatio(contentMode: .fill)
-               .ignoresSafeArea()
                .blur(radius: blur)
+         } else {
+            WindowBackground()
          }
       }
       .onAppear {
-         loadCustomImage()
+         loadImage()
       }
       .onChange(of: path) {
-         loadCustomImage()
+         loadImage()
       }
    }
-   
-   private func loadCustomImage() {
-      guard !path.isEmpty else {
-         customImage = nil
-         return
-      }
-      
+
+   private func loadImage() {
+      guard !path.isEmpty else { return }
+
       if FileManager.default.fileExists(atPath: path) {
-         customImage = NSImage(contentsOfFile: path)
+         image = NSImage(contentsOfFile: path)
       } else {
-         customImage = nil
+         image = nil
       }
    }
 }

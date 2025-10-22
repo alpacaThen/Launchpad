@@ -3,16 +3,17 @@ import AppKit
 
 struct WallpaperBackground: View {
    let blur: Double
-   @State private var wallpaperImage: NSImage?
+   @State private var image: NSImage?
    
    var body: some View {
-      Group {
-         if let image = wallpaperImage {
-            Image(nsImage: image)
+      ZStack {
+         if image != nil {
+            Image(nsImage: image!)
                .resizable()
                .aspectRatio(contentMode: .fill)
-               .ignoresSafeArea()
                .blur(radius: blur)
+         } else {
+            WindowBackground()
          }
       }
       .onAppear {
@@ -23,7 +24,7 @@ struct WallpaperBackground: View {
    private func loadWallpaper() {
       if let screen = NSScreen.main,
          let imageURL = NSWorkspace.shared.desktopImageURL(for: screen) {
-         wallpaperImage = NSImage(contentsOf: imageURL)
+         image = NSImage(contentsOf: imageURL)
       }
    }
 }
