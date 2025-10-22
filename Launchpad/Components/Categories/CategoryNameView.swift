@@ -3,12 +3,12 @@ import SwiftUI
 struct CategoryNameView: View {
    @Binding var category: Category
    @Binding var editingName: Bool
-
+   
    let opacity: Double
    let offset: CGFloat
-
+   
    @FocusState private var nameFieldFocused: Bool
-
+   
    var body: some View {
       VStack(spacing: 16) {
          HStack {
@@ -49,7 +49,7 @@ struct CategoryNameView: View {
             }
             Spacer()
          }
-
+         
          .padding(.horizontal, 32)
       }
       .offset(y: offset)
