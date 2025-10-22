@@ -12,7 +12,6 @@ struct CategoryPageView: View {
       GeometryReader { geo in
          ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 24) {
-               // Categories grid
                LazyVGrid(
                   columns: [
                      GridItem(.flexible(), spacing: 24),
