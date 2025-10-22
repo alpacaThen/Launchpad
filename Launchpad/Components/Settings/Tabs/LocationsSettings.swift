@@ -2,9 +2,12 @@ import SwiftUI
 
 struct LocationsSettings: View {
    @Binding var settings: LaunchpadSettings
+   private let settingsManager = SettingsManager.shared
+   private let appManager = AppManager.shared
    @State private var newLocation: String = ""
    @State private var showingAlert = false
    @State private var alertMessage = ""
+   @State private var customLocations: [String] = []
    
    var body: some View {
       VStack(alignment: .leading, spacing: 20) {
@@ -43,7 +46,7 @@ struct LocationsSettings: View {
                .font(.headline)
                .foregroundColor(.primary)
             
-            if settings.customAppLocations.isEmpty {
+            if customLocations.isEmpty {
                Text(L10n.noCustomLocations)
                   .font(.subheadline)
                   .foregroundColor(.secondary)
@@ -52,7 +55,7 @@ struct LocationsSettings: View {
             } else {
                ScrollView {
                   VStack(spacing: 8) {
-                     ForEach(Array(settings.customAppLocations.enumerated()), id: \.offset) { index, location in
+                     ForEach(Array(customLocations.enumerated()), id: \.offset) { index, location in
                         HStack {
                            Image(systemName: "folder.fill")
                               .foregroundColor(.blue)
@@ -82,11 +85,18 @@ struct LocationsSettings: View {
          }
       }
       .padding(.horizontal, 8)
+      .onAppear {
+         refreshLocations()
+      }
       .alert(L10n.invalidLocation, isPresented: $showingAlert) {
          Button(L10n.ok, role: .cancel) { }
       } message: {
          Text(alertMessage)
       }
+   }
+   
+   private func refreshLocations() {
+      customLocations = settingsManager.settings.customAppLocations
    }
    
    private func addLocation() {
@@ -108,18 +118,39 @@ struct LocationsSettings: View {
          return
       }
       
-      if settings.customAppLocations.contains(trimmedLocation) {
+      if customLocations.contains(trimmedLocation) {
          alertMessage = L10n.locationAlreadyAdded
          showingAlert = true
          return
       }
       
+      // Save directly to settings manager
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations.append(trimmedLocation)
+      settingsManager.saveSettings(newSettings: updatedSettings)
+      
+      // Update local state and binding
+      customLocations.append(trimmedLocation)
       settings.customAppLocations.append(trimmedLocation)
+      
+      // Reload apps to include new location
+      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+      
       newLocation = ""
    }
    
    private func removeLocation(at index: Int) {
+      // Save directly to settings manager
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations.remove(at: index)
+      settingsManager.saveSettings(newSettings: updatedSettings)
+      
+      // Update local state and binding
+      customLocations.remove(at: index)
       settings.customAppLocations.remove(at: index)
+      
+      // Reload apps to reflect removed location
+      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
    }
    
    private func selectFolder() {
