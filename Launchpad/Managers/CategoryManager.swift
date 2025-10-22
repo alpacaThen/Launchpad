@@ -13,12 +13,10 @@ final class CategoryManager: ObservableObject {
       loadCategories()
    }
 
-   @discardableResult
-   func createCategory(name: String) -> Category {
+   func createCategory(name: String) {
       let category = Category(name: name)
       categories.append(category)
       saveCategories()
-      return category
    }
 
    func deleteCategory(category: Category) {
@@ -59,7 +57,7 @@ final class CategoryManager: ObservableObject {
       saveCategories()
       return result
    }
-   
+
    func importCategories(from data: [[String: Any]]) {
       var importedCategories: [Category] = []
       for itemsData in data {
@@ -80,14 +78,6 @@ final class CategoryManager: ObservableObject {
    func exportCategories() -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadCategories.json")
       return exportCategoriesToJSON(filePath: filePath)
-   }
-   
-   func exportCategories() -> [[String: Any]] {
-      return categories.map { category in [
-         "id": category.id.uuidString,
-         "name": category.name,
-         "appPaths": Array(category.appPaths)
-      ]}
    }
 
    private func saveCategories() {
