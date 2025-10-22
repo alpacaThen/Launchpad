@@ -7,7 +7,7 @@ struct PageDropZonesView: View {
    let onNavigateLeft: () -> Void
    let onNavigateRight: () -> Void
    let transparency: Double
-
+   
    var body: some View {
       HStack {
          DropZoneView(
@@ -19,10 +19,10 @@ struct PageDropZonesView: View {
             transparency: transparency
          )
          .allowsHitTesting(true) // Keep hit testing for left drop zone
-
+         
          Spacer()
             .allowsHitTesting(false) // Allow drops to pass through to content below
-
+         
          DropZoneView(
             direction: .right,
             currentPage: currentPage,
