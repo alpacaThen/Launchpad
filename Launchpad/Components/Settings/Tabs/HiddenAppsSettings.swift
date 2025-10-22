@@ -9,64 +9,66 @@ struct HiddenAppsSettings: View {
 
    var body: some View {
       VStack(alignment: .leading, spacing: 20) {
-         Text(L10n.hiddenApps)
-            .font(.headline)
+         VStack(alignment: .leading, spacing: 12) {
+            Text(L10n.hiddenApps)
+               .font(.headline)
+               .foregroundColor(.primary)
 
-         Text(L10n.hiddenAppsDescription)
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-            .padding(.horizontal, 8)
+            Text(L10n.hiddenAppsDescription)
+               .font(.subheadline)
+               .foregroundColor(.secondary)
 
-         if hiddenApps.isEmpty {
-            VStack(spacing: 12) {
-               Image(systemName: "eye.slash")
-                  .font(.system(size: 48))
-                  .foregroundColor(.secondary.opacity(0.5))
-               Text(L10n.noHiddenApps)
-                  .font(.headline)
-                  .foregroundColor(.secondary)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 40)
-         } else {
-            ScrollView {
-               VStack(spacing: 8) {
-                  ForEach(hiddenApps) { app in
-                     HiddenAppRow(app: app, onUnhide: {
-                        unhideApp(app)
-                     })
+            if hiddenApps.isEmpty {
+               VStack(spacing: 12) {
+                  Image(systemName: "eye.slash")
+                     .font(.system(size: 48))
+                     .foregroundColor(.secondary.opacity(0.5))
+                  Text(L10n.noHiddenApps)
+                     .font(.headline)
+                     .foregroundColor(.secondary)
+               }
+               .frame(maxWidth: .infinity)
+               .padding(.vertical, 40)
+            } else {
+               ScrollView {
+                  VStack(spacing: 8) {
+                     ForEach(hiddenApps) { app in
+                        HiddenAppRow(app: app, onUnhide: {
+                           unhideApp(app)
+                        })
+                     }
                   }
                }
-               .padding(.horizontal, 8)
-            }
-            .frame(maxHeight: 300)
+               .frame(maxHeight: 300)
 
-            Button(action: { showingUnhideAllConfirmation = true }) {
-               HStack {
-                  Image(systemName: "eye")
-                  Text(L10n.unhideAllApps)
-                  Spacer()
+               Button(action: { showingUnhideAllConfirmation = true }) {
+                  HStack {
+                     Image(systemName: "eye")
+                     Text(L10n.unhideAllApps)
+                     Spacer()
+                  }
+                  .padding(.horizontal, 16)
+                  .padding(.vertical, 10)
+                  .background(Color.green.opacity(0.1))
+                  .foregroundColor(.green)
+                  .cornerRadius(8)
                }
-               .padding(.horizontal, 16)
-               .padding(.vertical, 10)
-               .background(Color.green.opacity(0.1))
-               .foregroundColor(.green)
-               .cornerRadius(8)
+               .buttonStyle(.plain)
+
             }
-            .buttonStyle(.plain)
-            .padding(.horizontal, 8)
          }
-      }
-      .onAppear {
-         refreshHiddenApps()
-      }
-      .alert(L10n.unhideAllApps, isPresented: $showingUnhideAllConfirmation) {
-         Button(L10n.cancel, role: .cancel) { }
-         Button(L10n.unhideAllApps, role: .destructive) {
-            unhideAllApps()
+         .onAppear {
+            refreshHiddenApps()
          }
-      } message: {
-         Text("This will restore all hidden apps to the grid.")
+         .alert(L10n.unhideAllApps, isPresented: $showingUnhideAllConfirmation) {
+            Button(L10n.cancel, role: .cancel) { }
+            Button(L10n.unhideAllApps, role: .destructive) {
+               unhideAllApps()
+            }
+         } message: {
+            Text("This will restore all hidden apps to the grid.")
+         }
+         .padding(.horizontal, 8)
       }
    }
 
