@@ -13,6 +13,7 @@ class LaunchPadConstants {
    static let iconDisplaySize: CGFloat = 256
    static let folderCornerRadiusMultiplier: CGFloat = 0.2
    static let folderSizeMultiplier: CGFloat = 0.82
+   static let categoryBoxSize: Int = 440
 
    // MARK: - Timing Constants
    static let hoverDelay: TimeInterval = 0.8

@@ -11,13 +11,12 @@ struct CategoryPageView: View {
       if categoryManager.categories.isEmpty {
          EmptyCategoriesView()
       } else {
-         GeometryReader { pageGeo in
-            let layout = LayoutMetrics(size: pageGeo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
-
+         GeometryReader { geo in
+            let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
             ScrollView(.vertical, showsIndicators: false) {
                VStack(spacing: 24) {
                   LazyVGrid(
-                     columns: GridLayoutUtility.createFlexibleGridColumns(count: 5, spacing: 36),
+                     columns: GridLayoutUtility.createFlexibleGridColumns(count: Int(geo.size.width) / LaunchPadConstants.categoryBoxSize, spacing: 36),
                      spacing: 36
                   ) {
                      ForEach(categoryManager.categories) { category in
@@ -34,6 +33,7 @@ struct CategoryPageView: View {
                   .padding(.vertical, layout.vPadding)
                }
                .scrollBounceBehavior(.basedOnSize)
+               .padding(.horizontal, 72)
             }
          }
       }

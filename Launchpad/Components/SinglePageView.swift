@@ -9,8 +9,8 @@ struct SinglePageView: View {
    let onItemTap: (AppGridItem) -> Void
 
    var body: some View {
-      GeometryReader { pageGeo in
-         let layout = LayoutMetrics(size: pageGeo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
+      GeometryReader { geo in
+         let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
 
          ScrollView(.horizontal, showsIndicators: false) {
             LazyVGrid(
@@ -39,7 +39,7 @@ struct SinglePageView: View {
             }
             .padding(.horizontal, layout.hPadding)
             .padding(.vertical, layout.vPadding)
-            .frame(minHeight: pageGeo.size.height - layout.vPadding, alignment: .top)
+            .frame(minHeight: geo.size.height - layout.vPadding, alignment: .top)
          }
          .onDrop(of: [.text], delegate: PageDropDelegate(
             pages: $pages,

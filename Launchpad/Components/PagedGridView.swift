@@ -179,7 +179,7 @@ struct PagedGridView: View {
    }
 
    private func handleScrollEvent(event: NSEvent) -> NSEvent? {
-      guard searchText.isEmpty && selectedFolder == nil else { return event }
+      guard searchText.isEmpty && selectedFolder == nil && selectedCategory == nil else { return event }
 
       let absX = abs(event.scrollingDeltaX)
       let absY = abs(event.scrollingDeltaY)
