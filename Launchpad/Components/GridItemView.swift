@@ -10,7 +10,7 @@ struct GridItemView: View {
       Group {
          switch item {
          case .app(let app):
-            AppIconView(app: app, layout: layout, isDragged: isDragged, settings: settings)
+            AppIconView(app: app, layout: layout, isDragged: isDragged)
          case .folder(let folder):
             FolderIconView(folder: folder, layout: layout, isDragged: isDragged, transparency: settings.transparency)
          case .category:

@@ -5,8 +5,7 @@ struct AppIconView: View {
    let app: AppInfo
    let layout: LayoutMetrics
    let isDragged: Bool
-   let settings: LaunchpadSettings
-   
+
    var body: some View {
       VStack(spacing: 8) {
          Image(nsImage: app.icon)
@@ -23,15 +22,14 @@ struct AppIconView: View {
             .frame(width: layout.cellWidth)
       }
       .scaleEffect(isDragged ? LaunchPadConstants.draggedItemScale : 1.0)
-      .opacity(isDragged ? LaunchPadConstants.draggedItemOpacity : 1.0)
       .animation(LaunchPadConstants.quickFadeAnimation, value: isDragged)
       .contextMenu {
          CategoryContextMenu(app: app)
-         
+
          Divider()
-         
+
          Button(action: {
-            AppManager.shared.hideApp(path: app.path, appsPerPage: settings.appsPerPage)
+            AppManager.shared.hideApp(path: app.path)
          }) {
             Label(L10n.hideApp, systemImage: "eye.slash")
          }

@@ -30,11 +30,6 @@ class LaunchPadConstants {
    static let dropZoneWidth: CGFloat = 60
 
    // MARK: - Drag & Drop Constants
-   static let draggedItemScale: CGFloat = 0.8
-   static let draggedItemOpacity: Double = 0.5
+   static let draggedItemScale: CGFloat = 0.9
    static let folderOpenOpacity: Double = 0.2
-   static let draggedAppScale: CGFloat = 0.95
-   static let draggedAppOpacity: Double = 0.7
 }
-
-

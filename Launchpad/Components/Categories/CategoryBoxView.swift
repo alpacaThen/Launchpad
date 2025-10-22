@@ -4,6 +4,7 @@ struct CategoryBoxView: View {
    let category: Category
    let allApps: [AppInfo]
    let settings: LaunchpadSettings
+   let layout: LayoutMetrics
    let onItemTap: (AppGridItem) -> Void
    
    @Environment(\.colorScheme) private var colorScheme
@@ -30,7 +31,7 @@ struct CategoryBoxView: View {
             spacing: 8
          ) {
             ForEach(previewApps) { app in
-               AppIconView(app: app, layout: layout, isDragged: false, settings: settings)
+               AppIconView(app: app, layout: layout, isDragged: false)
                   .onTapGesture { onItemTap(.app(app))  }
             }
             

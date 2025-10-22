@@ -3,6 +3,11 @@ import Foundation
 
 @MainActor
 final class AppManager: ObservableObject {
+   private let importManager = DatabaseImportManager.shared
+   private let settingsManager = SettingsManager.shared
+   private let iconManager = IconCacheManager.shared
+   private let fileManager = FileManager.default
+
    private let userDefaults = UserDefaults.standard
    private let gridItemsKey = "LaunchpadGridItems"
    private let hiddenAppsKey = "LaunchpadHiddenApps"
@@ -37,14 +42,14 @@ final class AppManager: ObservableObject {
    }
 
    func importLayout(appsPerPage: Int) -> (success: Bool, message: String) {
-      let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
+      let filePath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
       let result = importLayoutFromJSON(filePath: filePath, appsPerPage: appsPerPage)
       saveGridItems()
       return result
    }
 
    func exportLayout() -> (success: Bool, message: String) {
-      let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
+      let filePath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
       return exportLayoutToJSON(filePath: filePath)
    }
 
@@ -58,12 +63,12 @@ final class AppManager: ObservableObject {
       print("Import from old Launchpad database.")
       let apps = discoverApps()
 
-      guard DatabaseImportManager.shared.oldLaunchpadDatabaseExists() else {
+      guard importManager.oldLaunchpadDatabaseExists() else {
          print("Old Launchpad database not found")
          return false
       }
 
-      var gridItems = DatabaseImportManager.shared.readOldLaunchpadLayout(currentApps: apps)
+      var gridItems = importManager.readOldLaunchpadLayout(currentApps: apps)
 
       addRemainingApps(items: &gridItems, apps: apps)
 
@@ -137,23 +142,23 @@ final class AppManager: ObservableObject {
    private func discoverApps() -> [AppInfo] {
       print("Discover apps.")
       let defaultPaths = ["/Applications", "/System/Applications"]
-      let customPaths = SettingsManager.shared.settings.customAppLocations
+      let customPaths = settingsManager.settings.customAppLocations
       let allPaths = defaultPaths + customPaths
       return allPaths.flatMap { discoverAppsRecursively(directory: $0) }.sorted { $0.name.lowercased() < $1.name.lowercased() }
    }
 
    private func discoverAppsRecursively(directory: String, maxDepth: Int = 3, currentDepth: Int = 0) -> [AppInfo] {
-      guard currentDepth < maxDepth, let contents = try? FileManager.default.contentsOfDirectory(atPath: directory)
+      guard currentDepth < maxDepth, let contents = try? fileManager.contentsOfDirectory(atPath: directory)
       else { return [] }
       var foundApps: [AppInfo] = []
       for item in contents {
          let path = "\(directory)/\(item)"
          if item.hasSuffix(".app") {
             let name = getLocalizedAppName(for: URL(fileURLWithPath: path), fallbackName: item.replacingOccurrences(of: ".app", with: ""))
-            let icon = IconCache.shared.icon(forPath: path)
+            let icon = iconManager.icon(forPath: path)
             let bundleId = Bundle(path: path)?.bundleIdentifier ?? "unknown.bundle.\(name)"
 
-            let installDate = try? FileManager.default.attributesOfItem(atPath: path)[.creationDate] as? Date
+            let installDate = try? fileManager.attributesOfItem(atPath: path)[.creationDate] as? Date
             let lastOpenedDate = try? URL(fileURLWithPath: path).resourceValues(forKeys: [.contentAccessDateKey]).contentAccessDate
 
             foundApps.append(AppInfo(name: name, icon: icon, path: path, bundleId: bundleId, lastOpenedDate: lastOpenedDate, installDate: installDate))
@@ -167,7 +172,7 @@ final class AppManager: ObservableObject {
    private func shouldSearchDirectory(item: String, at path: String) -> Bool {
       let skipDirectories = [".Trash", ".DS_Store", ".localized"]
       var isDirectory: ObjCBool = false
-      return FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+      return fileManager.fileExists(atPath: path, isDirectory: &isDirectory)
       && isDirectory.boolValue && !skipDirectories.contains(item) && !item.hasPrefix(".")
    }
 
@@ -268,7 +273,7 @@ final class AppManager: ObservableObject {
    }
 
    private func importLayoutFromJSON(filePath: URL, appsPerPage: Int) -> (success: Bool, message: String) {
-      guard FileManager.default.fileExists(atPath: filePath.path) else {
+      guard fileManager.fileExists(atPath: filePath.path) else {
          print("Layout file not found at \(filePath.path)")
          return (false, "Layout file not found at \n\(filePath.path)")
       }
@@ -322,10 +327,10 @@ final class AppManager: ObservableObject {
       userDefaults.set(Array(hiddenAppPaths), forKey: hiddenAppsKey)
    }
 
-   func hideApp(path: String, appsPerPage: Int) {
+   func hideApp(path: String) {
       print("Hide app: \(path)")
       hiddenAppPaths.insert(path)
-      loadGridItems(appsPerPage: appsPerPage)
+      loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
    }
    
    func unhideApp(path: String, appsPerPage: Int) {

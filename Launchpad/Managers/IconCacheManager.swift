@@ -2,8 +2,8 @@ import AppKit
 import Foundation
 
 @MainActor
-final class IconCache {
-   static let shared = IconCache()
+final class IconCacheManager {
+   static let shared = IconCacheManager()
 
    private var cache: [String: NSImage] = [:]
    private let maxCacheSize = 5000 // Maximum number of cached icons
