@@ -23,6 +23,8 @@
 "drop_animation_delay" = "Drop Animation Delay";
 "page_scroll_debounce" = "Page Scroll Debounce";
 "page_scroll_threshold" = "Page Scroll Threshold";
+"display_options" = "Display Options";
+"animation_settings" = "Animation Settings";
 "show_dock" = "Show Dock";
 "start_at_login" = "Start at Login";
 "reset_on_relaunch" = "Reset search on Relaunch";
@@ -109,6 +111,7 @@
 "activate" = "Activate";
 "activated" = "Activated";
 "not_activated" = "Not Activated";
+"activation_status" = "Activation Status";
 "invalid_product_key" = "Invalid Product Key";
 "activation_successful" = "Activation Successful";
 "purchase_prompt" = "Don't have a license yet? Purchase one to unlock all features.";
@@ -118,6 +121,7 @@
 "locations" = "Locations (BETA)";
 "locations_description" = "Add custom folder locations where Launchpad will search for applications. By default, Launchpad searches in /Applications and /System/Applications.";
 "custom_locations" = "Custom Locations";
+"custom_app_locations" = "Custom App Locations";
 "no_custom_locations" = "No custom locations added yet";
 "add_location" = "Add Location";
 "location_placeholder" = "/path/to/folder";

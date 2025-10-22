@@ -30,6 +30,11 @@ final class CategoryManager: ObservableObject {
       saveCategories()
    }
 
+   func reorderCategories(from source: IndexSet, to destination: Int) {
+      categories.move(fromOffsets: source, toOffset: destination)
+      saveCategories()
+   }
+
    func addAppToCategory(appPath: String, categoryId: UUID) {
       guard let index = categories.firstIndex(where: { $0.id == categoryId }) else { return }
       categories[index].appPaths.insert(appPath)
@@ -56,6 +61,23 @@ final class CategoryManager: ObservableObject {
       let result = importCategoriesFromJSON(filePath: filePath)
       saveCategories()
       return result
+   }
+
+   func importCategories(from data: [[String: Any]]) {
+      var importedCategories: [Category] = []
+      for itemsData in data {
+         guard let idString = itemsData["id"] as? String,
+               let id = UUID(uuidString: idString),
+               let name = itemsData["name"] as? String,
+               let paths = itemsData["appPaths"] as? [String] else {
+            print("Skipping invalid category entry")
+            continue
+         }
+
+         importedCategories.append(Category(id: id, name: name, appPaths: Set(paths)))
+      }
+      self.categories = importedCategories
+      saveCategories()
    }
 
    func exportCategories() -> (success: Bool, message: String) {
@@ -142,10 +164,10 @@ final class CategoryManager: ObservableObject {
       }
    }
 
-      private func clearAllCategories() {
-         print("Clear all categories.")
-         categories = []
-         userDefaults.removeObject(forKey: categoriesKey)
-         userDefaults.synchronize()
-      }
+   func clearAllCategories() {
+      print("Clear all categories.")
+      categories = []
+      userDefaults.removeObject(forKey: categoriesKey)
+      userDefaults.synchronize()
    }
+}

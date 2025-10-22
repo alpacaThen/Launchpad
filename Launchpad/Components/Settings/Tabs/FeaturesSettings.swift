@@ -4,7 +4,7 @@ struct FeaturesSettings: View {
    @Binding var settings: LaunchpadSettings
    
    var body: some View {
-      VStack(alignment: .center, spacing: 20) {
+      VStack(alignment: .leading, spacing: 20) {
          VStack(alignment: .leading, spacing: 12) {
             
             SettingsToggle(

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CategoryBar: View {
-   private let categoryManager = CategoryManager.shared
+   @ObservedObject private var categoryManager = CategoryManager.shared
    @Binding var selectedCategory: Category?
    let transparency: Double
 

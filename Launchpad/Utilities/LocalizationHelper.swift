@@ -34,6 +34,8 @@ struct L10n {
    static let dropAnimationDelay = "drop_animation_delay".localized
    static let pageScrollDebounce = "page_scroll_debounce".localized
    static let pageScrollThreshold = "page_scroll_threshold".localized
+   static let displayOptions = "display_options".localized
+   static let animationSettings = "animation_settings".localized
    static let showDock = "show_dock".localized
    static let startAtLogin = "start_at_login".localized
    static let resetOnRelaunch = "reset_on_relaunch".localized
@@ -112,6 +114,7 @@ struct L10n {
    static let activate = "activate".localized
    static let activated = "activated".localized
    static let notActivated = "not_activated".localized
+   static let activationStatus = "activation_status".localized
    static let invalidProductKey = "invalid_product_key".localized
    static let activationSuccessful = "activation_successful".localized
    static let purchasePrompt = "purchase_prompt".localized
@@ -121,6 +124,7 @@ struct L10n {
    static let locations = "locations".localized
    static let locationsDescription = "locations_description".localized
    static let customLocations = "custom_locations".localized
+   static let customAppLocations = "custom_app_locations".localized
    static let noCustomLocations = "no_custom_locations".localized
    static let addLocation = "add_location".localized
    static let locationPlaceholder = "location_placeholder".localized
