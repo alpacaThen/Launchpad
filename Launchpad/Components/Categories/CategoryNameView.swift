@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct FolderNameView: View {
-   @Binding var folder: Folder
+struct CategoryNameView: View {
+   @Binding var category: Category
    @Binding var editingName: Bool
 
    let opacity: Double
@@ -14,7 +14,7 @@ struct FolderNameView: View {
          HStack {
             Spacer()
             if editingName {
-               TextField("", text: $folder.name)
+               TextField("", text: $category.name)
                   .textFieldStyle(.plain)
                   .font(.title2.weight(.medium))
                   .multilineTextAlignment(.center)
@@ -35,9 +35,10 @@ struct FolderNameView: View {
                   .onSubmit {
                      withAnimation(.easeOut(duration: 0.2)) { editingName = false }
                      nameFieldFocused = false
+                     CategoryManager.shared.renameCategory(category: category, newName: category.name)
                   }
             } else {
-               Text(folder.name.isEmpty ? L10n.untitledFolder : folder.name )
+               Text(category.name.isEmpty ? L10n.untitledCategory : category.name)
                   .font(.title2.weight(.medium))
                   .foregroundStyle(.primary)
                   .padding(.horizontal, 16)
@@ -48,6 +49,7 @@ struct FolderNameView: View {
             }
             Spacer()
          }
+
          .padding(.horizontal, 32)
       }
       .offset(y: offset)

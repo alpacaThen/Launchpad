@@ -1,5 +1,4 @@
 import AppKit
-import SwiftUI
 
 struct AppInfo: Identifiable, Equatable, Hashable {
    let id: UUID
@@ -11,7 +10,7 @@ struct AppInfo: Identifiable, Equatable, Hashable {
    let installDate: Date?
    var page: Int
 
-   init(name: String, icon: NSImage, path: String, bundleId: String, lastOpenedDate: Date? = nil, installDate: Date? = nil, page: Int = 0) {
+   init(name: String, icon: NSImage, path: String, bundleId: String, lastOpenedDate: Date?, installDate: Date?, page: Int = 0) {
       self.id = UUID()
       self.name = name
       self.icon = icon

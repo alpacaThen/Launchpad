@@ -33,14 +33,18 @@ struct ItemDropDelegate: DropDelegate {
       if draggedItem.page == targetItem.page {
          DropHelper.performDelayedMove(delay: dropDelay) {
             if self.draggedItem != nil {
-               let fromIndex = pages[draggedItem.page].firstIndex(where: { $0.id == draggedItem.id })!
-               let toIndex = pages[targetItem.page].firstIndex(where: { $0.id == targetItem.id })!
+               guard let fromIndex = pages[draggedItem.page].firstIndex(where: { $0.id == draggedItem.id }),
+                     let toIndex = pages[targetItem.page].firstIndex(where: { $0.id == targetItem.id }) else {
+                  return
+               }
                pages[draggedItem.page].move(fromOffsets: IndexSet([fromIndex]), toOffset: DropHelper.calculateMoveOffset(fromIndex: fromIndex, toIndex: toIndex))
             }
          }
       } else {
-         let fromIndex = pages[draggedItem.page].firstIndex(where: { $0.id == draggedItem.id })!
-         let toIndex = pages[targetItem.page].firstIndex(where: { $0.id == targetItem.id })!
+         guard let fromIndex = pages[draggedItem.page].firstIndex(where: { $0.id == draggedItem.id }),
+               let toIndex = pages[targetItem.page].firstIndex(where: { $0.id == targetItem.id }) else {
+            return
+         }
          let item = pages[draggedItem.page][fromIndex]
 
          let updatedItem = item.withUpdatedPage(targetPage)

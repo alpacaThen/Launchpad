@@ -34,6 +34,8 @@ struct L10n {
    static let dropAnimationDelay = "drop_animation_delay".localized
    static let pageScrollDebounce = "page_scroll_debounce".localized
    static let pageScrollThreshold = "page_scroll_threshold".localized
+   static let displayOptions = "display_options".localized
+   static let animationSettings = "animation_settings".localized
    static let showDock = "show_dock".localized
    static let startAtLogin = "start_at_login".localized
    static let resetOnRelaunch = "reset_on_relaunch".localized
@@ -58,6 +60,8 @@ struct L10n {
    static let importSuccessMessage = "import_success_message".localized
    static let importFailed = "import_failed".localized
    static let importFailedMessage = "import_failed_message".localized
+   static let exportSuccess = "export_success".localized
+   static let exportFailed = "export_failed".localized
    
    // MARK: - Search
    static let searchPlaceholder = "search_placeholder".localized
@@ -72,6 +76,26 @@ struct L10n {
    // MARK: - Folder Management
    static let untitledFolder = "untitled_folder".localized
    static let newFolder = "new_folder".localized
+   
+   // MARK: - Category Management
+   static let categories = "categories".localized
+   static let untitledCategory = "untitled_category".localized
+   static let newCategory = "new_category".localized
+   static let addToCategory = "add_to_category".localized
+   static let removeFromCategory = "remove_from_category".localized
+   static let manageCategories = "manage_categories".localized
+   static let deleteCategory = "delete_category".localized
+   static let deleteCategoryTitle = "delete_category_title".localized
+   static let deleteCategoryMessage = "delete_category_message".localized
+   static let openAllApps = "open_all_apps".localized
+   static let noCategories = "no_categories".localized
+   static let categoriesDescription = "categories_description".localized
+   static let createCategory = "create_category".localized
+   static let categoryName = "category_name".localized
+   static let renameCategory = "rename_category".localized
+   static let filterByCategory = "filter_by_category".localized
+   static let allApps = "all_apps".localized
+   static let clearCategories = "clear_categories".localized
    
    // MARK: - Numbers
    static let number10 = "number_10".localized
@@ -90,6 +114,7 @@ struct L10n {
    static let activate = "activate".localized
    static let activated = "activated".localized
    static let notActivated = "not_activated".localized
+   static let activationStatus = "activation_status".localized
    static let invalidProductKey = "invalid_product_key".localized
    static let activationSuccessful = "activation_successful".localized
    static let purchasePrompt = "purchase_prompt".localized
@@ -99,6 +124,7 @@ struct L10n {
    static let locations = "locations".localized
    static let locationsDescription = "locations_description".localized
    static let customLocations = "custom_locations".localized
+   static let customAppLocations = "custom_app_locations".localized
    static let noCustomLocations = "no_custom_locations".localized
    static let addLocation = "add_location".localized
    static let locationPlaceholder = "location_placeholder".localized

@@ -19,8 +19,10 @@ struct FolderDropDelegate: DropDelegate {
 
       DropHelper.performDelayedMove(delay: dropDelay) {
          if self.draggedApp != nil {
-            let fromIndex = folder.apps.firstIndex(where: { $0.id == draggedApp.id })!
-            let toIndex = folder.apps.firstIndex(where: { $0.id == targetApp.id })!
+            guard let fromIndex = folder.apps.firstIndex(where: { $0.id == draggedApp.id }),
+                  let toIndex = folder.apps.firstIndex(where: { $0.id == targetApp.id }) else {
+               return
+            }
             folder.apps.move(fromOffsets: IndexSet([fromIndex]), toOffset: DropHelper.calculateMoveOffset(fromIndex: fromIndex, toIndex: toIndex))
          }
       }

@@ -2,18 +2,24 @@ import SwiftUI
 
 struct LocationsSettings: View {
    @Binding var settings: LaunchpadSettings
+   private let settingsManager = SettingsManager.shared
+   private let appManager = AppManager.shared
    @State private var newLocation: String = ""
    @State private var showingAlert = false
    @State private var alertMessage = ""
+   @State private var customLocations: [String] = []
    
    var body: some View {
       VStack(alignment: .leading, spacing: 20) {
-         Text(L10n.locationsDescription)
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
-         
-         VStack(alignment: .leading, spacing: 8) {
+         VStack(alignment: .leading, spacing: 12) {
+            Text(L10n.customAppLocations)
+               .font(.headline)
+               .foregroundColor(.primary)
+            
+            Text(L10n.locationsDescription)
+               .font(.subheadline)
+               .foregroundColor(.secondary)
+            
             Text(L10n.addLocation)
                .font(.headline)
                .foregroundColor(.primary)
@@ -21,20 +27,17 @@ struct LocationsSettings: View {
             HStack(spacing: 8) {
                TextField(L10n.locationPlaceholder, text: $newLocation)
                   .textFieldStyle(.roundedBorder)
-                  .font(.system(.body, design: .monospaced))
                
                Button(action: selectFolder) {
                   Image(systemName: "folder")
                }
                .buttonStyle(.bordered)
-               .help(L10n.browseFolder)
                
                Button(action: addLocation) {
                   Image(systemName: "plus.circle.fill")
                }
                .buttonStyle(.borderedProminent)
-               .disabled(newLocation.trimmingCharacters(in: .whitespaces).isEmpty)
-               .help(L10n.addLocationHelp)
+               .disabled(newLocation.isEmpty)
             }
          }
          
@@ -43,7 +46,7 @@ struct LocationsSettings: View {
                .font(.headline)
                .foregroundColor(.primary)
             
-            if settings.customAppLocations.isEmpty {
+            if customLocations.isEmpty {
                Text(L10n.noCustomLocations)
                   .font(.subheadline)
                   .foregroundColor(.secondary)
@@ -52,12 +55,12 @@ struct LocationsSettings: View {
             } else {
                ScrollView {
                   VStack(spacing: 8) {
-                     ForEach(Array(settings.customAppLocations.enumerated()), id: \.offset) { index, location in
+                     ForEach(Array(customLocations.enumerated()), id: \.offset) { index, location in
                         HStack {
                            Image(systemName: "folder.fill")
                               .foregroundColor(.blue)
                            Text(location)
-                              .font(.system(.body, design: .monospaced))
+   .font(.body)
                               .lineLimit(1)
                               .truncationMode(.middle)
                            Spacer()
@@ -78,11 +81,13 @@ struct LocationsSettings: View {
                      }
                   }
                }
-               .frame(maxHeight: 150)
             }
          }
       }
       .padding(.horizontal, 8)
+      .onAppear {
+         refreshLocations()
+      }
       .alert(L10n.invalidLocation, isPresented: $showingAlert) {
          Button(L10n.ok, role: .cancel) { }
       } message: {
@@ -90,12 +95,14 @@ struct LocationsSettings: View {
       }
    }
    
+   private func refreshLocations() {
+      customLocations = settingsManager.settings.customAppLocations
+   }
+   
    private func addLocation() {
       let trimmedLocation = newLocation.trimmingCharacters(in: .whitespaces)
-      
       guard !trimmedLocation.isEmpty else { return }
       
-      // Check if the path exists
       var isDirectory: ObjCBool = false
       let exists = FileManager.default.fileExists(atPath: trimmedLocation, isDirectory: &isDirectory)
       
@@ -111,19 +118,39 @@ struct LocationsSettings: View {
          return
       }
       
-      // Check if location already exists
-      if settings.customAppLocations.contains(trimmedLocation) {
+      if customLocations.contains(trimmedLocation) {
          alertMessage = L10n.locationAlreadyAdded
          showingAlert = true
          return
       }
       
+      // Save directly to settings manager
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations.append(trimmedLocation)
+      settingsManager.saveSettings(newSettings: updatedSettings)
+      
+      // Update local state and binding
+      customLocations.append(trimmedLocation)
       settings.customAppLocations.append(trimmedLocation)
+      
+      // Reload apps to include new location
+      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+      
       newLocation = ""
    }
    
    private func removeLocation(at index: Int) {
+      // Save directly to settings manager
+      var updatedSettings = settingsManager.settings
+      updatedSettings.customAppLocations.remove(at: index)
+      settingsManager.saveSettings(newSettings: updatedSettings)
+      
+      // Update local state and binding
+      customLocations.remove(at: index)
       settings.customAppLocations.remove(at: index)
+      
+      // Reload apps to reflect removed location
+      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
    }
    
    private func selectFolder() {

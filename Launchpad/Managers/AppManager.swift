@@ -36,15 +36,16 @@ final class AppManager: ObservableObject {
       userDefaults.set(itemsData, forKey: gridItemsKey)
    }
 
-   func importLayout(appsPerPage: Int) {
+   func importLayout(appsPerPage: Int) -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
-      importLayoutFromJSON(filePath: filePath, appsPerPage: appsPerPage)
+      let result = importLayoutFromJSON(filePath: filePath, appsPerPage: appsPerPage)
       saveGridItems()
+      return result
    }
 
-   func exportLayout() {
+   func exportLayout() -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
-      exportLayoutToJSON(filePath: filePath)
+      return exportLayoutToJSON(filePath: filePath)
    }
 
    func clearGridItems(appsPerPage: Int) {
@@ -216,9 +217,8 @@ final class AppManager: ObservableObject {
    private func loadAppItem(from itemData: [String: Any], appsByPath: [String: AppInfo]) -> AppGridItem? {
       let path = itemData["path"] as! String
       let page = itemData["page"] as! Int
-      let baseApp = appsByPath[path]
-      if baseApp == nil {  return nil  }
-      return .app(AppInfo(name: baseApp!.name, icon: baseApp!.icon, path: baseApp!.path, bundleId: baseApp!.bundleId, page: page))
+      guard let baseApp = appsByPath[path] else { return nil }
+      return .app(AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, bundleId: baseApp.bundleId,lastOpenedDate: baseApp.lastOpenedDate, installDate: baseApp.installDate, page: page))
 
    }
 
@@ -227,9 +227,9 @@ final class AppManager: ObservableObject {
             let appsData = itemData["apps"] as? [[String: Any]] else { return nil }
       let folderApps = appsData.compactMap { appData -> AppInfo? in
          guard let path = appData["path"] as? String,
-               let baseApp = appsByPath[path] else { return nil }
+               let app = appsByPath[path] else { return nil }
          let savedPage = appData["page"] as? Int ?? 0
-         return AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, bundleId: baseApp.bundleId, page: savedPage)
+         return AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, lastOpenedDate: app.lastOpenedDate, installDate: app.installDate,  page: savedPage)
       }
       guard !folderApps.isEmpty else { return nil }
       let savedPage = itemData["page"] as? Int ?? 0
@@ -284,7 +284,12 @@ final class AppManager: ObservableObject {
       return item.withUpdatedPage(page)
    }
 
-   private func importLayoutFromJSON(filePath: URL, appsPerPage: Int) {
+   private func importLayoutFromJSON(filePath: URL, appsPerPage: Int) -> (success: Bool, message: String) {
+      guard FileManager.default.fileExists(atPath: filePath.path) else {
+         print("Layout file not found at \(filePath.path)")
+         return (false, "Layout file not found at \n\(filePath.path)")
+      }
+
       do {
          let jsonData = try Data(contentsOf: filePath)
          let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
@@ -308,20 +313,24 @@ final class AppManager: ObservableObject {
          }
          let newPages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
          self.pages = newPages
-         print("Import finished successfully from: \(filePath.path)")
+         print("Successfully imported layout from \(filePath.path)")
+         return (true, "Successfully imported layout from \n\(filePath.path)")
       } catch {
-         print("Failed to import layout: \(error)")
+         print("Failed to import layout \(error)")
+         return (false, "Failed to import layout \n\(error.localizedDescription)")
       }
    }
 
-   private func exportLayoutToJSON(filePath: URL) {
+   private func exportLayoutToJSON(filePath: URL) -> (success: Bool, message: String) {
       do {
          let itemsData = pages.flatMap { $0 }.map { $0.serialize() }
          let jsonData = try JSONSerialization.data(withJSONObject: itemsData, options: .prettyPrinted)
          try jsonData.write(to: filePath)
-         print("Export finished successfully to \(filePath.path)!")
+         print("Layout export finished successfully to \(filePath.path)")
+         return (true, "Layout export finished successfully to \n\(filePath.path)")
       } catch {
-         print("Failed to export layout: \(error)")
+         print("Failed to export layout \(error)")
+         return (false, "Failed to export layout \n\(error.localizedDescription)")
       }
    }
 
@@ -333,7 +342,7 @@ final class AppManager: ObservableObject {
 
       let maxPage = items.map(\.page).max() ?? 0
       for app in apps where !usedApps.contains(app.path) {
-         items.append(.app(AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, page: maxPage)))
+         items.append(.app(AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, lastOpenedDate: app.lastOpenedDate, installDate: app.installDate,  page: maxPage)))
       }
    }
 
@@ -365,7 +374,9 @@ final class AppManager: ObservableObject {
       case .app(let app):
          return hiddenAppPaths.contains(app.path)
       case .folder(_):
-         return false;
+         return false
+      case .category:
+         return false
       }
    }
 }

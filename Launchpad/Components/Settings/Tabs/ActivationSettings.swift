@@ -9,7 +9,7 @@ struct ActivationSettings: View {
    @State private var isValid = false
    
    var body: some View {
-      VStack(alignment: .center, spacing: 20) {
+      VStack(alignment: .leading, spacing: 20) {
          VStack(alignment: .leading, spacing: 12) {
             Text(L10n.productKey)
                .font(.headline)
@@ -54,7 +54,6 @@ struct ActivationSettings: View {
             Text(L10n.purchasePrompt)
                .font(.subheadline)
                .foregroundColor(.secondary)
-               .multilineTextAlignment(.center)
             
             Button(action: openPurchaseLink) {
                HStack {
@@ -71,7 +70,8 @@ struct ActivationSettings: View {
             .buttonStyle(.plain)
          }
          
-         VStack(alignment: .center) {
+         HStack {
+            Spacer()
             HStack {
                Image(systemName: settings.isActivated ? "checkmark.circle.fill" : "xmark.circle.fill")
                   .foregroundColor(settings.isActivated ? .green : .orange)
@@ -92,6 +92,7 @@ struct ActivationSettings: View {
                         .stroke((settings.isActivated ? Color.green : Color.orange).opacity(0.3), lineWidth: 1)
                   )
             )
+            Spacer()
          }
       }
       .padding(.horizontal, 8)
