@@ -16,7 +16,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       } else {
          AppLauncher.exit()
       }
-
+      
       return true
    }
 }
