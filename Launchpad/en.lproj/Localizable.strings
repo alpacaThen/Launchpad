@@ -139,6 +139,7 @@
 "background_default" = "Default (Blur)";
 "background_wallpaper" = "macOS Wallpaper";
 "background_custom" = "Custom Image";
+"background_blur" = "Background Blur";
 "custom_image_path" = "Custom Image Path";
 "browse_image" = "Browse for image";
 "select_image_message" = "Select a background image";

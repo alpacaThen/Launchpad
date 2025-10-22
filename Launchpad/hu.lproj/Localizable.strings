@@ -136,9 +136,10 @@
 // MARK: - Background Settings
 "background" = "Háttér";
 "background_type" = "Háttér Típusa";
-"background_default" = "Alapértelmezett (Elmosás)";
-"background_wallpaper" = "macOS Háttérkép";
+"background_default" = "Elmosódás";
+"background_wallpaper" = "Háttérkép";
 "background_custom" = "Egyéni Kép";
+"background_blur" = "Háttér Elmosódás";
 "custom_image_path" = "Egyéni Kép Útvonala";
 "browse_image" = "Kép böngészése";
 "select_image_message" = "Válassz egy háttérképet";

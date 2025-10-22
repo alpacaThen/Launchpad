@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-struct VisualEffectView: NSViewRepresentable {
+struct WindowBackground: NSViewRepresentable {
    let material: NSVisualEffectView.Material
    let blendingMode: NSVisualEffectView.BlendingMode
    

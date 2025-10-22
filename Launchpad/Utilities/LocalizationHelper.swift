@@ -150,6 +150,7 @@ struct L10n {
    static let backgroundDefault = "background_default".localized
    static let backgroundWallpaper = "background_wallpaper".localized
    static let backgroundCustom = "background_custom".localized
+   static let backgroundBlur = "background_blur".localized
    static let customImagePath = "custom_image_path".localized
    static let browseImage = "browse_image".localized
    static let selectImageMessage = "select_image_message".localized

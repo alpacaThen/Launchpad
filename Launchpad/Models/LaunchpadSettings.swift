@@ -24,6 +24,7 @@ struct LaunchpadSettings: Codable, Equatable {
    var customAppLocations: [String]
    var backgroundType: BackgroundType
    var customBackgroundPath: String
+   var backgroundBlur: Double
 
    static let defaultColumns = 7
    static let defaultRows = 5
@@ -42,6 +43,7 @@ struct LaunchpadSettings: Codable, Equatable {
    static let defaultCustomAppLocations: [String] = []
    static let defaultBackgroundType: BackgroundType = .default
    static let defaultCustomBackgroundPath = ""
+   static let defaultBackgroundBlur: Double = 10.0
 
    init(
       columns: Int = defaultColumns,
@@ -60,7 +62,8 @@ struct LaunchpadSettings: Codable, Equatable {
       productKey: String = defaultProductKey,
       customAppLocations: [String] = defaultCustomAppLocations,
       backgroundType: BackgroundType = defaultBackgroundType,
-      customBackgroundPath: String = defaultCustomBackgroundPath
+      customBackgroundPath: String = defaultCustomBackgroundPath,
+      backgroundBlur: Double = defaultBackgroundBlur
    ) {
       self.columns = max(4, min(12, columns))
       self.rows = max(3, min(10, rows))
@@ -80,6 +83,7 @@ struct LaunchpadSettings: Codable, Equatable {
       self.productKey = productKey
       self.backgroundType = backgroundType
       self.customBackgroundPath = customBackgroundPath
+      self.backgroundBlur = max(0.0, min(30.0, backgroundBlur))
    }
 
    var appsPerPage: Int {
