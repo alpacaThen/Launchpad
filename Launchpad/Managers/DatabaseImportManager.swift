@@ -97,7 +97,7 @@ final class DatabaseImportManager {
                   let folderName = groups[item.rowId]?.title ?? "Unknown"
                   let folderPages = items.filter { $0.parentId == itemId }
 
-                  var folderItems : [AppInfo] = []
+                  var folderItems: [AppInfo] = []
 
                   for folderPage in folderPages {
                      guard let folderPageId = Int(folderPage.rowId) else {

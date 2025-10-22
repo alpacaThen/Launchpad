@@ -27,7 +27,7 @@ final class AppManagerPersistenceTests: XCTestCase {
 
    func testAppSerialization() {
       let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      let app = AppInfo(name: "Test App", icon: mockIcon, path: "/Applications/Test.app", bundleId: "com.test.app", page: 2)
+      let app = AppInfo(name: "Test App", icon: mockIcon, path: "/Applications/Test.app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 2)
       let gridItem = AppGridItem.app(app)
 
       let serialized = gridItem.serialize()
@@ -41,8 +41,8 @@ final class AppManagerPersistenceTests: XCTestCase {
 
    func testFolderSerialization() {
       let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app", page: 0)
-      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app", page: 0)
+      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 0)
+      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 0)
       let folder = Folder(name: "Test Folder", page: 1, apps: [app1, app2])
       let gridItem = AppGridItem.folder(folder)
 
@@ -57,10 +57,11 @@ final class AppManagerPersistenceTests: XCTestCase {
       XCTAssertNotNil(apps, "Should have apps array")
       XCTAssertEqual(apps?.count, 2, "Should have 2 apps")
 
-      let firstApp = apps?.first
-      XCTAssertEqual(firstApp?["name"] as? String, "App 1")
-      XCTAssertEqual(firstApp?["path"] as? String, "/Applications/App1.app")
-      XCTAssertEqual(firstApp?["page"] as? Int, 0)
+      if let firstApp = apps?.first {
+         XCTAssertEqual(firstApp["name"] as? String, "App 1")
+         XCTAssertEqual(firstApp["path"] as? String, "/Applications/App1.app")
+         XCTAssertEqual(firstApp["page"] as? Int, 0)
+      }
    }
 
    // MARK: - Save/Load Cycle Tests
@@ -68,9 +69,9 @@ final class AppManagerPersistenceTests: XCTestCase {
    func testSaveLoadCycle() async {
       // Create test data
       let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app", page: 0)
-      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app", page: 1)
-      let app3 = AppInfo(name: "App 3", icon: mockIcon, path: "/Applications/App3.app", bundleId: "com.test.app", page: 0)
+      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 0)
+      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 1)
+      let app3 = AppInfo(name: "App 3", icon: mockIcon, path: "/Applications/App3.app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 0)
 
       let folder = Folder(name: "Test Folder", page: 1, apps: [app1])
 
@@ -177,9 +178,9 @@ final class AppManagerPersistenceTests: XCTestCase {
 
       // Start with some initial data
       let initialApps = (0..<10).map { i in
-         AppInfo(name: "App \(i)", icon: mockIcon, path: "/Applications/App\(i).app", bundleId: "com.test.app", page: 0)
+         AppInfo(name: "App \(i)", icon: mockIcon, path: "/Applications/App\(i).app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 0)
       }
-      appManager.pages = [initialApps.map { .app($0) }]
+      appManager.pages = [initialApps.map { AppGridItem.app($0) }]
 
       // Trigger multiple saves rapidly
       let group = DispatchGroup()
@@ -188,9 +189,9 @@ final class AppManagerPersistenceTests: XCTestCase {
          group.enter()
          Task {
             let newApps = (10..<15).map { j in
-               AppInfo(name: "New App \(i)-\(j)", icon: mockIcon, path: "/Applications/NewApp\(i)-\(j).app", bundleId: "com.test.app", page: 0)
+               AppInfo(name: "New App \(i)-\(j)", icon: mockIcon, path: "/Applications/NewApp\(i)-\(j).app", bundleId: "com.test.app", lastOpenedDate: nil, installDate: nil, page: 0)
             }
-            appManager.pages = [newApps.map { .app($0) }]
+            appManager.pages = [newApps.map { AppGridItem.app($0) }]
             group.leave()
          }
       }

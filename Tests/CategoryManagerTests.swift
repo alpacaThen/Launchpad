@@ -79,7 +79,7 @@ final class CategoryManagerTests: XCTestCase {
       XCTAssertEqual(categoryManager.categories.count, 1)
       
       // When: Deleting the category
-      categoryManager.deleteCategory(category)
+      categoryManager.deleteCategory(category: category)
       
       // Then: Category should be removed
       XCTAssertEqual(categoryManager.categories.count, 0)
@@ -91,7 +91,7 @@ final class CategoryManagerTests: XCTestCase {
       let category2 = Category(name: "NotInList")
       
       // When: Attempting to delete a category not in the list
-      categoryManager.deleteCategory(category2)
+      categoryManager.deleteCategory(category: category2)
       
       // Then: Original categories should remain
       XCTAssertEqual(categoryManager.categories.count, 1)
@@ -105,7 +105,7 @@ final class CategoryManagerTests: XCTestCase {
       let category = categoryManager.createCategory(name: "OldName")
       
       // When: Renaming the category
-      categoryManager.renameCategory(category, newName: "NewName")
+      categoryManager.renameCategory(category: category, newName: "NewName")
       
       // Then: Category name should be updated
       XCTAssertEqual(categoryManager.categories[0].name, "NewName")
@@ -117,7 +117,7 @@ final class CategoryManagerTests: XCTestCase {
       let nonExistent = Category(name: "NotInList")
       
       // When: Attempting to rename a category not in the list
-      categoryManager.renameCategory(nonExistent, newName: "NewName")
+      categoryManager.renameCategory(category: nonExistent, newName: "NewName")
       
       // Then: Existing categories should remain unchanged
       XCTAssertEqual(categoryManager.categories.count, 1)
@@ -245,17 +245,16 @@ final class CategoryManagerTests: XCTestCase {
       categoryManager.addAppToCategory(appPath: "/Applications/Chess.app", categoryId: category2.id)
       
       // When: Exporting categories
-      let exportData = categoryManager.exportCategories()
+      let result = categoryManager.exportCategories()
       
-      // Then: Export data should contain all categories
-      XCTAssertEqual(exportData.count, 2)
+      // Then: Export should succeed
+      XCTAssertTrue(result.success, "Export should succeed")
+      XCTAssertTrue(result.message.contains("successfully"), "Message should indicate success")
       
-      let firstCategory = exportData[0]
-      XCTAssertEqual(firstCategory["name"] as? String, "Work")
-      XCTAssertNotNil(firstCategory["id"] as? String)
-      let appPaths1 = firstCategory["appPaths"] as? [String]
-      XCTAssertEqual(appPaths1?.count, 1)
-      XCTAssertTrue(appPaths1?.contains("/Applications/Safari.app") ?? false)
+      // Verify the categories are still in the manager
+      XCTAssertEqual(categoryManager.categories.count, 2)
+      XCTAssertTrue(categoryManager.categories.contains { $0.name == "Work" })
+      XCTAssertTrue(categoryManager.categories.contains { $0.name == "Games" })
    }
    
    func testImportCategories() {

@@ -269,8 +269,8 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    func testFolderWithAllAppsHiddenIsHidden() {
       // Given: A folder where all apps are hidden
       let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app1", page: 0)
-      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app2", page: 0)
+      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app1", lastOpenedDate: nil, installDate: nil, page: 0)
+      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app2", lastOpenedDate: nil, installDate: nil, page: 0)
       let folder = Folder(name: "Test Folder", page: 0, apps: [app1, app2])
       
       // Hide both apps in the folder
@@ -292,8 +292,8 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    func testFolderWithSomeAppsHiddenNotHidden() {
       // Given: A folder where only some apps are hidden
       let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app1", page: 0)
-      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app2", page: 0)
+      let app1 = AppInfo(name: "App 1", icon: mockIcon, path: "/Applications/App1.app", bundleId: "com.test.app1", lastOpenedDate: nil, installDate: nil, page: 0)
+      let app2 = AppInfo(name: "App 2", icon: mockIcon, path: "/Applications/App2.app", bundleId: "com.test.app2", lastOpenedDate: nil, installDate: nil, page: 0)
       let folder = Folder(name: "Test Folder", page: 0, apps: [app1, app2])
       
       // Hide only one app in the folder

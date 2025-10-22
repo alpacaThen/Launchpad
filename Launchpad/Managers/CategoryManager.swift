@@ -13,10 +13,12 @@ final class CategoryManager: ObservableObject {
       loadCategories()
    }
 
-   func createCategory(name: String) {
+   @discardableResult
+   func createCategory(name: String) -> Category {
       let category = Category(name: name)
       categories.append(category)
       saveCategories()
+      return category
    }
 
    func deleteCategory(category: Category) {
@@ -58,26 +60,7 @@ final class CategoryManager: ObservableObject {
 
    func importCategories() -> (success: Bool, message: String) {
       let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadCategories.json")
-      let result = importCategoriesFromJSON(filePath: filePath)
-      saveCategories()
-      return result
-   }
-
-   func importCategories(from data: [[String: Any]]) {
-      var importedCategories: [Category] = []
-      for itemsData in data {
-         guard let idString = itemsData["id"] as? String,
-               let id = UUID(uuidString: idString),
-               let name = itemsData["name"] as? String,
-               let paths = itemsData["appPaths"] as? [String] else {
-            print("Skipping invalid category entry")
-            continue
-         }
-
-         importedCategories.append(Category(id: id, name: name, appPaths: Set(paths)))
-      }
-      self.categories = importedCategories
-      saveCategories()
+      return importCategoriesFromJSON(filePath: filePath)
    }
 
    func exportCategories() -> (success: Bool, message: String) {
@@ -90,7 +73,6 @@ final class CategoryManager: ObservableObject {
       do {
          let data = try JSONEncoder().encode(categories)
          userDefaults.set(data, forKey: categoriesKey)
-         userDefaults.synchronize()
       } catch {
          print("Failed to save categories: \(error)")
       }
@@ -124,26 +106,29 @@ final class CategoryManager: ObservableObject {
             return (false, "Invalid JSON format")
          }
 
-         var importedCategories: [Category] = []
-         for itemsData in itemsArray {
-            guard let idString = itemsData["id"] as? String,
-                  let id = UUID(uuidString: idString),
-                  let name = itemsData["name"] as? String,
-                  let paths = itemsData["appPaths"] as? [String] else {
-               print("Skipping invalid category entry")
-               continue
-            }
-
-            importedCategories.append(Category(id: id, name: name, appPaths: Set(paths)))
-         }
-         self.categories = importedCategories
+         categories = parseCategoriesFromData(itemsArray)
          saveCategories()
          print("Successfully imported categories from \(filePath.path)")
-         return (true, "Successfully imported layout from \n\(filePath.path)")
+         return (true, "Successfully imported categories from \n\(filePath.path)")
       } catch {
          print("Failed to import categories \(error)")
          return (false, "Failed to import categories \n\(error.localizedDescription)")
       }
+   }
+   
+   private func parseCategoriesFromData(_ data: [[String: Any]]) -> [Category] {
+      var result: [Category] = []
+      for itemsData in data {
+         guard let idString = itemsData["id"] as? String,
+               let id = UUID(uuidString: idString),
+               let name = itemsData["name"] as? String,
+               let paths = itemsData["appPaths"] as? [String] else {
+            print("Skipping invalid category entry")
+            continue
+         }
+         result.append(Category(id: id, name: name, appPaths: Set(paths)))
+      }
+      return result
    }
 
    private func exportCategoriesToJSON(filePath: URL) -> (success: Bool, message: String) {
@@ -168,6 +153,5 @@ final class CategoryManager: ObservableObject {
       print("Clear all categories.")
       categories = []
       userDefaults.removeObject(forKey: categoriesKey)
-      userDefaults.synchronize()
    }
 }

@@ -322,7 +322,7 @@ final class AppManagerTests: XCTestCase {
 
    private func createMockApp(name: String, path: String, bundleId: String = "com.test.app", page: Int) -> AppInfo {
       let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      return AppInfo(name: name, icon: mockIcon, path: path, bundleId: bundleId, page: page)
+      return AppInfo(name: name, icon: mockIcon, path: path, bundleId: bundleId, lastOpenedDate: nil, installDate: nil, page: page)
    }
 
    private func createMockApps(count: Int, startingPage: Int) -> [AppGridItem] {
