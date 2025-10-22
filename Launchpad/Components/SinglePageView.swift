@@ -7,48 +7,34 @@ struct SinglePageView: View {
    let settings: LaunchpadSettings
    let isFolderOpen: Bool
    let onItemTap: (AppGridItem) -> Void
-   
+
    var body: some View {
       GeometryReader { pageGeo in
          let layout = LayoutMetrics(size: pageGeo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
-         
+
          ScrollView(.horizontal, showsIndicators: false) {
             LazyVGrid(
                columns: GridLayoutUtility.createGridColumns(count: settings.columns, cellWidth: layout.cellWidth, spacing: layout.hSpacing),
                spacing: layout.hSpacing
             ) {
                ForEach(pages[pageIndex]) { item in
-                  GridItemView(item: item, layout: layout, isDragged: draggedItem?.id == item.id, transparency: settings.transparency
-                  )
-                  .opacity(isFolderOpen ? LaunchPadConstants.folderOpenOpacity : 1)
-                  .onTapGesture { onItemTap(item)  }
-                  .contextMenu {
-                     if case .app(let app) = item {
-                        CategoryContextMenu(app: app)
-                        
-                        Divider()
-                        
-                        Button(action: {
-                           AppManager.shared.hideApp(path: app.path, appsPerPage: settings.appsPerPage)
-                        }) {
-                           Label(L10n.hideApp, systemImage: "eye.slash")
-                        }
+                  GridItemView(item: item, layout: layout, isDragged: draggedItem?.id == item.id, settings: settings)
+                     .opacity(isFolderOpen ? LaunchPadConstants.folderOpenOpacity : 1)
+                     .onTapGesture { onItemTap(item)  }
+                     .onDrag {
+                        draggedItem = item
+                        return NSItemProvider(object: item.id.uuidString as NSString)
                      }
-                  }
-                  .onDrag {
-                     draggedItem = item
-                     return NSItemProvider(object: item.id.uuidString as NSString)
-                  }
-                  .onDrop(
-                     of: [.text],
-                     delegate: ItemDropDelegate(
-                        pages: $pages,
-                        draggedItem: $draggedItem,
-                        dropDelay: settings.dropDelay,
-                        targetItem: item,
-                        targetPage: pageIndex,
-                        appsPerPage: settings.appsPerPage
-                     ))
+                     .onDrop(
+                        of: [.text],
+                        delegate: ItemDropDelegate(
+                           pages: $pages,
+                           draggedItem: $draggedItem,
+                           dropDelay: settings.dropDelay,
+                           targetItem: item,
+                           targetPage: pageIndex,
+                           appsPerPage: settings.appsPerPage
+                        ))
                }
             }
             .padding(.horizontal, layout.hPadding)

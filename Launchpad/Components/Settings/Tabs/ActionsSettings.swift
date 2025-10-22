@@ -12,7 +12,7 @@ struct ActionsSettings: View {
    @State private var alertMessage = ""
 
    var body: some View {
-      VStack(alignment: .center, spacing: 20) {
+      VStack(alignment: .leading, spacing: 20) {
          VStack(alignment: .leading, spacing: 12) {
             Text(L10n.layoutManagement)
                .font(.headline)

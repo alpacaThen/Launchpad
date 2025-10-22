@@ -23,6 +23,8 @@
 "drop_animation_delay" = "Animáció Késleltetés";
 "page_scroll_debounce" = "Görgetés Késleltetés";
 "page_scroll_threshold" = "Görgetés Küszöb";
+"display_options" = "Megjelenítési Beállítások";
+"animation_settings" = "Animáció Beállítások";
 "show_dock" = "Dock Megjelenítése";
 "start_at_login" = "Automatikus Indítás";
 "reset_on_relaunch" = "Keresés törlése Újraindításkor";
@@ -84,7 +86,7 @@
 "delete_category_message" = "Biztosan törölni szeretnéd ezt a kategóriát? Az alkalmazások nem kerülnek törlésre.";
 "open_all_apps" = "Összes Alkalmazás Megnyitása (Enter)";
 "no_categories" = "Még nincsenek kategóriák";
-"categories_description" = "Rendezd az alkalmazásaidat kategóriákba. Az alkalmazások több kategóriához is tartozhatnak.";
+"categories_description" = "Rendezd az alkalmazásaidat különböző kategóriákba.";
 "create_category" = "Kategória Létrehozása";
 "category_name" = "Kategória Neve";
 "rename_category" = "Kategória Átnevezése";
@@ -109,6 +111,7 @@
 "activate" = "Aktiválás";
 "activated" = "Aktiválva";
 "not_activated" = "Nincs Aktiválva";
+"activation_status" = "Aktiválási Állapot";
 "invalid_product_key" = "Érvénytelen Termékkulcs";
 "activation_successful" = "Sikeres Aktiválás";
 "purchase_prompt" = "Még nincs licenced? Vásárolj egyet az összes funkció feloldásához.";
@@ -116,8 +119,9 @@
 
 // MARK: - Locations Settings
 "locations" = "Helyek";
-"locations_description" = "Adj hozzá egyéni mappákat, ahol a Launchpad alkalmazásokat keres. Alapértelmezetten a Launchpad az /Applications és /System/Applications mappákban keres.";
+"locations_description" = "Adj hozzá egyéni mappákat, ahol a Launchpad alkalmazásokat keres.";
 "custom_locations" = "Egyéni Helyek";
+"custom_app_locations" = "Egyéni Alkalmazás Helyek";
 "no_custom_locations" = "Még nincsenek hozzáadott helyek";
 "add_location" = "Hely Hozzáadása";
 "location_placeholder" = "/útvonal/a/mappához";

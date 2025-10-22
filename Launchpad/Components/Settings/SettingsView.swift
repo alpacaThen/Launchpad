@@ -118,7 +118,7 @@ struct SettingsView: View {
          }
          
          .padding(24)
-         .frame(width: 720, height: 460)
+         .frame(width: 740, height: 480)
          .background(
             RoundedRectangle(cornerRadius: 16)
                .fill(.regularMaterial)

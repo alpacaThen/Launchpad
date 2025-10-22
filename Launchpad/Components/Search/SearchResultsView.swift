@@ -5,7 +5,7 @@ struct SearchResultsView: View {
    let settings: LaunchpadSettings
    let selectedIndex: Int
    let onItemTap: (AppGridItem) -> Void
-   
+
    var body: some View {
       GeometryReader { geo in
          let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
@@ -50,11 +50,11 @@ struct SearchResultsView: View {
          }
       }
    }
-
+   
    @ViewBuilder
    private func gridContent(layout: LayoutMetrics) -> some View {
       ForEach(Array(apps.enumerated()), id: \.element.id) { index, app in
-         AppIconView(app: app, layout: layout, isDragged: false)
+         AppIconView(app: app, layout: layout, isDragged: false, settings: settings)
             .id(app.id)
             .background(
                RoundedRectangle(cornerRadius: 12)
@@ -64,17 +64,6 @@ struct SearchResultsView: View {
             )
             .onTapGesture {
                onItemTap(.app(app))
-            }
-            .contextMenu {
-               CategoryContextMenu(app: app)
-               
-               Divider()
-               
-               Button(action: {
-                  AppManager.shared.hideApp(path: app.path, appsPerPage: settings.appsPerPage)
-               }) {
-                  Label(L10n.hideApp, systemImage: "eye.slash")
-               }
             }
       }
    }
