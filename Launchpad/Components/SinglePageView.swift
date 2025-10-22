@@ -38,7 +38,7 @@ struct SinglePageView: View {
                }
             }
             .padding(.horizontal, layout.hPadding)
-            .padding(.bottom, layout.vPadding)
+            .padding(.vertical, layout.vPadding)
             .frame(minHeight: pageGeo.size.height - layout.vPadding, alignment: .top)
          }
          .onDrop(of: [.text], delegate: PageDropDelegate(

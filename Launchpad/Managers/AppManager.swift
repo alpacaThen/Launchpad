@@ -51,7 +51,6 @@ final class AppManager: ObservableObject {
    func clearGridItems(appsPerPage: Int) {
       print("Clear grid items.")
       userDefaults.removeObject(forKey: gridItemsKey)
-      userDefaults.synchronize()
       loadGridItems(appsPerPage: appsPerPage)
    }
 
@@ -112,41 +111,27 @@ final class AppManager: ObservableObject {
    }
 
    fileprivate func sortByLastOpened(_ items: inout [AppGridItem]) {
-      // Sort by last opened date (most recent first), with nil dates at the end
-      items.sort { item1, item2 in
-         let date1 = item1.lastOpenedDate
-         let date2 = item2.lastOpenedDate
-
-         // If both have dates, compare them (newer first)
-         if let d1 = date1, let d2 = date2 {
-            return d1 > d2
-         }
-         // If only first has date, it comes first
-         if date1 != nil { return true }
-         // If only second has date, it comes first
-         if date2 != nil { return false }
-         // If neither has date, sort by name
-         return item1.name < item2.name
-      }
+      items.sort { sortByDate($0, $1, keyPath: \.lastOpenedDate) }
    }
 
    fileprivate func sortByInstallDate(_ items: inout [AppGridItem]) {
-      // Sort by install date (most recent first), with nil dates at the end
-      items.sort { item1, item2 in
-         let date1 = item1.installDate
-         let date2 = item2.installDate
+      items.sort { sortByDate($0, $1, keyPath: \.installDate) }
+   }
 
-         // If both have dates, compare them (newer first)
-         if let d1 = date1, let d2 = date2 {
-            return d1 > d2
-         }
-         // If only first has date, it comes first
-         if date1 != nil { return true }
-         // If only second has date, it comes first
-         if date2 != nil { return false }
-         // If neither has date, sort by name
-         return item1.name < item2.name
+   private func sortByDate(_ item1: AppGridItem, _ item2: AppGridItem, keyPath: KeyPath<AppGridItem, Date?>) -> Bool {
+      let date1 = item1[keyPath: keyPath]
+      let date2 = item2[keyPath: keyPath]
+
+      // If both have dates, compare them (newer first)
+      if let d1 = date1, let d2 = date2 {
+         return d1 > d2
       }
+      // If only first has date, it comes first
+      if date1 != nil { return true }
+      // If only second has date, it comes first
+      if date2 != nil { return false }
+      // If neither has date, sort by name
+      return item1.name < item2.name
    }
 
    private func discoverApps() -> [AppInfo] {
@@ -188,53 +173,55 @@ final class AppManager: ObservableObject {
 
    private func loadLayoutFromUserDefaults(for apps: [AppInfo]) -> [AppGridItem] {
       print("Load layout.")
-      guard let savedData = userDefaults.array(forKey: gridItemsKey) as? [[String: Any]] else { return apps.map{.app($0)} }
+      guard let savedData = userDefaults.array(forKey: gridItemsKey) as? [[String: Any]] else {
+         return apps.map { .app($0) }
+      }
 
       let appsByPath = Dictionary(uniqueKeysWithValues: apps.map { ($0.path, $0) })
+      var gridItems = parseGridItems(from: savedData, appsByPath: appsByPath)
+      addRemainingApps(items: &gridItems, apps: apps)
+      return gridItems
+   }
+
+   private func parseGridItems(from itemsArray: [[String: Any]], appsByPath: [String: AppInfo]) -> [AppGridItem] {
       var gridItems: [AppGridItem] = []
 
-      for itemData in savedData {
+      for itemData in itemsArray {
          guard let type = itemData["type"] as? String else { continue }
          switch type {
          case "app":
-            if let gridItem = loadAppItem(from: itemData, appsByPath: appsByPath) {
-               gridItems.append(gridItem)
+            if let gridItem = loadApp(from: itemData, appsByPath: appsByPath) {
+               gridItems.append(.app(gridItem))
             }
          case "folder":
-            if let gridItem = loadFolderItem(from: itemData, appsByPath: appsByPath) {
-               gridItems.append(gridItem)
+            if let gridItem = loadFolder(from: itemData, appsByPath: appsByPath) {
+               gridItems.append(.folder(gridItem))
             }
          default:
             break
          }
       }
 
-      addRemainingApps(items: &gridItems, apps: apps)
-
       return gridItems
    }
 
-   private func loadAppItem(from itemData: [String: Any], appsByPath: [String: AppInfo]) -> AppGridItem? {
+   private func loadApp(from itemData: [String: Any], appsByPath: [String: AppInfo]) -> AppInfo? {
       let path = itemData["path"] as! String
       let page = itemData["page"] as! Int
       guard let baseApp = appsByPath[path] else { return nil }
-      return .app(AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, bundleId: baseApp.bundleId,lastOpenedDate: baseApp.lastOpenedDate, installDate: baseApp.installDate, page: page))
+      return AppInfo(name: baseApp.name, icon: baseApp.icon, path: baseApp.path, bundleId: baseApp.bundleId,lastOpenedDate: baseApp.lastOpenedDate, installDate: baseApp.installDate, page: page)
 
    }
 
-   private func loadFolderItem(from itemData: [String: Any], appsByPath: [String: AppInfo]) -> AppGridItem? {
-      guard let folderName = itemData["name"] as? String,
-            let appsData = itemData["apps"] as? [[String: Any]] else { return nil }
-      let folderApps = appsData.compactMap { appData -> AppInfo? in
-         guard let path = appData["path"] as? String,
-               let app = appsByPath[path] else { return nil }
-         let savedPage = appData["page"] as? Int ?? 0
-         return AppInfo(name: app.name, icon: app.icon, path: app.path, bundleId: app.bundleId, lastOpenedDate: app.lastOpenedDate, installDate: app.installDate,  page: savedPage)
-      }
-      guard !folderApps.isEmpty else { return nil }
+   private func loadFolder(from itemData: [String: Any], appsByPath: [String: AppInfo]) -> Folder? {
+      let folderName = itemData["name"] as! String
       let savedPage = itemData["page"] as? Int ?? 0
-      let folder = Folder(name: folderName, page: savedPage, apps: folderApps)
-      return .folder(folder)
+      let appsData = itemData["apps"] as! [[String: Any]]
+
+      let folderApps = appsData.compactMap { loadApp(from: $0, appsByPath: appsByPath)}
+
+      guard !folderApps.isEmpty else { return nil }
+      return Folder(name: folderName, page: savedPage, apps: folderApps)
    }
 
    private func getLocalizedAppName(for url: URL, fallbackName: String) -> String {
@@ -269,7 +256,7 @@ final class AppManager: ObservableObject {
                currentPageItems = []
             }
 
-            let updatedItem = currentPage > item.page ? updateItemPage(item: item, to: currentPage) : item
+            let updatedItem = currentPage > item.page ? item.withUpdatedPage(currentPage) : item
             currentPageItems.append(updatedItem)
          }
 
@@ -280,10 +267,6 @@ final class AppManager: ObservableObject {
       return pages.isEmpty ? [[]] : pages
    }
 
-   private func updateItemPage(item: AppGridItem, to page: Int) -> AppGridItem {
-      return item.withUpdatedPage(page)
-   }
-
    private func importLayoutFromJSON(filePath: URL, appsPerPage: Int) -> (success: Bool, message: String) {
       guard FileManager.default.fileExists(atPath: filePath.path) else {
          print("Layout file not found at \(filePath.path)")
@@ -292,27 +275,15 @@ final class AppManager: ObservableObject {
 
       do {
          let jsonData = try Data(contentsOf: filePath)
-         let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as! [[String: Any]]
+         guard let itemsArray = try JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]] else {
+            return (false, "Invalid JSON format")
+         }
+
          let allApps = discoverApps()
          let appsByPath = Dictionary(uniqueKeysWithValues: allApps.map { ($0.path, $0) })
-         var gridItems: [AppGridItem] = []
-         for itemData in itemsArray {
-            let type = itemData["type"] as! String
-            switch type {
-            case "app":
-               if let gridItem = loadAppItem(from: itemData, appsByPath: appsByPath) {
-                  gridItems.append(gridItem)
-               }
-            case "folder":
-               if let gridItem = loadFolderItem(from: itemData, appsByPath: appsByPath) {
-                  gridItems.append(gridItem)
-               }
-            default:
-               break
-            }
-         }
-         let newPages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
-         self.pages = newPages
+         let gridItems = parseGridItems(from: itemsArray, appsByPath: appsByPath)
+         pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
+
          print("Successfully imported layout from \(filePath.path)")
          return (true, "Successfully imported layout from \n\(filePath.path)")
       } catch {
@@ -349,7 +320,6 @@ final class AppManager: ObservableObject {
    private func saveHiddenApps() {
       print("Save hidden apps.")
       userDefaults.set(Array(hiddenAppPaths), forKey: hiddenAppsKey)
-      userDefaults.synchronize()
    }
 
    func hideApp(path: String, appsPerPage: Int) {
@@ -357,7 +327,7 @@ final class AppManager: ObservableObject {
       hiddenAppPaths.insert(path)
       loadGridItems(appsPerPage: appsPerPage)
    }
-
+   
    func unhideApp(path: String, appsPerPage: Int) {
       print("Unhide app: \(path)")
       hiddenAppPaths.remove(path)

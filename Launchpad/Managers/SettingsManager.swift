@@ -19,7 +19,6 @@ final class SettingsManager: ObservableObject {
       guard let data = try? JSONEncoder().encode(settings) else { return }
       print("Save settings.")
       userDefaults.set(data, forKey: settingsKey)
-      userDefaults.synchronize()
    }
 
    private static func loadSettings() -> LaunchpadSettings {
