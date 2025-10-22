@@ -8,12 +8,15 @@ struct LocationsSettings: View {
    
    var body: some View {
       VStack(alignment: .leading, spacing: 20) {
-         Text(L10n.locationsDescription)
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
-         
-         VStack(alignment: .leading, spacing: 8) {
+         VStack(alignment: .leading, spacing: 12) {
+            Text(L10n.customAppLocations)
+               .font(.headline)
+               .foregroundColor(.primary)
+            
+            Text(L10n.locationsDescription)
+               .font(.subheadline)
+               .foregroundColor(.secondary)
+               .fixedSize(horizontal: false, vertical: true)
             Text(L10n.addLocation)
                .font(.headline)
                .foregroundColor(.primary)

@@ -9,19 +9,15 @@ struct CategorySettings: View {
    @State private var categoryToDelete: Category?
 
    var body: some View {
-
       VStack(alignment: .leading, spacing: 20) {
-         Text(L10n.categories)
-            .font(.headline)
-
-         Text(L10n.categoriesDescription)
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-
-         Divider()
-
-         // Create new category
          VStack(alignment: .leading, spacing: 12) {
+            Text(L10n.categories)
+               .font(.headline)
+               .foregroundColor(.primary)
+
+            Text(L10n.categoriesDescription)
+               .font(.subheadline)
+               .foregroundColor(.secondary)
             Text(L10n.createCategory)
                .font(.subheadline)
                .fontWeight(.medium)
@@ -68,6 +64,7 @@ struct CategorySettings: View {
             }
          }
       }
+      .padding(.horizontal, 8)
       .alert(L10n.deleteCategoryTitle, isPresented: $showDeleteAlert) {
          Button(L10n.cancel, role: .cancel) {
             categoryToDelete = nil
