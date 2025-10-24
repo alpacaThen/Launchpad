@@ -8,6 +8,14 @@ struct AppIconView: View {
    let isEditMode: Bool
    let isHovered: Bool
    
+   init(app: AppInfo, layout: LayoutMetrics, isDragged: Bool, isEditMode: Bool = false, isHovered: Bool = false) {
+      self.app = app
+      self.layout = layout
+      self.isDragged = isDragged
+      self.isEditMode = isEditMode
+      self.isHovered = isHovered
+   }
+   
    @State private var jiggleOffset: CGFloat = 0
    @State private var jiggleRotation: Double = 0
 

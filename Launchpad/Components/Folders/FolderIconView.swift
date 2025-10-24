@@ -10,6 +10,15 @@ struct FolderIconView: View {
    let transparency: Double
    @Environment(\.colorScheme) private var colorScheme
    
+   init(folder: Folder, layout: LayoutMetrics, isDragged: Bool, isEditMode: Bool = false, isHovered: Bool = false, transparency: Double) {
+      self.folder = folder
+      self.layout = layout
+      self.isDragged = isDragged
+      self.isEditMode = isEditMode
+      self.isHovered = isHovered
+      self.transparency = transparency
+   }
+   
    @State private var jiggleOffset: CGFloat = 0
    @State private var jiggleRotation: Double = 0
    
