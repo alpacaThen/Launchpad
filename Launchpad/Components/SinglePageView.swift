@@ -3,10 +3,13 @@ import SwiftUI
 struct SinglePageView: View {
    @Binding var pages: [[AppGridItem]]
    @Binding var draggedItem: AppGridItem?
+   @Binding var isEditMode: Bool
    let pageIndex: Int
    let settings: LaunchpadSettings
    let isFolderOpen: Bool
    let onItemTap: (AppGridItem) -> Void
+   
+   @State private var hoveredItem: AppGridItem?
 
    var body: some View {
       GeometryReader { geo in
@@ -18,7 +21,14 @@ struct SinglePageView: View {
                spacing: layout.hSpacing
             ) {
                ForEach(pages[pageIndex]) { item in
-                  GridItemView(item: item, layout: layout, isDragged: draggedItem?.id == item.id, settings: settings)
+                  GridItemView(
+                     item: item, 
+                     layout: layout, 
+                     isDragged: draggedItem?.id == item.id, 
+                     isEditMode: isEditMode,
+                     isHovered: hoveredItem?.id == item.id && draggedItem != nil,
+                     settings: settings
+                  )
                      .opacity(isFolderOpen ? LaunchPadConstants.folderOpenOpacity : 1)
                      .onTapGesture { onItemTap(item)  }
                      .onDrag {
@@ -30,6 +40,7 @@ struct SinglePageView: View {
                         delegate: ItemDropDelegate(
                            pages: $pages,
                            draggedItem: $draggedItem,
+                           hoveredItem: $hoveredItem,
                            dropDelay: settings.dropDelay,
                            targetItem: item,
                            targetPage: pageIndex,

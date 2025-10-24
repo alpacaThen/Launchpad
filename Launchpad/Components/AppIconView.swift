@@ -5,6 +5,11 @@ struct AppIconView: View {
    let app: AppInfo
    let layout: LayoutMetrics
    let isDragged: Bool
+   let isEditMode: Bool
+   let isHovered: Bool
+   
+   @State private var jiggleOffset: CGFloat = 0
+   @State private var jiggleRotation: Double = 0
 
    var body: some View {
       VStack(spacing: 8) {
@@ -21,8 +26,23 @@ struct AppIconView: View {
             .multilineTextAlignment(.center)
             .frame(width: layout.cellWidth)
       }
-      .scaleEffect(isDragged ? LaunchPadConstants.draggedItemScale : 1.0)
-      .animation(LaunchPadConstants.quickFadeAnimation, value: isDragged)
+      .scaleEffect(scaleEffect)
+      .rotationEffect(.degrees(isEditMode ? jiggleRotation : 0))
+      .offset(x: isEditMode ? jiggleOffset : 0, y: isEditMode ? jiggleOffset : 0)
+      .animation(isDragged ? LaunchPadConstants.quickFadeAnimation : LaunchPadConstants.smoothSpringAnimation, value: isDragged)
+      .animation(LaunchPadConstants.smoothSpringAnimation, value: isHovered)
+      .onChange(of: isEditMode) { newValue in
+         if newValue {
+            startJiggling()
+         } else {
+            stopJiggling()
+         }
+      }
+      .onAppear {
+         if isEditMode {
+            startJiggling()
+         }
+      }
       .contextMenu {
          CategoryContextMenu(app: app)
 
@@ -33,6 +53,46 @@ struct AppIconView: View {
          }) {
             Label(L10n.hideApp, systemImage: "eye.slash")
          }
+      }
+   }
+   
+   private var scaleEffect: CGFloat {
+      if isDragged {
+         return LaunchPadConstants.draggedItemScale
+      } else if isHovered {
+         return LaunchPadConstants.folderCreationScale
+      }
+      return 1.0
+   }
+   
+   private func startJiggling() {
+      withAnimation(LaunchPadConstants.jiggleAnimation) {
+         jiggleRotation = LaunchPadConstants.jiggleRotation
+         jiggleOffset = LaunchPadConstants.jiggleOffset
+      }
+      
+      // Reverse the animation after a short delay to create oscillation
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+         if isEditMode {
+            withAnimation(LaunchPadConstants.jiggleAnimation) {
+               jiggleRotation = -LaunchPadConstants.jiggleRotation
+               jiggleOffset = -LaunchPadConstants.jiggleOffset
+            }
+            
+            // Continue the loop
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+               if isEditMode {
+                  startJiggling()
+               }
+            }
+         }
+      }
+   }
+   
+   private func stopJiggling() {
+      withAnimation(LaunchPadConstants.quickFadeAnimation) {
+         jiggleRotation = 0
+         jiggleOffset = 0
       }
    }
 }

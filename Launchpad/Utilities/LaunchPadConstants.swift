@@ -5,8 +5,10 @@ class LaunchPadConstants {
 
    // MARK: - Animation Constants
    static let springAnimation = Animation.interpolatingSpring(stiffness: 300, damping: 100)
+   static let smoothSpringAnimation = Animation.interpolatingSpring(stiffness: 250, damping: 25)
    static let fadeAnimation = Animation.easeInOut(duration: 0.3)
    static let quickFadeAnimation = Animation.easeInOut(duration: 0.2)
+   static let jiggleAnimation = Animation.easeInOut(duration: 0.1).repeatForever(autoreverses: true)
 
    // MARK: - Layout Constants
    static let folderPreviewSize = 9 // Maximum apps shown in folder preview (3x3 grid)
@@ -33,4 +35,11 @@ class LaunchPadConstants {
    // MARK: - Drag & Drop Constants
    static let draggedItemScale: CGFloat = 0.9
    static let folderOpenOpacity: Double = 0.2
+   static let hoverScaleIncrease: CGFloat = 1.15
+   static let folderCreationScale: CGFloat = 1.25
+   static let dropZoneHighlightOpacity: Double = 0.3
+   
+   // MARK: - Edit Mode Constants
+   static let jiggleRotation: Double = 3.0  // degrees
+   static let jiggleOffset: CGFloat = 1.5  // points
 }
