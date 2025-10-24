@@ -36,7 +36,7 @@ struct FolderDetailView: View {
                         spacing: layout.vSpacing
                      ) {
                         ForEach(folder!.apps) { app in
-                           AppIconView(app: app, layout: layout, isDragged: draggedApp?.id == app.id)
+                           AppIconView(app: app, layout: layout, isDragged: draggedApp?.id == app.id, isEditMode: false, isHovered: false)
                               .onTapGesture { onItemTap(.app(app))  }
                               .onDrag {
                                  withAnimation(.easeOut(duration: 0.15)) {

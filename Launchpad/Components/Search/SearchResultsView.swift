@@ -54,7 +54,7 @@ struct SearchResultsView: View {
    @ViewBuilder
    private func gridContent(layout: LayoutMetrics) -> some View {
       ForEach(Array(apps.enumerated()), id: \.element.id) { index, app in
-         AppIconView(app: app, layout: layout, isDragged: false)
+         AppIconView(app: app, layout: layout, isDragged: false, isEditMode: false, isHovered: false)
             .id(app.id)
             .background(
                RoundedRectangle(cornerRadius: 12)

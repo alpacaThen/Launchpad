@@ -30,7 +30,7 @@ struct CategoryBoxView: View {
             spacing: 8
          ) {
             ForEach(previewApps) { app in
-               AppIconView(app: app, layout: layout, isDragged: false)
+               AppIconView(app: app, layout: layout, isDragged: false, isEditMode: false, isHovered: false)
                   .onTapGesture { onItemTap(.app(app))  }
             }
 
