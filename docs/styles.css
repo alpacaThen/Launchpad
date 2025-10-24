@@ -1031,7 +1031,7 @@ body {
 .pricing-card {
   background: white;
   border-radius: var(--border-radius);
-  padding: 2.5rem 2rem;
+  padding: 2.5rem 1rem;
   box-shadow: var(--shadow);
   transition: var(--transition);
   position: relative;

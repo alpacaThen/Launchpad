@@ -1,1092 +1,1030 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Launchpad - A modern macOS application launcher with customizable grid layout, folders, and search."
-    />
-    <meta
-      name="keywords"
-      content="Launchpad, macOS, app launcher, application manager, productivity"
-    />
-    <title>Launchpad - Modern macOS Application Launcher</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="container">
-        <div class="nav-content">
-          <div class="nav-logo">
-            <span class="logo-icon">🚀</span>
-            <span class="logo-text">Launchpad</span>
-          </div>
-          <div class="nav-links">
-            <a href="#features">Features</a>
-            <a href="#download">Download</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#whats-new">What's New</a>
-            <a href="https://github.com/kristof12345/Launchpad" target="_blank"
-              >GitHub</a
-            >
-            <a href="#download" class="btn btn-primary">Get Started</a>
-          </div>
-          <button class="mobile-menu-btn" id="mobileMenuBtn">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Launchpad - A modern macOS application launcher with customizable grid layout, folders, and search." />
+  <meta name="keywords" content="Launchpad, macOS, app launcher, application manager, productivity" />
+  <title>Launchpad - Modern macOS Application Launcher</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <div class="nav-logo">
+          <span class="logo-icon">🚀</span>
+          <span class="logo-text">Launchpad</span>
+        </div>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#download">Download</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#whats-new">What's New</a>
+          <a href="https://github.com/kristof12345/Launchpad" target="_blank">GitHub</a>
+          <a href="#download" class="btn btn-primary">Get Started</a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          A Better Way to<br />
+          <span class="gradient-text">Launch Your Apps</span>
+        </h1>
+        <p class="hero-subtitle">
+          Launchpad reimagined. Beautiful, customizable, and powerful
+          application launcher for macOS. Replace the deprecated Apple
+          Launchpad with something better.
+        </p>
+        <div class="hero-actions">
+          <a href="#download" class="btn btn-large btn-primary">
+            Download for macOS
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 14L5 9L6.41 7.59L9 10.17V2H11V10.17L13.59 7.59L15 9L10 14Z" fill="currentColor" />
+              <path d="M2 16V18H18V16H2Z" fill="currentColor" />
+            </svg>
+          </a>
+          <a href="https://github.com/kristof12345/Launchpad" class="btn btn-large btn-secondary">
+            View on GitHub
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 2C5.58 2 2 5.58 2 10C2 13.54 4.29 16.53 7.47 17.59C7.87 17.66 8.02 17.42 8.02 17.21C8.02 17.02 8.01 16.39 8.01 15.72C6 16.09 5.48 15.16 5.32 14.68C5.23 14.43 4.84 13.72 4.5 13.53C4.22 13.38 3.82 13.01 4.49 13C5.12 13.01 5.57 13.58 5.72 13.82C6.44 15.07 7.59 14.73 8.05 14.52C8.12 14 8.33 13.65 8.56 13.45C6.84 13.25 5.03 12.56 5.03 9.53C5.03 8.68 5.23 7.97 5.74 7.42C5.66 7.22 5.38 6.41 5.82 5.31C5.82 5.31 6.49 5.1 8.02 6.13C8.66 5.95 9.34 5.86 10.02 5.86C10.7 5.86 11.38 5.95 12.02 6.13C13.55 5.09 14.22 5.31 14.22 5.31C14.66 6.41 14.38 7.22 14.3 7.42C14.81 7.97 15.01 8.67 15.01 9.53C15.01 12.57 13.19 13.25 11.47 13.45C11.76 13.7 12.01 14.18 12.01 14.92C12.01 15.97 12 16.82 12 17.21C12 17.42 12.15 17.67 12.55 17.59C15.71 16.53 18 13.53 18 10C18 5.58 14.42 2 10 2Z"
+                fill="currentColor" />
+            </svg>
+          </a>
         </div>
       </div>
-    </nav>
+    </div>
+    </div>
+  </section>
 
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1 class="hero-title">
-            A Better Way to<br />
-            <span class="gradient-text">Launch Your Apps</span>
-          </h1>
-          <p class="hero-subtitle">
-            Launchpad reimagined. Beautiful, customizable, and powerful
-            application launcher for macOS. Replace the deprecated Apple
-            Launchpad with something better.
-          </p>
-          <div class="hero-actions">
-            <a href="#download" class="btn btn-large btn-primary">
-              Download for macOS
-              <svg
-                class="btn-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M10 14L5 9L6.41 7.59L9 10.17V2H11V10.17L13.59 7.59L15 9L10 14Z"
-                  fill="currentColor"
-                />
-                <path d="M2 16V18H18V16H2Z" fill="currentColor" />
-              </svg>
-            </a>
-            <a
-              href="https://github.com/kristof12345/Launchpad"
-              class="btn btn-large btn-secondary"
-            >
-              View on GitHub
-              <svg
-                class="btn-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M10 2C5.58 2 2 5.58 2 10C2 13.54 4.29 16.53 7.47 17.59C7.87 17.66 8.02 17.42 8.02 17.21C8.02 17.02 8.01 16.39 8.01 15.72C6 16.09 5.48 15.16 5.32 14.68C5.23 14.43 4.84 13.72 4.5 13.53C4.22 13.38 3.82 13.01 4.49 13C5.12 13.01 5.57 13.58 5.72 13.82C6.44 15.07 7.59 14.73 8.05 14.52C8.12 14 8.33 13.65 8.56 13.45C6.84 13.25 5.03 12.56 5.03 9.53C5.03 8.68 5.23 7.97 5.74 7.42C5.66 7.22 5.38 6.41 5.82 5.31C5.82 5.31 6.49 5.1 8.02 6.13C8.66 5.95 9.34 5.86 10.02 5.86C10.7 5.86 11.38 5.95 12.02 6.13C13.55 5.09 14.22 5.31 14.22 5.31C14.66 6.41 14.38 7.22 14.3 7.42C14.81 7.97 15.01 8.67 15.01 9.53C15.01 12.57 13.19 13.25 11.47 13.45C11.76 13.7 12.01 14.18 12.01 14.92C12.01 15.97 12 16.82 12 17.21C12 17.42 12.15 17.67 12.55 17.59C15.71 16.53 18 13.53 18 10C18 5.58 14.42 2 10 2Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
+  <!-- Video Demo Section -->
+  <section class="video-demo">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">See it in Action!</h2>
+        <p class="section-subtitle">
+          Watch Launchpad in action and discover all its features
+        </p>
+      </div>
+      <div class="video-container">
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/_G629RppwZc" title="Launchpad Demo Video" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Video Demo Section -->
-    <section class="video-demo">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">See it in Action!</h2>
-          <p class="section-subtitle">
-            Watch Launchpad in action and discover all its features
-          </p>
-        </div>
-        <div class="video-container">
-          <div class="video-wrapper">
-            <iframe
-              src="https://www.youtube.com/embed/_G629RppwZc"
-              title="Launchpad Demo Video"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            >
-            </iframe>
-          </div>
-        </div>
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Powerful Features</h2>
+        <p class="section-subtitle">
+          Everything you need to organize and launch your applications
+          efficiently
+        </p>
       </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Powerful Features</h2>
-          <p class="section-subtitle">
-            Everything you need to organize and launch your applications
-            efficiently
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3 class="feature-title">Fully Customizable</h3>
+          <p class="feature-description">
+            Adjust grid dimensions, icon sizes, and transparency. Make it
+            yours with extensive customization options.
           </p>
         </div>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">🎨</div>
-            <h3 class="feature-title">Fully Customizable</h3>
-            <p class="feature-description">
-              Adjust grid dimensions, icon sizes, and transparency. Make it
-              yours with extensive customization options.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">📁</div>
-            <h3 class="feature-title">Smart Folders</h3>
-            <p class="feature-description">
-              Organize apps into folders with drag-and-drop. Create, rename, and
-              manage folders effortlessly.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🔍</div>
-            <h3 class="feature-title">Instant Search</h3>
-            <p class="feature-description">
-              Start typing anywhere to search. Lightning-fast search with fuzzy
-              matching across all apps and folders.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">✨</div>
-            <h3 class="feature-title">Glass Morphism UI</h3>
-            <p class="feature-description">
-              Beautiful translucent design with blur effects. Modern aesthetics
-              that blend perfectly with macOS.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3 class="feature-title">Lightning Fast</h3>
-            <p class="feature-description">
-              Optimized for performance. Instant launch times and smooth
-              animations throughout.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🌐</div>
-            <h3 class="feature-title">Multilingual</h3>
-            <p class="feature-description">
-              Supports multiple languages including English and Hungarian. Easy
-              to extend with more languages.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">⌨️</div>
-            <h3 class="feature-title">Keyboard Navigation</h3>
-            <p class="feature-description">
-              Full keyboard support with arrow keys for page navigation, Enter
-              to launch, ESC to close, and CMD+, for settings.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🔄</div>
-            <h3 class="feature-title">Smart Sorting</h3>
-            <p class="feature-description">
-              Sort apps by name, type, last opened, or install date. Multiple
-              sorting options to organize your apps the way you want.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">💾</div>
-            <h3 class="feature-title">Layout Export & Import</h3>
-            <p class="feature-description">
-              Backup your layout as JSON and restore it anytime. Perfect for
-              sharing configurations across multiple Macs.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Screenshots Section -->
-    <section class="screenshots">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Beautiful Interface</h2>
-          <p class="section-subtitle">
-            Modern design that feels right at home on macOS
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <h3 class="feature-title">Smart Folders</h3>
+          <p class="feature-description">
+            Organize apps into folders with drag-and-drop. Create, rename, and
+            manage folders effortlessly.
           </p>
         </div>
-        <div class="screenshot-showcase">
-          <div class="screenshot-card">
-            <img src="images/Launchpad-1.png" alt="" />
-          </div>
-          <div class="screenshot-card">
-            <img src="images/Launchpad-2.png" alt="" />
-          </div>
-          <div class="screenshot-card">
-            <img src="images/Launchpad-3.png" alt="" />
-          </div>
-          <div class="screenshot-card">
-            <img src="images/Launchpad-4.png" alt="" />
-          </div>
-          <div class="screenshot-card">
-            <img src="images/Launchpad-5.png" alt="" />
-          </div>
-          <div class="screenshot-card">
-            <img src="images/Launchpad-6.png" alt="" />
-          </div>
-          <div class="screenshot-card">
-            <img src="images/Launchpad-9.png" alt="" />
-          </div>
-          <div class="screenshot-card">
-            <img src="images/Launchpad-10.png" alt="" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- macOS Tahoe Support Section -->
-    <section class="tahoe-support">
-      <div class="container">
-        <div class="tahoe-content">
-          <div class="tahoe-text">
-            <div class="tahoe-badge">🎉 Latest Update</div>
-            <h2 class="section-title">Ready for macOS Tahoe</h2>
-            <p class="tahoe-description">
-              Launchpad is fully optimized for macOS 16 Tahoe, taking advantage
-              of the latest features and performance improvements. Experience
-              seamless integration with the newest macOS release.
-            </p>
-            <ul class="tahoe-features">
-              <li>
-                <span class="tahoe-icon">✓</span>
-                <div>
-                  <strong>Native Tahoe Performance</strong>
-                  <p>Optimized for the latest macOS architecture and APIs</p>
-                </div>
-              </li>
-              <li>
-                <span class="tahoe-icon">✓</span>
-                <div>
-                  <strong>Universal Binary</strong>
-                  <p>
-                    Full support for both Intel and Apple Silicon processors
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span class="tahoe-icon">✓</span>
-                <div>
-                  <strong>Future-Proof</strong>
-                  <p>
-                    Regular updates to support new macOS features as they arrive
-                  </p>
-                </div>
-              </li>
-            </ul>
-            <div class="tahoe-actions">
-              <a href="#download" class="btn btn-primary">Download for Tahoe</a>
-              <a
-                href="https://github.com/kristof12345/Launchpad/releases"
-                class="btn btn-secondary"
-                >View Release Notes</a
-              >
-            </div>
-          </div>
-          <div class="tahoe-visual">
-            <div class="tahoe-badge-large">
-              <div class="badge-icon">🏔️</div>
-              <div class="badge-text">
-                <span class="badge-title">macOS 26</span>
-                <span class="badge-subtitle">Tahoe</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Light & Dark Mode Section -->
-    <section class="mode-support">
-      <div class="container">
-        <div class="mode-content">
-          <div class="mode-visual">
-            <div class="mode-preview">
-              <div class="mode-card light-mode">
-                <div class="mode-icon">☀️</div>
-                <h3 class="mode-name">Light Mode</h3>
-                <p class="mode-desc">Bright and clean</p>
-              </div>
-              <div class="mode-card dark-mode">
-                <div class="mode-icon">🌙</div>
-                <h3 class="mode-name">Dark Mode</h3>
-                <p class="mode-desc">Easy on the eyes</p>
-              </div>
-            </div>
-          </div>
-          <div class="mode-text">
-            <h2 class="section-title">Adapts to Your Style</h2>
-            <p class="mode-description">
-              Launchpad automatically adapts to your macOS appearance settings,
-              providing a seamless experience whether you prefer light or dark
-              mode.
-            </p>
-            <ul class="mode-features">
-              <li>
-                <span class="mode-feature-icon">✓</span>
-                <div>
-                  <strong>Automatic Detection</strong>
-                  <p>
-                    Switches instantly when you change your system appearance
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span class="mode-feature-icon">✓</span>
-                <div>
-                  <strong>Perfectly Tuned</strong>
-                  <p>Optimized colors and contrast for both modes</p>
-                </div>
-              </li>
-              <li>
-                <span class="mode-feature-icon">✓</span>
-                <div>
-                  <strong>Glass Morphism</strong>
-                  <p>Beautiful translucent effects in any lighting condition</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Advanced Settings Section -->
-    <section class="advanced-settings">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Advanced Settings</h2>
-          <p class="section-subtitle">
-            Customize every aspect of Launchpad to match your workflow and preferences
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3 class="feature-title">Instant Search</h3>
+          <p class="feature-description">
+            Start typing anywhere to search. Lightning-fast search with fuzzy
+            matching across all apps and folders.
           </p>
         </div>
-        <div class="settings-content">
-          <div class="settings-grid">
-            <div class="settings-category">
-              <div class="settings-category-header">
-                <div class="settings-icon">⚙️</div>
-                <h3 class="settings-category-title">General Settings</h3>
-              </div>
-              <p class="settings-category-description">
-                Configure activation behavior, login items, and general app preferences. 
-                Control how Launchpad launches and integrates with your system.
-              </p>
-              <div class="settings-screenshot">
-                <img src="images/LaunchpadSettings-1.png" alt="General Settings - Activation and login options" />
-              </div>
-            </div>
-
-            <div class="settings-category">
-              <div class="settings-category-header">
-                <div class="settings-icon">📐</div>
-                <h3 class="settings-category-title">Layout Settings</h3>
-              </div>
-              <p class="settings-category-description">
-                Adjust grid dimensions, icon sizes, and spacing. Fine-tune the visual 
-                layout to fit your screen size and personal preferences perfectly.
-              </p>
-              <div class="settings-screenshot">
-                <img src="images/LaunchpadSettings-2.png" alt="Layout Settings - Grid dimensions and icon sizes" />
-              </div>
-            </div>
-
-            <div class="settings-category">
-              <div class="settings-category-header">
-                <div class="settings-icon">🎨</div>
-                <h3 class="settings-category-title">Appearance Settings</h3>
-              </div>
-              <p class="settings-category-description">
-                Control transparency levels, blur effects, and visual styles. Create 
-                the perfect glass morphism look that blends seamlessly with macOS.
-              </p>
-              <div class="settings-screenshot">
-                <img src="images/LaunchpadSettings-3.png" alt="Appearance Settings - Transparency and visual effects" />
-              </div>
-            </div>
-
-            <div class="settings-category">
-              <div class="settings-category-header">
-                <div class="settings-icon">🖼️</div>
-                <h3 class="settings-category-title">Background Settings</h3>
-              </div>
-              <p class="settings-category-description">
-                Choose between blur effects or custom wallpapers. Set your preferred 
-                background style and customize the visual backdrop of your launcher.
-              </p>
-              <div class="settings-screenshot">
-                <img src="images/LaunchpadSettings-4.png" alt="Background Settings - Blur and wallpaper options" />
-              </div>
-            </div>
-
-            <div class="settings-category">
-              <div class="settings-category-header">
-                <div class="settings-icon">📱</div>
-                <h3 class="settings-category-title">App Management</h3>
-              </div>
-              <p class="settings-category-description">
-                Manage hidden apps, add custom applications, and control which apps 
-                appear in your launcher. Keep your app grid clean and organized.
-              </p>
-              <div class="settings-screenshot">
-                <img src="images/LaunchpadSettings-6.png" alt="App Management - Hidden apps and custom locations" />
-              </div>
-            </div>
-
-            <div class="settings-category">
-              <div class="settings-category-header">
-                <div class="settings-icon">🔧</div>
-                <h3 class="settings-category-title">Advanced Actions</h3>
-              </div>
-              <p class="settings-category-description">
-                Export and import layouts, reset configurations, and access advanced 
-                tools. Backup your setup or share configurations across multiple Macs.
-              </p>
-              <div class="settings-screenshot">
-                <img src="images/LaunchpadSettings-5.png" alt="Advanced Actions - Layout export and import" />
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-highlight">
-            <div class="highlight-content">
-              <div class="highlight-icon">✨</div>
-              <div class="highlight-text">
-                <h3 class="highlight-title">Real-Time Preview</h3>
-                <p class="highlight-description">
-                  All settings changes are applied instantly. See your customizations 
-                  in real-time without needing to restart the app. Experiment freely 
-                  and find your perfect configuration.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Simple Pricing</h2>
-          <p class="section-subtitle">
-            Free for development and testing. Support the project for personal
-            and commercial use.
+        <div class="feature-card">
+          <div class="feature-icon">✨</div>
+          <h3 class="feature-title">Glass Morphism UI</h3>
+          <p class="feature-description">
+            Beautiful translucent design with blur effects. Modern aesthetics
+            that blend perfectly with macOS.
           </p>
         </div>
-        <div class="pricing-grid">
-          <div class="pricing-card">
-            <div class="pricing-badge">Free</div>
-            <h3 class="pricing-title">Development</h3>
-            <div class="pricing-price">$0</div>
-            <p class="pricing-description">
-              Perfect for testing and evaluation
-            </p>
-            <ul class="pricing-features">
-              <li>✓ Development use</li>
-              <li>✓ Testing purposes</li>
-              <li>✓ Educational use</li>
-              <li>✓ Open source code</li>
-            </ul>
-            <a href="#download" class="btn btn-secondary btn-block">Download</a>
-          </div>
-          <div class="pricing-card featured">
-            <div class="pricing-badge">Popular</div>
-            <h3 class="pricing-title">Personal</h3>
-            <div class="pricing-price">$4.99</div>
-            <p class="pricing-description">For personal use on your devices</p>
-            <ul class="pricing-features">
-              <li>✓ All features included</li>
-              <li>✓ Personal use</li>
-              <li>✓ Use on multiple devices</li>
-              <li>✓ Lifetime licence</li>
-              <li>✓ Support development</li>
-            </ul>
-            <a
-              href="https://buymeacoffee.com/waikiki.com"
-              target="_blank"
-              class="btn btn-primary btn-block"
-              >Purchase License</a
-            >
-          </div>
-          <div class="pricing-card">
-            <div class="pricing-badge">Pro</div>
-            <h3 class="pricing-title">Commercial</h3>
-            <div class="pricing-price">$19.99</div>
-            <p class="pricing-description">For business and commercial use</p>
-            <ul class="pricing-features">
-              <li>✓ All features included</li>
-              <li>✓ Commercial use</li>
-              <li>✓ Use on multiple devices</li>
-              <li>✓ Lifetime licence</li>
-              <li>✓ Priority support</li>
-            </ul>
-            <a
-              href="https://buymeacoffee.com/waikiki.com"
-              target="_blank"
-              class="btn btn-secondary btn-block"
-              >Contact Sales</a
-            >
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Download Section -->
-    <section class="download" id="download">
-      <div class="container">
-        <div class="download-content">
-          <h2 class="section-title">Ready to Get Started?</h2>
-          <p class="section-subtitle">
-            Download Launchpad now and experience a better way to manage your
-            applications
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3 class="feature-title">Lightning Fast</h3>
+          <p class="feature-description">
+            Optimized for performance. Instant launch times and smooth
+            animations throughout.
           </p>
-          <div class="download-actions">
-            <a
-              href="https://github.com/kristof12345/Launchpad/releases/latest"
-              class="btn btn-large btn-primary"
-            >
-              Download Latest Release
-              <svg
-                class="btn-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M10 14L5 9L6.41 7.59L9 10.17V2H11V10.17L13.59 7.59L15 9L10 14Z"
-                  fill="currentColor"
-                />
-                <path d="M2 16V18H18V16H2Z" fill="currentColor" />
-              </svg>
-            </a>
-          </div>
-          <p class="download-info">
-            macOS 15.6 or later • Universal Binary (Intel & Apple Silicon)
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3 class="feature-title">Multilingual</h3>
+          <p class="feature-description">
+            Supports multiple languages including English and Hungarian. Easy
+            to extend with more languages.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⌨️</div>
+          <h3 class="feature-title">Keyboard Navigation</h3>
+          <p class="feature-description">
+            Full keyboard support with arrow keys for page navigation, Enter
+            to launch, ESC to close, and CMD+, for settings.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3 class="feature-title">Smart Sorting</h3>
+          <p class="feature-description">
+            Sort apps by name, type, last opened, or install date. Multiple
+            sorting options to organize your apps the way you want.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💾</div>
+          <h3 class="feature-title">Layout Export & Import</h3>
+          <p class="feature-description">
+            Backup your layout as JSON and restore it anytime. Perfect for
+            sharing configurations across multiple Macs.
           </p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- What's New Section -->
-    <section class="whats-new" id="whats-new">
-      <div class="container">
-        <div class="section-header">
-          <div class="new-badge">✨ New</div>
-          <h2 class="section-title">What's New</h2>
-          <p class="section-subtitle">
-            Latest features and improvements to make your experience even better
-          </p>
+  <!-- Screenshots Section -->
+  <section class="screenshots">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Beautiful Interface</h2>
+        <p class="section-subtitle">
+          Modern design that feels right at home on macOS
+        </p>
+      </div>
+      <div class="screenshot-showcase">
+        <div class="screenshot-card">
+          <img src="images/Launchpad-1.png" alt="" />
         </div>
+        <div class="screenshot-card">
+          <img src="images/Launchpad-2.png" alt="" />
+        </div>
+        <div class="screenshot-card">
+          <img src="images/Launchpad-3.png" alt="" />
+        </div>
+        <div class="screenshot-card">
+          <img src="images/Launchpad-4.png" alt="" />
+        </div>
+        <div class="screenshot-card">
+          <img src="images/Launchpad-5.png" alt="" />
+        </div>
+        <div class="screenshot-card">
+          <img src="images/Launchpad-6.png" alt="" />
+        </div>
+        <div class="screenshot-card">
+          <img src="images/Launchpad-9.png" alt="" />
+        </div>
+        <div class="screenshot-card">
+          <img src="images/Launchpad-10.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- App Categories Feature Highlight -->
-        <div class="feature-spotlight">
-          <div class="spotlight-header">
-            <div class="spotlight-badge">
-              <span class="badge-icon">🏷️</span>
-              <span class="badge-text">Coming Soon</span>
-            </div>
-            <h3 class="spotlight-title">App Categories - Tag & Organize</h3>
-            <p class="spotlight-subtitle">
-              A powerful new way to organize and launch your applications with 
-              flexible tagging and instant category-based launching.
-            </p>
-          </div>
-
-          <div class="spotlight-content">
-            <div class="spotlight-description">
-              <div class="description-block">
-                <h4 class="description-title">
-                  <span class="icon">📂</span>
-                  Flexible Organization
-                </h4>
+  <!-- macOS Tahoe Support Section -->
+  <section class="tahoe-support">
+    <div class="container">
+      <div class="tahoe-content">
+        <div class="tahoe-text">
+          <div class="tahoe-badge">🎉 Latest Update</div>
+          <h2 class="section-title">Ready for macOS Tahoe</h2>
+          <p class="tahoe-description">
+            Launchpad is fully optimized for macOS 16 Tahoe, taking advantage
+            of the latest features and performance improvements. Experience
+            seamless integration with the newest macOS release.
+          </p>
+          <ul class="tahoe-features">
+            <li>
+              <span class="tahoe-icon">✓</span>
+              <div>
+                <strong>Native Tahoe Performance</strong>
+                <p>Optimized for the latest macOS architecture and APIs</p>
+              </div>
+            </li>
+            <li>
+              <span class="tahoe-icon">✓</span>
+              <div>
+                <strong>Universal Binary</strong>
                 <p>
-                  Unlike folders where each app can only exist in one place, categories 
-                  use a tag-based system. Add any app to multiple categories simultaneously, 
-                  creating flexible organizational structures that match your workflow.
+                  Full support for both Intel and Apple Silicon processors
                 </p>
               </div>
-
-              <div class="description-block">
-                <h4 class="description-title">
-                  <span class="icon">🔍</span>
-                  Dedicated Categories Page
-                </h4>
+            </li>
+            <li>
+              <span class="tahoe-icon">✓</span>
+              <div>
+                <strong>Future-Proof</strong>
                 <p>
-                  Browse all your categories in a beautiful dedicated page at the end of 
-                  your Launchpad. Each category displays a 3×3 preview grid showing up to 
-                  9 apps from that category, giving you a visual overview at a glance.
+                  Regular updates to support new macOS features as they arrive
                 </p>
               </div>
-
-              <div class="description-block">
-                <h4 class="description-title">
-                  <span class="icon">⚡</span>
-                  Instant Multi-Launch
-                </h4>
-                <p>
-                  Open a category and press <kbd>Enter</kbd> to launch all apps in that 
-                  category at once. Perfect for starting your workday, launching development 
-                  tools, or opening your creative suite with a single key press.
-                </p>
-              </div>
-
-              <div class="description-block">
-                <h4 class="description-title">
-                  <span class="icon">⚙️</span>
-                  Easy Management
-                </h4>
-                <p>
-                  Create, rename, reorder, and delete categories from the settings panel. 
-                  Drag and drop apps onto category boxes to add them, or right-click apps 
-                  to manage their category memberships with an intuitive context menu.
-                </p>
-              </div>
-
-              <div class="description-block">
-                <h4 class="description-title">
-                  <span class="icon">💾</span>
-                  Import & Export
-                </h4>
-                <p>
-                  Back up your categories to JSON files and restore them anytime. Share 
-                  your category configurations across multiple Macs or with your team for 
-                  consistent app organization everywhere.
-                </p>
-              </div>
-            </div>
-
-            <div class="spotlight-screenshots">
-              <div class="screenshot-item">
-                <img 
-                  src="images/LaunchpadUpcoming-1.png" 
-                  alt="Categories Page - Browse all your categories with preview grids"
-                />
-                <p class="screenshot-caption">
-                  Categories page with visual previews
-                </p>
-              </div>
-              <div class="screenshot-item">
-                <img 
-                  src="images/LaunchpadUpcoming-2.png" 
-                  alt="Category Detail View - Full category with all apps"
-                />
-                <p class="screenshot-caption">
-                  Category detail view showing all apps
-                </p>
-              </div>
-              <div class="screenshot-item">
-                <img 
-                  src="images/LaunchpadUpcoming-3.png" 
-                  alt="Category Settings - Create and manage categories"
-                />
-                <p class="screenshot-caption">
-                  Category management in settings
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="spotlight-features">
-            <h4 class="features-title">Key Features</h4>
-            <div class="features-grid-compact">
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>Tag apps to multiple categories</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>Visual 3×3 preview grids</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>Launch all apps in category with Enter</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>Drag & drop to add apps</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>Context menu integration</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>Reorder categories</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>JSON export & import</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-check">✓</span>
-                <span>Dedicated categories page</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="spotlight-cta">
-            <p class="cta-text">
-              This feature is currently in development and will be available in an upcoming release.
-              Follow the project on GitHub to stay updated!
-            </p>
-            <a 
-              href="https://github.com/kristof12345/Launchpad" 
-              class="btn btn-primary"
-            >
-              Follow on GitHub
-              <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 2C5.58 2 2 5.58 2 10C2 13.54 4.29 16.53 7.47 17.59C7.87 17.66 8.02 17.42 8.02 17.21C8.02 17.02 8.01 16.39 8.01 15.72C6 16.09 5.48 15.16 5.32 14.68C5.23 14.43 4.84 13.72 4.5 13.53C4.22 13.38 3.82 13.01 4.49 13C5.12 13.01 5.57 13.58 5.72 13.82C6.44 15.07 7.59 14.73 8.05 14.52C8.12 14 8.33 13.65 8.56 13.45C6.84 13.25 5.03 12.56 5.03 9.53C5.03 8.68 5.23 7.97 5.74 7.42C5.66 7.22 5.38 6.41 5.82 5.31C5.82 5.31 6.49 5.1 8.02 6.13C8.66 5.95 9.34 5.86 10.02 5.86C10.7 5.86 11.38 5.95 12.02 6.13C13.55 5.09 14.22 5.31 14.22 5.31C14.66 6.41 14.38 7.22 14.3 7.42C14.81 7.97 15.01 8.67 15.01 9.53C15.01 12.57 13.19 13.25 11.47 13.45C11.76 13.7 12.01 14.18 12.01 14.92C12.01 15.97 12 16.82 12 17.21C12 17.42 12.15 17.67 12.55 17.59C15.71 16.53 18 13.53 18 10C18 5.58 14.42 2 10 2Z" fill="currentColor"/>
-              </svg>
-            </a>
+            </li>
+          </ul>
+          <div class="tahoe-actions">
+            <a href="#download" class="btn btn-primary">Download for Tahoe</a>
+            <a href="https://github.com/kristof12345/Launchpad/releases" class="btn btn-secondary">View Release
+              Notes</a>
           </div>
         </div>
-
-        <div class="whats-new-grid">
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">🔐</div>
-              <span class="version-badge">v2.0</span>
+        <div class="tahoe-visual">
+          <div class="tahoe-badge-large">
+            <div class="badge-icon">🏔️</div>
+            <div class="badge-text">
+              <span class="badge-title">macOS 26</span>
+              <span class="badge-subtitle">Tahoe</span>
             </div>
-            <h3 class="new-feature-title">Login Item Manager</h3>
-            <p class="new-feature-description">
-              Start Launchpad automatically when you log in. Enable or disable
-              launch at login directly from the settings panel. Full control
-              over your startup experience.
-            </p>
-            <ul class="new-feature-list">
-              <li>Toggle launch at login</li>
-              <li>Seamless system integration</li>
-              <li>No manual configuration needed</li>
-            </ul>
-          </div>
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">🎯</div>
-              <span class="version-badge">v2.0</span>
-            </div>
-            <h3 class="new-feature-title">Custom App Locations</h3>
-            <p class="new-feature-description">
-              Add applications from anywhere on your Mac. Not limited to
-              /Applications - include utilities, scripts, or apps from custom
-              directories.
-            </p>
-            <ul class="new-feature-list">
-              <li>Browse and add custom apps</li>
-              <li>Support for any app location</li>
-              <li>Flexible app management</li>
-            </ul>
-          </div>
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">👁️</div>
-              <span class="version-badge">v2.0</span>
-            </div>
-            <h3 class="new-feature-title">Hidden Apps Management</h3>
-            <p class="new-feature-description">
-              Hide unwanted applications from your Launchpad. Keep your app
-              launcher clean and organized by hiding system apps or utilities
-              you don't use.
-            </p>
-            <ul class="new-feature-list">
-              <li>Context menu to hide apps</li>
-              <li>Manage hidden apps in settings</li>
-              <li>Restore hidden apps anytime</li>
-            </ul>
-          </div>
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">📥</div>
-              <span class="version-badge">BETA</span>
-            </div>
-            <h3 class="new-feature-title">Apple Launchpad Import</h3>
-            <p class="new-feature-description">
-              Migrate seamlessly from Apple's Launchpad. Import your existing
-              layout, folders, and organization with a single click. Keep your
-              familiar setup.
-            </p>
-            <ul class="new-feature-list">
-              <li>One-click import</li>
-              <li>Preserves folder structure</li>
-              <li>Maintains app organization</li>
-            </ul>
-          </div>
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">⚡</div>
-              <span class="version-badge">v2.0</span>
-            </div>
-            <h3 class="new-feature-title">Activation Settings</h3>
-            <p class="new-feature-description">
-              Choose how to launch Launchpad. With third party apps you can configure keyboard shortcuts,
-              gestures, or other activation methods to match your workflow
-              preferences.
-            </p>
-            <ul class="new-feature-list">
-              <li>Customizable activation</li>
-              <li>Hide / show with a single click</li>
-              <li>Fast access controls</li>
-            </ul>
-          </div>
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">🎨</div>
-              <span class="version-badge">v2.0</span>
-            </div>
-            <h3 class="new-feature-title">Enhanced UI & UX</h3>
-            <p class="new-feature-description">
-              Refined animations, improved performance, and polished
-              interactions throughout. Every detail has been optimized for a
-              smoother, more enjoyable experience.
-            </p>
-            <ul class="new-feature-list">
-              <li>Smoother animations</li>
-              <li>Better performance</li>
-              <li>Refined interactions</li>
-            </ul>
-          </div>
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">🔄</div>
-              <span class="version-badge">BETA</span>
-            </div>
-            <h3 class="new-feature-title">Advanced Sorting Options</h3>
-            <p class="new-feature-description">
-              Sort your apps by name, type, last opened date, or install date.
-              Quick sort menu accessible from the search bar for instant
-              organization.
-            </p>
-            <ul class="new-feature-list">
-              <li>Multiple sorting criteria</li>
-              <li>One-click sorting from UI</li>
-              <li>Persistent sort preferences</li>
-            </ul>
-          </div>
-          <div class="new-feature-card">
-            <div class="new-feature-header">
-              <div class="new-feature-icon">🎯</div>
-              <span class="version-badge">v2.0</span>
-            </div>
-            <h3 class="new-feature-title">Reset on Relaunch</h3>
-            <p class="new-feature-description">
-              Optional setting to return to the first page and clear search when
-              you reopen Launchpad. Start fresh every time or pick up where you
-              left off.
-            </p>
-            <ul class="new-feature-list">
-              <li>Configurable behavior</li>
-              <li>Clear search on relaunch</li>
-              <li>Return to first page</li>
-            </ul>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Keyboard Shortcuts & Tips Section -->
-    <section class="shortcuts-tips">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Keyboard Shortcuts & Tips</h2>
-          <p class="section-subtitle">
-            Master Launchpad with these handy shortcuts and workflow tips
-          </p>
+  <!-- Light & Dark Mode Section -->
+  <section class="mode-support">
+    <div class="container">
+      <div class="mode-content">
+        <div class="mode-visual">
+          <div class="mode-preview">
+            <div class="mode-card light-mode">
+              <div class="mode-icon">☀️</div>
+              <h3 class="mode-name">Light Mode</h3>
+              <p class="mode-desc">Bright and clean</p>
+            </div>
+            <div class="mode-card dark-mode">
+              <div class="mode-icon">🌙</div>
+              <h3 class="mode-name">Dark Mode</h3>
+              <p class="mode-desc">Easy on the eyes</p>
+            </div>
+          </div>
         </div>
-        <div class="shortcuts-grid">
-          <div class="shortcut-card">
-            <div class="shortcut-icon">⌨️</div>
-            <h3 class="shortcut-title">Essential Shortcuts</h3>
-            <ul class="shortcut-list">
-              <li>
-                <kbd>←</kbd> <kbd>→</kbd>
-                <span>Navigate between pages</span>
-              </li>
-              <li>
-                <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd>
-                <span>Navigate search results</span>
-              </li>
-              <li>
-                <kbd>Enter</kbd>
-                <span>Launch first search result</span>
-              </li>
-              <li>
-                <kbd>ESC</kbd>
-                <span>Close Launchpad / Clear search</span>
-              </li>
-              <li>
-                <kbd>⌘</kbd> + <kbd>,</kbd>
-                <span>Open settings</span>
-              </li>
-            </ul>
+        <div class="mode-text">
+          <h2 class="section-title">Adapts to Your Style</h2>
+          <p class="mode-description">
+            Launchpad automatically adapts to your macOS appearance settings,
+            providing a seamless experience whether you prefer light or dark
+            mode.
+          </p>
+          <ul class="mode-features">
+            <li>
+              <span class="mode-feature-icon">✓</span>
+              <div>
+                <strong>Automatic Detection</strong>
+                <p>
+                  Switches instantly when you change your system appearance
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="mode-feature-icon">✓</span>
+              <div>
+                <strong>Perfectly Tuned</strong>
+                <p>Optimized colors and contrast for both modes</p>
+              </div>
+            </li>
+            <li>
+              <span class="mode-feature-icon">✓</span>
+              <div>
+                <strong>Glass Morphism</strong>
+                <p>Beautiful translucent effects in any lighting condition</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advanced Settings Section -->
+  <section class="advanced-settings">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Advanced Settings</h2>
+        <p class="section-subtitle">
+          Customize every aspect of Launchpad to match your workflow and preferences
+        </p>
+      </div>
+      <div class="settings-content">
+        <div class="settings-grid">
+          <div class="settings-category">
+            <div class="settings-category-header">
+              <div class="settings-icon">⚙️</div>
+              <h3 class="settings-category-title">General Settings</h3>
+            </div>
+            <p class="settings-category-description">
+              Configure activation behavior, login items, and general app preferences.
+              Control how Launchpad launches and integrates with your system.
+            </p>
+            <div class="settings-screenshot">
+              <img src="images/LaunchpadSettings-1.png" alt="General Settings - Activation and login options" />
+            </div>
           </div>
-          <div class="shortcut-card">
-            <div class="shortcut-icon">🖱️</div>
-            <h3 class="shortcut-title">Mouse & Trackpad</h3>
-            <ul class="shortcut-list">
-              <li>
-                <span class="key-label">Horizontal Scroll</span>
-                <span>Navigate pages with trackpad</span>
-              </li>
-              <li>
-                <span class="key-label">Click Page Dots</span>
-                <span>Jump to specific page</span>
-              </li>
-              <li>
-                <span class="key-label">Drag & Drop</span>
-                <span>Reorder apps and create folders</span>
-              </li>
-              <li>
-                <span class="key-label">Drag to Edge</span>
-                <span>Move apps to previous/next page</span>
-              </li>
-            </ul>
+
+          <div class="settings-category">
+            <div class="settings-category-header">
+              <div class="settings-icon">📐</div>
+              <h3 class="settings-category-title">Layout Settings</h3>
+            </div>
+            <p class="settings-category-description">
+              Adjust grid dimensions, icon sizes, and spacing. Fine-tune the visual
+              layout to fit your screen size and personal preferences perfectly.
+            </p>
+            <div class="settings-screenshot">
+              <img src="images/LaunchpadSettings-2.png" alt="Layout Settings - Grid dimensions and icon sizes" />
+            </div>
           </div>
-          <div class="shortcut-card">
-            <div class="shortcut-icon">💡</div>
-            <h3 class="shortcut-title">Pro Tips</h3>
-            <ul class="shortcut-list">
-              <li>
-                <span class="key-label">Type Anywhere</span>
-                <span>Start typing to search instantly</span>
-              </li>
-              <li>
-                <span class="key-label">Folder Rename</span>
-                <span>Click folder name to edit</span>
-              </li>
-              <li>
-                <span class="key-label">Drag to Create</span>
-                <span>Drag one app onto another for folders</span>
-              </li>
-              <li>
-                <span class="key-label">Right-Click Apps</span>
-                <span>Hide unwanted apps from menu</span>
-              </li>
-              <li>
-                <span class="key-label">Sort Menu</span>
-                <span>Click sort icon to organize apps</span>
-              </li>
-            </ul>
+
+          <div class="settings-category">
+            <div class="settings-category-header">
+              <div class="settings-icon">🎨</div>
+              <h3 class="settings-category-title">Appearance Settings</h3>
+            </div>
+            <p class="settings-category-description">
+              Control transparency levels, blur effects, and visual styles. Create
+              the perfect glass morphism look that blends seamlessly with macOS.
+            </p>
+            <div class="settings-screenshot">
+              <img src="images/LaunchpadSettings-3.png" alt="Appearance Settings - Transparency and visual effects" />
+            </div>
+          </div>
+
+          <div class="settings-category">
+            <div class="settings-category-header">
+              <div class="settings-icon">🖼️</div>
+              <h3 class="settings-category-title">Background Settings</h3>
+            </div>
+            <p class="settings-category-description">
+              Choose between blur effects or custom wallpapers. Set your preferred
+              background style and customize the visual backdrop of your launcher.
+            </p>
+            <div class="settings-screenshot">
+              <img src="images/LaunchpadSettings-4.png" alt="Background Settings - Blur and wallpaper options" />
+            </div>
+          </div>
+
+          <div class="settings-category">
+            <div class="settings-category-header">
+              <div class="settings-icon">📱</div>
+              <h3 class="settings-category-title">App Management</h3>
+            </div>
+            <p class="settings-category-description">
+              Manage hidden apps, add custom applications, and control which apps
+              appear in your launcher. Keep your app grid clean and organized.
+            </p>
+            <div class="settings-screenshot">
+              <img src="images/LaunchpadSettings-6.png" alt="App Management - Hidden apps and custom locations" />
+            </div>
+          </div>
+
+          <div class="settings-category">
+            <div class="settings-category-header">
+              <div class="settings-icon">🔧</div>
+              <h3 class="settings-category-title">Advanced Actions</h3>
+            </div>
+            <p class="settings-category-description">
+              Export and import layouts, reset configurations, and access advanced
+              tools. Backup your setup or share configurations across multiple Macs.
+            </p>
+            <div class="settings-screenshot">
+              <img src="images/LaunchpadSettings-5.png" alt="Advanced Actions - Layout export and import" />
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-highlight">
+          <div class="highlight-content">
+            <div class="highlight-icon">✨</div>
+            <div class="highlight-text">
+              <h3 class="highlight-title">Real-Time Preview</h3>
+              <p class="highlight-description">
+                All settings changes are applied instantly. See your customizations
+                in real-time without needing to restart the app. Experiment freely
+                and find your perfect configuration.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Installation Help Section -->
-    <section class="installation-help">
-      <div class="container">
-        <div class="help-header">
-          <h2 class="section-title">Installation Help</h2>
-          <p class="section-subtitle">
-            Having trouble opening Launchpad? Here's how to fix the "cannot
-            verify developer" warning.
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Simple Pricing</h2>
+        <p class="section-subtitle">
+          Free for development and testing. Support the project for personal
+          and commercial use.
+        </p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-badge">Budget</div>
+          <h3 class="pricing-title">Basic</h3>
+          <div class="pricing-price">$4.99</div>
+          <p class="pricing-description">Perfect for Launchpad replacement</p>
+          <ul class="pricing-features">
+            <li>✓ Original Launchpad features</li>
+            <li>✓ Fully customizable layout</li>
+            <li>✓ Quick search and ordering</li>
+            <li>✓ Hide unwanted apps</li>
+            <li>✓ Single device use</li>
+          </ul>
+          <a href="#download" class="btn btn-secondary btn-block">Download</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Popular</div>
+          <h3 class="pricing-title">Pro</h3>
+          <div class="pricing-price">$9.99</div>
+          <p class="pricing-description">Advanced features</p>
+          <ul class="pricing-features">
+            <li>✓ All basic features</li>
+            <li>✓ Import from Apple Launchpad</li>
+            <li>✓ Custom app folder locations</li>
+            <li>✓ Backup and restore layout</li>
+            <li>✓ Use on multiple devices</li>
+          </ul>
+          <a href="https://buymeacoffee.com/waikiki.com" target="_blank" class="btn btn-primary btn-block">Purchase
+            License</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-badge">Business</div>
+          <h3 class="pricing-title">Commercial</h3>
+          <div class="pricing-price">$19.99</div>
+          <p class="pricing-description">For business and commercial use</p>
+          <ul class="pricing-features">
+            <li>✓ All features included</li>
+            <li>✓ Commercial use</li>
+            <li>✓ Use on multiple devices</li>
+            <li>✓ Lifetime licence</li>
+            <li>✓ Priority support</li>
+          </ul>
+          <a href="https://buymeacoffee.com/waikiki.com" target="_blank" class="btn btn-secondary btn-block">Contact
+            Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section class="download" id="download">
+    <div class="container">
+      <div class="download-content">
+        <h2 class="section-title">Ready to Get Started?</h2>
+        <p class="section-subtitle">
+          Download Launchpad now and experience a better way to manage your
+          applications
+        </p>
+        <div class="download-actions">
+          <a href="https://github.com/kristof12345/Launchpad/releases/latest" class="btn btn-large btn-primary">
+            Download Latest Release
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 14L5 9L6.41 7.59L9 10.17V2H11V10.17L13.59 7.59L15 9L10 14Z" fill="currentColor" />
+              <path d="M2 16V18H18V16H2Z" fill="currentColor" />
+            </svg>
+          </a>
+        </div>
+        <p class="download-info">
+          macOS 15.6 or later • Universal Binary (Intel & Apple Silicon)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's New Section -->
+  <section class="whats-new" id="whats-new">
+    <div class="container">
+      <div class="section-header">
+        <div class="new-badge">✨ New</div>
+        <h2 class="section-title">What's New</h2>
+        <p class="section-subtitle">
+          Latest features and improvements to make your experience even better
+        </p>
+      </div>
+
+      <!-- App Categories Feature Highlight -->
+      <div class="feature-spotlight">
+        <div class="spotlight-header">
+          <div class="spotlight-badge">
+            <span class="badge-icon">🏷️</span>
+            <span class="badge-text">Coming Soon</span>
+          </div>
+          <h3 class="spotlight-title">App Categories - Tag & Organize</h3>
+          <p class="spotlight-subtitle">
+            A powerful new way to organize and launch your applications with
+            flexible tagging and instant category-based launching.
           </p>
         </div>
-        <div class="help-content">
-          <div class="help-warning">
-            <div class="warning-icon">⚠️</div>
-            <div class="warning-text">
-              <strong>Seeing this message?</strong>
+
+        <div class="spotlight-content">
+          <div class="spotlight-description">
+            <div class="description-block">
+              <h4 class="description-title">
+                <span class="icon">📂</span>
+                Flexible Organization
+              </h4>
               <p>
-                "Launchpad cannot be opened because the developer cannot be
-                verified"
+                Unlike folders where each app can only exist in one place, categories
+                use a tag-based system. Add any app to multiple categories simultaneously,
+                creating flexible organizational structures that match your workflow.
               </p>
             </div>
-          </div>
-          <div class="help-steps">
-            <div class="step-card">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h3 class="step-title">Open System Settings</h3>
-                <p class="step-description">
-                  Click the Apple menu () in the top-left corner and select
-                  <strong>System Settings</strong> (or System Preferences on
-                  older macOS versions).
-                </p>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h3 class="step-title">Go to Privacy & Security</h3>
-                <p class="step-description">
-                  In System Settings, click on
-                  <strong>Privacy & Security</strong> in the sidebar.
-                </p>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h3 class="step-title">Allow Launchpad to Open</h3>
-                <p class="step-description">
-                  Scroll down to the Security section. You'll see a message
-                  about Launchpad being blocked. Click
-                  <strong>"Open Anyway"</strong> and confirm with your password.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="help-alternative">
-            <h3 class="alternative-title">
-              Alternative Method: Right-Click to Open
-            </h3>
-            <div class="alternative-steps">
-              <ol>
-                <li>Locate the Launchpad app in Finder</li>
-                <li>
-                  <strong>Right-click</strong> (or Control-click) on the app
-                  icon
-                </li>
-                <li>Select <strong>"Open"</strong> from the menu</li>
-                <li>
-                  Click <strong>"Open"</strong> again in the dialog that appears
-                </li>
-              </ol>
-            </div>
-          </div>
-          <div class="help-note">
-            <div class="note-icon">💡</div>
-            <div class="note-text">
-              <strong>Why does this happen?</strong>
+
+            <div class="description-block">
+              <h4 class="description-title">
+                <span class="icon">🔍</span>
+                Dedicated Categories Page
+              </h4>
               <p>
-                macOS Gatekeeper protects your Mac by checking if apps are from
-                identified developers. Since Launchpad is not distributed
-                through the Mac App Store, you need to explicitly allow it to
-                run. This is a one-time process.
+                Browse all your categories in a beautiful dedicated page at the end of
+                your Launchpad. Each category displays a 3×3 preview grid showing up to
+                9 apps from that category, giving you a visual overview at a glance.
+              </p>
+            </div>
+
+            <div class="description-block">
+              <h4 class="description-title">
+                <span class="icon">⚡</span>
+                Instant Multi-Launch
+              </h4>
+              <p>
+                Open a category and press <kbd>Enter</kbd> to launch all apps in that
+                category at once. Perfect for starting your workday, launching development
+                tools, or opening your creative suite with a single key press.
+              </p>
+            </div>
+
+            <div class="description-block">
+              <h4 class="description-title">
+                <span class="icon">⚙️</span>
+                Easy Management
+              </h4>
+              <p>
+                Create, rename, reorder, and delete categories from the settings panel.
+                Drag and drop apps onto category boxes to add them, or right-click apps
+                to manage their category memberships with an intuitive context menu.
+              </p>
+            </div>
+
+            <div class="description-block">
+              <h4 class="description-title">
+                <span class="icon">💾</span>
+                Import & Export
+              </h4>
+              <p>
+                Back up your categories to JSON files and restore them anytime. Share
+                your category configurations across multiple Macs or with your team for
+                consistent app organization everywhere.
+              </p>
+            </div>
+          </div>
+
+          <div class="spotlight-screenshots">
+            <div class="screenshot-item">
+              <img src="images/LaunchpadUpcoming-1.png"
+                alt="Categories Page - Browse all your categories with preview grids" />
+              <p class="screenshot-caption">
+                Categories page with visual previews
+              </p>
+            </div>
+            <div class="screenshot-item">
+              <img src="images/LaunchpadUpcoming-2.png" alt="Category Detail View - Full category with all apps" />
+              <p class="screenshot-caption">
+                Category detail view showing all apps
+              </p>
+            </div>
+            <div class="screenshot-item">
+              <img src="images/LaunchpadUpcoming-3.png" alt="Category Settings - Create and manage categories" />
+              <p class="screenshot-caption">
+                Category management in settings
               </p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-bottom">
-          <p>&copy; 2025 Launchpad. Built with ❤️ by Kristóf Papp</p>
-          <p>Open source under custom license</p>
+        <div class="spotlight-features">
+          <h4 class="features-title">Key Features</h4>
+          <div class="features-grid-compact">
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>Tag apps to multiple categories</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>Visual 3×3 preview grids</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>Launch all apps in category with Enter</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>Drag & drop to add apps</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>Context menu integration</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>Reorder categories</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>JSON export & import</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-check">✓</span>
+              <span>Dedicated categories page</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="spotlight-cta">
+          <p class="cta-text">
+            This feature is currently in development and will be available in an upcoming release.
+            Follow the project on GitHub to stay updated!
+          </p>
+          <a href="https://github.com/kristof12345/Launchpad" class="btn btn-primary">
+            Follow on GitHub
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 2C5.58 2 2 5.58 2 10C2 13.54 4.29 16.53 7.47 17.59C7.87 17.66 8.02 17.42 8.02 17.21C8.02 17.02 8.01 16.39 8.01 15.72C6 16.09 5.48 15.16 5.32 14.68C5.23 14.43 4.84 13.72 4.5 13.53C4.22 13.38 3.82 13.01 4.49 13C5.12 13.01 5.57 13.58 5.72 13.82C6.44 15.07 7.59 14.73 8.05 14.52C8.12 14 8.33 13.65 8.56 13.45C6.84 13.25 5.03 12.56 5.03 9.53C5.03 8.68 5.23 7.97 5.74 7.42C5.66 7.22 5.38 6.41 5.82 5.31C5.82 5.31 6.49 5.1 8.02 6.13C8.66 5.95 9.34 5.86 10.02 5.86C10.7 5.86 11.38 5.95 12.02 6.13C13.55 5.09 14.22 5.31 14.22 5.31C14.66 6.41 14.38 7.22 14.3 7.42C14.81 7.97 15.01 8.67 15.01 9.53C15.01 12.57 13.19 13.25 11.47 13.45C11.76 13.7 12.01 14.18 12.01 14.92C12.01 15.97 12 16.82 12 17.21C12 17.42 12.15 17.67 12.55 17.59C15.71 16.53 18 13.53 18 10C18 5.58 14.42 2 10 2Z"
+                fill="currentColor" />
+            </svg>
+          </a>
         </div>
       </div>
-    </footer>
 
-    <script src="script.js"></script>
-  </body>
+      <div class="whats-new-grid">
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">🔐</div>
+            <span class="version-badge">v2.0</span>
+          </div>
+          <h3 class="new-feature-title">Login Item Manager</h3>
+          <p class="new-feature-description">
+            Start Launchpad automatically when you log in. Enable or disable
+            launch at login directly from the settings panel. Full control
+            over your startup experience.
+          </p>
+          <ul class="new-feature-list">
+            <li>Toggle launch at login</li>
+            <li>Seamless system integration</li>
+            <li>No manual configuration needed</li>
+          </ul>
+        </div>
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">🎯</div>
+            <span class="version-badge">v2.0</span>
+          </div>
+          <h3 class="new-feature-title">Custom App Locations</h3>
+          <p class="new-feature-description">
+            Add applications from anywhere on your Mac. Not limited to
+            /Applications - include utilities, scripts, or apps from custom
+            directories.
+          </p>
+          <ul class="new-feature-list">
+            <li>Browse and add custom apps</li>
+            <li>Support for any app location</li>
+            <li>Flexible app management</li>
+          </ul>
+        </div>
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">👁️</div>
+            <span class="version-badge">v2.0</span>
+          </div>
+          <h3 class="new-feature-title">Hidden Apps Management</h3>
+          <p class="new-feature-description">
+            Hide unwanted applications from your Launchpad. Keep your app
+            launcher clean and organized by hiding system apps or utilities
+            you don't use.
+          </p>
+          <ul class="new-feature-list">
+            <li>Context menu to hide apps</li>
+            <li>Manage hidden apps in settings</li>
+            <li>Restore hidden apps anytime</li>
+          </ul>
+        </div>
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">📥</div>
+            <span class="version-badge">BETA</span>
+          </div>
+          <h3 class="new-feature-title">Apple Launchpad Import</h3>
+          <p class="new-feature-description">
+            Migrate seamlessly from Apple's Launchpad. Import your existing
+            layout, folders, and organization with a single click. Keep your
+            familiar setup.
+          </p>
+          <ul class="new-feature-list">
+            <li>One-click import</li>
+            <li>Preserves folder structure</li>
+            <li>Maintains app organization</li>
+          </ul>
+        </div>
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">⚡</div>
+            <span class="version-badge">v2.0</span>
+          </div>
+          <h3 class="new-feature-title">Activation Settings</h3>
+          <p class="new-feature-description">
+            Choose how to launch Launchpad. With third party apps you can configure keyboard shortcuts,
+            gestures, or other activation methods to match your workflow
+            preferences.
+          </p>
+          <ul class="new-feature-list">
+            <li>Customizable activation</li>
+            <li>Hide / show with a single click</li>
+            <li>Fast access controls</li>
+          </ul>
+        </div>
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">🎨</div>
+            <span class="version-badge">v2.0</span>
+          </div>
+          <h3 class="new-feature-title">Enhanced UI & UX</h3>
+          <p class="new-feature-description">
+            Refined animations, improved performance, and polished
+            interactions throughout. Every detail has been optimized for a
+            smoother, more enjoyable experience.
+          </p>
+          <ul class="new-feature-list">
+            <li>Smoother animations</li>
+            <li>Better performance</li>
+            <li>Refined interactions</li>
+          </ul>
+        </div>
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">🔄</div>
+            <span class="version-badge">BETA</span>
+          </div>
+          <h3 class="new-feature-title">Advanced Sorting Options</h3>
+          <p class="new-feature-description">
+            Sort your apps by name, type, last opened date, or install date.
+            Quick sort menu accessible from the search bar for instant
+            organization.
+          </p>
+          <ul class="new-feature-list">
+            <li>Multiple sorting criteria</li>
+            <li>One-click sorting from UI</li>
+            <li>Persistent sort preferences</li>
+          </ul>
+        </div>
+        <div class="new-feature-card">
+          <div class="new-feature-header">
+            <div class="new-feature-icon">🎯</div>
+            <span class="version-badge">v2.0</span>
+          </div>
+          <h3 class="new-feature-title">Reset on Relaunch</h3>
+          <p class="new-feature-description">
+            Optional setting to return to the first page and clear search when
+            you reopen Launchpad. Start fresh every time or pick up where you
+            left off.
+          </p>
+          <ul class="new-feature-list">
+            <li>Configurable behavior</li>
+            <li>Clear search on relaunch</li>
+            <li>Return to first page</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keyboard Shortcuts & Tips Section -->
+  <section class="shortcuts-tips">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Keyboard Shortcuts & Tips</h2>
+        <p class="section-subtitle">
+          Master Launchpad with these handy shortcuts and workflow tips
+        </p>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-card">
+          <div class="shortcut-icon">⌨️</div>
+          <h3 class="shortcut-title">Essential Shortcuts</h3>
+          <ul class="shortcut-list">
+            <li>
+              <kbd>←</kbd> <kbd>→</kbd>
+              <span>Navigate between pages</span>
+            </li>
+            <li>
+              <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd>
+              <span>Navigate search results</span>
+            </li>
+            <li>
+              <kbd>Enter</kbd>
+              <span>Launch first search result</span>
+            </li>
+            <li>
+              <kbd>ESC</kbd>
+              <span>Close Launchpad / Clear search</span>
+            </li>
+            <li>
+              <kbd>⌘</kbd> + <kbd>,</kbd>
+              <span>Open settings</span>
+            </li>
+          </ul>
+        </div>
+        <div class="shortcut-card">
+          <div class="shortcut-icon">🖱️</div>
+          <h3 class="shortcut-title">Mouse & Trackpad</h3>
+          <ul class="shortcut-list">
+            <li>
+              <span class="key-label">Horizontal Scroll</span>
+              <span>Navigate pages with trackpad</span>
+            </li>
+            <li>
+              <span class="key-label">Click Page Dots</span>
+              <span>Jump to specific page</span>
+            </li>
+            <li>
+              <span class="key-label">Drag & Drop</span>
+              <span>Reorder apps and create folders</span>
+            </li>
+            <li>
+              <span class="key-label">Drag to Edge</span>
+              <span>Move apps to previous/next page</span>
+            </li>
+          </ul>
+        </div>
+        <div class="shortcut-card">
+          <div class="shortcut-icon">💡</div>
+          <h3 class="shortcut-title">Pro Tips</h3>
+          <ul class="shortcut-list">
+            <li>
+              <span class="key-label">Type Anywhere</span>
+              <span>Start typing to search instantly</span>
+            </li>
+            <li>
+              <span class="key-label">Folder Rename</span>
+              <span>Click folder name to edit</span>
+            </li>
+            <li>
+              <span class="key-label">Drag to Create</span>
+              <span>Drag one app onto another for folders</span>
+            </li>
+            <li>
+              <span class="key-label">Right-Click Apps</span>
+              <span>Hide unwanted apps from menu</span>
+            </li>
+            <li>
+              <span class="key-label">Sort Menu</span>
+              <span>Click sort icon to organize apps</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Help Section -->
+  <section class="installation-help">
+    <div class="container">
+      <div class="help-header">
+        <h2 class="section-title">Installation Help</h2>
+        <p class="section-subtitle">
+          Having trouble opening Launchpad? Here's how to fix the "cannot
+          verify developer" warning.
+        </p>
+      </div>
+      <div class="help-content">
+        <div class="help-warning">
+          <div class="warning-icon">⚠️</div>
+          <div class="warning-text">
+            <strong>Seeing this message?</strong>
+            <p>
+              "Launchpad cannot be opened because the developer cannot be
+              verified"
+            </p>
+          </div>
+        </div>
+        <div class="help-steps">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3 class="step-title">Open System Settings</h3>
+              <p class="step-description">
+                Click the Apple menu () in the top-left corner and select
+                <strong>System Settings</strong> (or System Preferences on
+                older macOS versions).
+              </p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3 class="step-title">Go to Privacy & Security</h3>
+              <p class="step-description">
+                In System Settings, click on
+                <strong>Privacy & Security</strong> in the sidebar.
+              </p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3 class="step-title">Allow Launchpad to Open</h3>
+              <p class="step-description">
+                Scroll down to the Security section. You'll see a message
+                about Launchpad being blocked. Click
+                <strong>"Open Anyway"</strong> and confirm with your password.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="help-alternative">
+          <h3 class="alternative-title">
+            Alternative Method: Right-Click to Open
+          </h3>
+          <div class="alternative-steps">
+            <ol>
+              <li>Locate the Launchpad app in Finder</li>
+              <li>
+                <strong>Right-click</strong> (or Control-click) on the app
+                icon
+              </li>
+              <li>Select <strong>"Open"</strong> from the menu</li>
+              <li>
+                Click <strong>"Open"</strong> again in the dialog that appears
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="help-note">
+          <div class="note-icon">💡</div>
+          <div class="note-text">
+            <strong>Why does this happen?</strong>
+            <p>
+              macOS Gatekeeper protects your Mac by checking if apps are from
+              identified developers. Since Launchpad is not distributed
+              through the Mac App Store, you need to explicitly allow it to
+              run. This is a one-time process.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Launchpad. Built with ❤️ by Kristóf Papp</p>
+        <p>Open source under custom license</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
 </html>
