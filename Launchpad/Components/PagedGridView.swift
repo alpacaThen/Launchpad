@@ -194,6 +194,7 @@ struct PagedGridView: View {
       // Determine which direction has more movement and accumulate accordingly
       if absX >= absY {
          // Horizontal scroll (trackpad swipe)
+         accumulatedScrollY = 0  // Reset vertical accumulation when scrolling horizontally
          accumulatedScrollX += event.scrollingDeltaX
 
          if accumulatedScrollX <= -settings.scrollActivationThreshold {
@@ -207,6 +208,7 @@ struct PagedGridView: View {
          }
       } else {
          // Vertical scroll (mouse wheel)
+         accumulatedScrollX = 0  // Reset horizontal accumulation when scrolling vertically
          accumulatedScrollY += event.scrollingDeltaY
 
          if accumulatedScrollY <= -settings.scrollActivationThreshold {
