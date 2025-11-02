@@ -13,14 +13,10 @@ struct PageIndicatorView: View {
       HStack(spacing: LaunchPadConstants.pageIndicatorSpacing) {
          ForEach(0..<pageCount, id: \.self) { index in
             Circle()
-               .fill(
-                  index == currentPage
-                  ? (colorScheme == .dark ? Color.white : Color.primary)
-                  : (colorScheme == .dark ? Color.gray.opacity(0.4 * settings.transparency) : Color.gray.opacity(0.6 * settings.transparency))
-               )
-               .frame(width: LaunchPadConstants.pageIndicatorSize, height: LaunchPadConstants.pageIndicatorSize)
-               .scaleEffect(index == currentPage ? LaunchPadConstants.pageIndicatorActiveScale : 1.0)
-               .animation(.easeInOut(duration: 0.2), value: currentPage)
+                  .fill(index == currentPage ? Color.white : Color.white.opacity(0.5))
+                  .frame(width: LaunchPadConstants.pageIndicatorSize, height: LaunchPadConstants.pageIndicatorSize)
+                  .scaleEffect(index == currentPage ? LaunchPadConstants.pageIndicatorActiveScale : 1.0)
+                  .animation(LaunchPadConstants.easeInOutAnimation, value: currentPage)
                .onTapGesture {
                   withAnimation(LaunchPadConstants.springAnimation) {
                      currentPage = index

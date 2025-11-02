@@ -17,7 +17,7 @@ struct LaunchpadApp: App {
                     showSettings: $showSettings,
                     settings: settingsManager.settings
                 )
-                .opacity(showSettings ? 0.3 : 1.0)
+                .opacity(showSettings ? LaunchPadConstants.overlayOpacity : 1.0)
                 .animation(LaunchPadConstants.fadeAnimation, value: showSettings)
                 .onTapGesture(perform: AppLauncher.exit)
                 

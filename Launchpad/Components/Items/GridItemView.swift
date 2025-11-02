@@ -23,33 +23,22 @@ struct GridItemView: View {
          }
       }
       .rotationEffect(.degrees(isEditMode ? jiggleRotation - (LaunchPadConstants.jiggleRotation / 2) : 0))
-      .animation(isDragged ? .easeInOut(duration: 0.2) : LaunchPadConstants.springAnimation, value: isDragged)
+      .animation(isDragged ? LaunchPadConstants.easeInOutAnimation : LaunchPadConstants.springAnimation, value: isDragged)
       .animation(LaunchPadConstants.springAnimation, value: isDragged)
       .animation(LaunchPadConstants.springAnimation, value: isDraggedOn)
       .animation(LaunchPadConstants.springAnimation, value: isHovered)
       .animation(LaunchPadConstants.jiggleAnimation, value: jiggleRotation)
-      .onChange(of: isEditMode) { _, newValue in handleJiggling(isEditMode: newValue) }
+      .onChange(of: isEditMode) { jiggleRotation = $1 ? LaunchPadConstants.jiggleRotation : 0 }
    }
 
    private var scale: CGFloat {
-       if isDragged {
-           return LaunchPadConstants.draggedItemScale
-       } else if isDraggedOn {
-           return LaunchPadConstants.folderCreationScale
-       } else if isHovered {
-           return LaunchPadConstants.hoveredItemScale
-       }
-       return 1.0
-   }
-
-   private func handleJiggling(isEditMode: Bool) {
-      if(isEditMode)
-      {
-         jiggleRotation = LaunchPadConstants.jiggleRotation
+      if isDragged {
+         return LaunchPadConstants.draggedItemScale
+      } else if isDraggedOn {
+         return LaunchPadConstants.folderCreationScale
+      } else if isHovered {
+         return LaunchPadConstants.hoveredItemScale
       }
-      else
-      {
-         jiggleRotation = 0
-      }
+      return 1.0
    }
 }

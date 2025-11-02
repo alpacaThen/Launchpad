@@ -30,7 +30,7 @@ struct SinglePageView: View {
                             isEditMode: isEditMode,
                             settings: settings
                         )
-                        .opacity(isFolderOpen ? 0.2 : 1)
+                        .opacity(isFolderOpen ? LaunchPadConstants.dimmedOpacity : 1)
                         .onHover { isHovering in
                             hoveredItem = isHovering ? item : nil
                         }

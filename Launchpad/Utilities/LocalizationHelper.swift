@@ -80,7 +80,6 @@ struct L10n {
    // MARK: - Category Management
    static let categories = "categories".localized
    static let untitledCategory = "untitled_category".localized
-   static let newCategory = "new_category".localized
    static let addToCategory = "add_to_category".localized
    static let removeFromCategory = "remove_from_category".localized
    static let manageCategories = "manage_categories".localized
@@ -97,17 +96,12 @@ struct L10n {
    static let renameCategory = "rename_category".localized
    static let filterByCategory = "filter_by_category".localized
    static let allApps = "all_apps".localized
-   static let clearCategories = "clear_categories".localized
    
    // MARK: - Numbers
    static let number10 = "number_10".localized
    static let number200 = "number_200".localized
    static let time00s = "time_0_0s".localized
    static let time30s = "time_3_0s".localized
-   
-   // MARK: - Restart Warning
-   static let restartRequired = "restart_required".localized
-   static let restartWarningMessage = "restart_warning_message".localized
    
    // MARK: - Activation Settings
    static let activation = "activation".localized
