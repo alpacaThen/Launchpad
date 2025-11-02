@@ -4,7 +4,7 @@ import Foundation
 final class SettingsManager: ObservableObject {
    static let shared = SettingsManager()
 
-   @Published var settings: LaunchpadSettings
+   @Published var settings: LaunchpadSettings = LaunchpadSettings()
 
    private let userDefaults = UserDefaults.standard
    private let settingsKey = "LaunchpadSettings"
@@ -12,7 +12,7 @@ final class SettingsManager: ObservableObject {
    private init() {
       loadSettings()
    }
-   
+
    func saveSettings(newSettings: LaunchpadSettings) {
       settings = newSettings
 
@@ -22,8 +22,6 @@ final class SettingsManager: ObservableObject {
    }
 
    private func loadSettings() {
-      self.settings = LaunchpadSettings()
-
       print("Load settings.")
       guard let data = UserDefaults.standard.data(forKey: settingsKey) else {
          print("No saved settings found.")
