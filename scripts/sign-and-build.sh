@@ -178,10 +178,10 @@ if [ "$NOTARIZE" = true ]; then
     echo -e "${YELLOW}Create app-specific password at: https://appleid.apple.com${NC}"
     echo ""
     
-    # Check if profile exists
-    # Note: We use 'history' as a lightweight check. If it fails, it could mean
+    # Check if profile exists by querying notarization history
+    # Note: We use 'notarytool history' as a lightweight check. If it fails, it could mean
     # the profile doesn't exist OR there are network/auth issues. Either way,
-    # the user needs to set up credentials.
+    # the user needs to set up or refresh credentials.
     echo -e "${YELLOW}Verifying keychain profile...${NC}"
     if ! xcrun notarytool history --keychain-profile "notarization-profile" &>/dev/null; then
         echo -e "${RED}Error: Cannot access keychain profile 'notarization-profile'.${NC}"
