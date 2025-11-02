@@ -1,5 +1,5 @@
 import XCTest
-@testable import Launchpad
+@testable import LaunchpadPlus
 
 @MainActor
 final class AppDelegateTests: XCTestCase {
@@ -23,8 +23,8 @@ final class AppDelegateTests: XCTestCase {
         // When: Dock icon is clicked
         let result = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: true)
         
-        // Then: Should return false to hide the app
-        XCTAssertFalse(result, "Should return false when app is visible to hide it")
+        // Then: Should return true (app will exit via AppLauncher.exit())
+        XCTAssertTrue(result, "Should return true when app is visible")
     }
     
     func testApplicationShouldHandleReopenWhenAppIsHidden() {
@@ -45,8 +45,9 @@ final class AppDelegateTests: XCTestCase {
         // When: Dock icon is clicked once
         _ = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: true)
         
-        // Then: Next click should hide again (state was reset)
+        // Then: isCurrentlyHidden should be reset to false
+        // Next click should exit the app (still returns true)
         let secondResult = appDelegate.applicationShouldHandleReopen(NSApplication.shared, hasVisibleWindows: true)
-        XCTAssertFalse(secondResult, "Should return false on second click after unhiding")
+        XCTAssertTrue(secondResult, "Should return true on second click (will exit via AppLauncher.exit())")
     }
 }

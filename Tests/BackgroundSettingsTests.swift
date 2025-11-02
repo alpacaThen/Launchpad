@@ -1,5 +1,5 @@
 import XCTest
-@testable import Launchpad
+@testable import LaunchpadPlus
 
 @MainActor
 final class BackgroundSettingsTests: XCTestCase {

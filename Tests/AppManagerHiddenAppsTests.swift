@@ -1,6 +1,6 @@
 import XCTest
 import AppKit
-@testable import Launchpad
+@testable import LaunchpadPlus
 
 @MainActor
 final class AppManagerHiddenAppsTests: XCTestCase {
@@ -61,7 +61,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
       XCTAssertTrue(appManager.hiddenAppPaths.isEmpty, "Should start with no hidden apps")
       
       // When: Hiding an app
-      appManager.hideApp(path: "/Applications/TestApp.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/TestApp.app")
       
       // Then: App should be in hidden set
       XCTAssertTrue(appManager.hiddenAppPaths.contains("/Applications/TestApp.app"), 
@@ -71,7 +71,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testHideAppPersistsToUserDefaults() async {      
       // When: Hiding an app
-      appManager.hideApp(path: "/Applications/TestApp.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/TestApp.app")
       
       // Wait for async save
       try? await Task.sleep(nanoseconds: 100_000_000)
@@ -86,9 +86,9 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testHideMultipleApps() {
       // When: Hiding multiple apps
-      appManager.hideApp(path: "/Applications/App1.app", appsPerPage: 20)
-      appManager.hideApp(path: "/Applications/App2.app", appsPerPage: 20)
-      appManager.hideApp(path: "/Applications/App3.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/App1.app")
+      appManager.hideApp(path: "/Applications/App2.app")
+      appManager.hideApp(path: "/Applications/App3.app")
       
       // Then: All apps should be hidden
       XCTAssertEqual(appManager.hiddenAppPaths.count, 3, "Should have 3 hidden apps")
@@ -102,8 +102,8 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testHideSameAppTwice() {
       // When: Hiding the same app twice
-      appManager.hideApp(path: "/Applications/TestApp.app", appsPerPage: 20)
-      appManager.hideApp(path: "/Applications/TestApp.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/TestApp.app")
+      appManager.hideApp(path: "/Applications/TestApp.app")
       
       // Then: Should only be added once (Set behavior)
       XCTAssertEqual(appManager.hiddenAppPaths.count, 1, "Should only have 1 hidden app (no duplicates)")
@@ -113,7 +113,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testUnhideApp() {
       // Given: A hidden app
-      appManager.hideApp(path: "/Applications/TestApp.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/TestApp.app")
       XCTAssertTrue(appManager.hiddenAppPaths.contains("/Applications/TestApp.app"), 
                     "App should be hidden")
       
@@ -128,7 +128,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testUnhideAppPersistsToUserDefaults() async {
       // Given: A hidden app saved in UserDefaults
-      appManager.hideApp(path: "/Applications/TestApp.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/TestApp.app")
       try? await Task.sleep(nanoseconds: 100_000_000)
       
       // When: Unhiding the app
@@ -154,9 +154,9 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testUnhideOneOfMultipleApps() {
       // Given: Multiple hidden apps
-      appManager.hideApp(path: "/Applications/App1.app", appsPerPage: 20)
-      appManager.hideApp(path: "/Applications/App2.app", appsPerPage: 20)
-      appManager.hideApp(path: "/Applications/App3.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/App1.app")
+      appManager.hideApp(path: "/Applications/App2.app")
+      appManager.hideApp(path: "/Applications/App3.app")
       
       // When: Unhiding one app
       appManager.unhideApp(path: "/Applications/App2.app", appsPerPage: 20)
@@ -213,7 +213,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
          let pathToHide = firstApp.path
          
          // When: Hiding an app and reloading
-         appManager.hideApp(path: pathToHide, appsPerPage: 20)
+         appManager.hideApp(path: pathToHide)
          
          // Then: The grid should have one less app
          let newItemsCount = appManager.pages.flatMap { $0 }.count
@@ -249,7 +249,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
          let pathToHide = firstApp.path
          
          // When: Hiding an app
-         appManager.hideApp(path: pathToHide, appsPerPage: 20)
+         appManager.hideApp(path: pathToHide)
          let hiddenCount = appManager.pages.flatMap { $0 }.count
          
          // Then: Count should decrease
@@ -311,7 +311,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testHideAppWithEmptyPath() {
       // When: Trying to hide an app with empty path
-      appManager.hideApp(path: "", appsPerPage: 20)
+      appManager.hideApp(path: "")
       
       // Then: Should add empty string to set (edge case)
       XCTAssertTrue(appManager.hiddenAppPaths.contains(""), 
@@ -320,7 +320,7 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testHideAppWithInvalidPath() {
       // When: Hiding an app with invalid path
-      appManager.hideApp(path: "not/a/valid/path", appsPerPage: 20)
+      appManager.hideApp(path: "not/a/valid/path")
       
       // Then: Should still be added to hidden set
       XCTAssertTrue(appManager.hiddenAppPaths.contains("not/a/valid/path"), 
@@ -329,14 +329,14 @@ final class AppManagerHiddenAppsTests: XCTestCase {
    
    func testPersistenceAfterMultipleHideUnhide() async {
       // When: Performing multiple hide/unhide operations
-      appManager.hideApp(path: "/Applications/App1.app", appsPerPage: 20)
-      appManager.hideApp(path: "/Applications/App2.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/App1.app")
+      appManager.hideApp(path: "/Applications/App2.app")
       try? await Task.sleep(nanoseconds: 100_000_000)
       
       appManager.unhideApp(path: "/Applications/App1.app", appsPerPage: 20)
       try? await Task.sleep(nanoseconds: 100_000_000)
       
-      appManager.hideApp(path: "/Applications/App3.app", appsPerPage: 20)
+      appManager.hideApp(path: "/Applications/App3.app")
       try? await Task.sleep(nanoseconds: 100_000_000)
       
       // Then: Final state should be persisted correctly

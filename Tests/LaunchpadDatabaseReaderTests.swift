@@ -7,7 +7,7 @@
 /*
 import XCTest
 import AppKit
-@testable import Launchpad
+@testable import LaunchpadPlus
 
 @MainActor
 final class LaunchpadDatabaseReaderTests: XCTestCase {

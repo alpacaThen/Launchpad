@@ -1,5 +1,5 @@
 import XCTest
-@testable import Launchpad
+@testable import LaunchpadPlus
 
 @MainActor
 final class ActivationSettingsTests: XCTestCase {
@@ -30,7 +30,7 @@ final class ActivationSettingsTests: XCTestCase {
 
    func testValidProductKeyActivatesApp() {
       var settings = LaunchpadSettings()
-      settings.productKey = LaunchPadKeys.productKey
+      settings.productKey = "BASIC"
       XCTAssertTrue(settings.isActivated, "Should be activated with valid product key")
    }
 
@@ -51,12 +51,12 @@ final class ActivationSettingsTests: XCTestCase {
    func testActivationPersistence() {
       // Set valid product key
       var updatedSettings = settingsManager.settings
-      updatedSettings.productKey = LaunchPadKeys.productKey
+      updatedSettings.productKey = "BASIC"
       settingsManager.saveSettings(newSettings: updatedSettings)
 
       // Verify activation status
       XCTAssertTrue(settingsManager.settings.isActivated, "Settings should show as activated")
-      XCTAssertEqual(settingsManager.settings.productKey, LaunchPadKeys.productKey, "Product key should match constant")
+      XCTAssertEqual(settingsManager.settings.productKey, "BASIC", "Product key should match constant")
    }
 
    func testProductKeyInSettingsInit() {
@@ -85,7 +85,7 @@ final class ActivationSettingsTests: XCTestCase {
 
    func testActivationStatusAfterDecoding() throws {
       var settings = LaunchpadSettings()
-      settings.productKey = LaunchPadKeys.productKey
+      settings.productKey = "BASIC"
 
       // Encode
       let encoder = JSONEncoder()

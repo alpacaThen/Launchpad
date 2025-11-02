@@ -126,6 +126,17 @@ https://apps.apple.com/hu/app/hot-corners/id1672176975?l=hu&mt=12
 Create a keyboard shortcut using BetterTouchTool or similar:
 <img width="1512" height="456" alt="Képernyőfotó 2025-10-19 - 15 29 50" src="https://github.com/user-attachments/assets/79a83933-c7e9-4d05-a731-51477d6ea51b" />
 
+
+## 🧪 **Testing**
+
+To run the test suite:
+
+```bash
+xcodebuild test -scheme LaunchpadPlus -destination 'platform=macOS' -parallel-testing-enabled NO
+```
+
+**Note**: Parallel testing must be disabled due to shared singleton state in tests. The tests use `AppManager.shared` which creates race conditions when tests run concurrently. Future improvements could implement dependency injection to allow parallel test execution.
+
 ## 🙏 Credits
 - Inspired by macOS Launchpad
 - Built with SwiftUI and modern macOS APIs
