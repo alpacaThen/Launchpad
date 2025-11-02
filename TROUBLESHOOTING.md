@@ -86,25 +86,9 @@ Yes, if downloaded from official sources:
 - ❌ **Third-party sites:** Avoid downloading from unofficial sources
 
 You can verify safety by:
-1. Building from source yourself (see CONTRIBUTING.md)
+1. Building from source yourself
 2. Reviewing the code on GitHub
 3. Checking community discussions and reviews
-
-## 🚀 Performance Issues
-
-### App Launches Slowly
-
-**Solutions:**
-- Reduce the number of items per page in Settings
-- Clear app cache by removing saved layouts (Settings > Actions > Reset Layout)
-- Restart LaunchpadPlus
-
-### Animations Are Laggy
-
-**Solutions:**
-- Reduce icon size in Settings
-- Decrease number of columns/rows per page
-- Check Activity Monitor for high CPU usage from other apps
 
 ## 🔍 Search Not Working
 
@@ -114,12 +98,6 @@ You can verify safety by:
 - Verify apps are installed in `/Applications` or `/System/Applications`
 - Restart LaunchpadPlus to refresh app list
 - Check if app name matches what you're typing
-
-### Search Is Slow
-
-**Solutions:**
-- Reduce total number of apps by hiding system utilities
-- Clear search cache (restart app)
 
 ## 📁 Folder Issues
 
@@ -164,15 +142,6 @@ You can verify safety by:
 - LaunchpadPlus appears on the screen with the active window
 - Click on the target screen before launching
 - Configure in System Settings > Displays > Arrangement
-
-## 🔄 Update Issues
-
-### "Update Available" Keeps Appearing
-
-**Solutions:**
-- Download and install the latest version from GitHub releases
-- Clear update cache by removing app preferences
-- Ignore update notifications if you prefer your current version
 
 ## 📝 Getting More Help
 

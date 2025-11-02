@@ -2,22 +2,19 @@
 
 If macOS says LaunchpadPlus is "malware" or won't open, follow these steps:
 
-## ✅ Quick Solution (1 minute)
+## ✅ Quick Solution
 
 1. **Download** LaunchpadPlus from [GitHub Releases](https://github.com/kristof12345/Launchpad/releases)
 2. **Move** LaunchpadPlus.app to your `/Applications` folder
 3. **Open Terminal** (Applications > Utilities > Terminal)
-4. **Paste this command** and press Enter:
+4. **Paste this commands** and press Enter:
    ```bash
+   codesign --force --deep -s - /Applications/LaunchpadPlus.app
    xattr -cr /Applications/LaunchpadPlus.app
    ```
 5. **Launch** LaunchpadPlus from Applications
 
 That's it! LaunchpadPlus will now open normally.
-
-## 📖 What Does This Do?
-
-The command removes the "quarantine" flag that macOS adds to downloaded apps. This is safe and only affects LaunchpadPlus—your Mac's security for other apps remains unchanged.
 
 ## 🛡️ Is This Safe?
 
@@ -28,22 +25,7 @@ The command removes the "quarantine" flag that macOS adds to downloaded apps. Th
 
 The "malware" warning appears because the app isn't code-signed by Apple (which requires a $99/year developer account). Many open-source Mac apps face this issue.
 
-## ❓ Still Having Issues?
-
-See the full [Troubleshooting Guide](TROUBLESHOOTING.md) for:
-- Alternative solutions
-- Detailed explanations
-- Other common issues
-- How to verify downloads
-
-## 💡 Why Not Just Sign It?
-
-Code signing and notarization require:
-- $99/year Apple Developer subscription
-- Complex infrastructure
-- Certificate maintenance
-
-As a free, open-source project, we prioritize transparency over certificates. You can always verify the app by reviewing the source code.
+As an open-source project, we prioritize transparency over certificates. You can always verify the app by reviewing the source code.
 
 ---
 
