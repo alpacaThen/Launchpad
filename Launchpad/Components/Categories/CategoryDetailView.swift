@@ -5,18 +5,18 @@ struct CategoryDetailView: View {
    let allApps: [AppInfo]
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
-   
+
    @State private var editingName = false
    @State private var isAnimatingIn = false
    @State private var opacity: Double = 0
    @State private var headerOffset: CGFloat = -20
    @Environment(\.colorScheme) private var colorScheme
-   
+
    var categoryApps: [AppInfo] {
       guard let category = category else { return [] }
       return CategoryManager.shared.getAppsForCategory(category: category, from: allApps)
    }
-   
+
    var body: some View {
       if category != nil {
          ZStack {
@@ -25,12 +25,12 @@ struct CategoryDetailView: View {
                .onTapGesture {
                   dismissWithAnimation()
                }
-            
+
             VStack(spacing: 10) {
                CategoryNameView(category: Binding(get: { category! }, set: { category = $0 }), editingName: $editingName, opacity: opacity, offset: headerOffset)
                GeometryReader { geo in
                   let layout = LayoutMetrics(size: geo.size, columns: settings.folderColumns, rows: settings.folderRows + 1, iconSize: settings.iconSize)
-                  
+
                   ScrollView(.vertical, showsIndicators: false) {
                      LazyVGrid(
                         columns: GridLayoutUtility.createGridColumns(count: settings.folderColumns, cellWidth: layout.cellWidth, spacing: layout.hSpacing),
@@ -90,16 +90,16 @@ struct CategoryDetailView: View {
          }
       }
    }
-   
+
    private func performEntranceAnimation() {
       withAnimation(.interpolatingSpring(stiffness: 280, damping: 22)) {
          isAnimatingIn = true
       }
-      
+
       withAnimation(.easeOut(duration: 0.3)) {
          opacity = 1.0
       }
-      
+
       withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
          headerOffset = 0
       }
@@ -111,7 +111,7 @@ struct CategoryDetailView: View {
          headerOffset = -20
          isAnimatingIn = false
       }
-      
+
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
          category = nil
       }
