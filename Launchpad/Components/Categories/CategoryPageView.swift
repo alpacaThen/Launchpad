@@ -4,9 +4,9 @@ struct CategoryPageView: View {
    let allApps: [AppInfo]
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
-
+   
    @ObservedObject private var categoryManager = CategoryManager.shared
-
+   
    var body: some View {
       if categoryManager.categories.isEmpty {
          EmptyCategoriesView()

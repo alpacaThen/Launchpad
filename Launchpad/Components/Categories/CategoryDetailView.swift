@@ -5,7 +5,7 @@ struct CategoryDetailView: View {
    let allApps: [AppInfo]
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
-
+   
    @State private var hoveredApp: AppInfo?
    @State private var draggedApp: AppInfo?
    @State private var editingName = false
@@ -13,12 +13,12 @@ struct CategoryDetailView: View {
    @State private var opacity: Double = 0
    @State private var headerOffset: CGFloat = -20
    @Environment(\.colorScheme) private var colorScheme
-
+   
    var categoryApps: [AppInfo] {
       guard let category = category else { return [] }
       return CategoryManager.shared.getAppsForCategory(category: category, from: allApps)
    }
-
+   
    var body: some View {
       if category != nil {
          ZStack {
@@ -27,12 +27,12 @@ struct CategoryDetailView: View {
                .onTapGesture {
                   dismissWithAnimation()
                }
-
+            
             VStack(spacing: 10) {
                CategoryNameView(category: Binding(get: { category! }, set: { category = $0 }), editingName: $editingName, opacity: opacity, offset: headerOffset)
                GeometryReader { geo in
                   let layout = LayoutMetrics(size: geo.size, columns: settings.folderColumns, rows: settings.folderRows + 1, iconSize: settings.iconSize)
-
+                  
                   ScrollView(.vertical, showsIndicators: false) {
                      LazyVGrid(
                         columns: GridLayoutUtility.createGridColumns(count: settings.folderColumns, cellWidth: layout.cellWidth, spacing: layout.hSpacing),
@@ -97,7 +97,7 @@ struct CategoryDetailView: View {
          }
       }
    }
-
+   
    private func scale(app: AppInfo) -> CGFloat {
       if draggedApp?.id == app.id {
          return LaunchPadConstants.draggedItemScale
@@ -111,23 +111,23 @@ struct CategoryDetailView: View {
       withAnimation(LaunchPadConstants.springAnimation) {
          isAnimatingIn = true
       }
-
+      
       withAnimation(LaunchPadConstants.easeOutAnimation) {
          opacity = 1.0
       }
-
+      
       withAnimation(LaunchPadConstants.springAnimation) {
          headerOffset = 0
       }
    }
-
+   
    private func dismissWithAnimation() {
       withAnimation(LaunchPadConstants.easeInAnimation) {
          opacity = 0
          headerOffset = -20
          isAnimatingIn = false
       }
-
+      
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
          category = nil
       }
