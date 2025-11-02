@@ -185,7 +185,7 @@ struct PagedGridView: View {
    }
 
    private func handleScrollEvent(event: NSEvent) -> NSEvent? {
-      guard searchText.isEmpty && selectedFolder == nil && selectedCategory == nil else { return event }
+      guard searchText.isEmpty && selectedFolder == nil && selectedCategory == nil && showSettings == false else { return event }
 
       let absX = abs(event.scrollingDeltaX)
       let absY = abs(event.scrollingDeltaY)
@@ -257,7 +257,6 @@ struct PagedGridView: View {
          if !searchText.isEmpty {
             searchText = ""
             selectedSearchIndex = 0
-
          } else if selectedFolder == nil && selectedCategory == nil {
             AppLauncher.exit()
          } else {
