@@ -23,7 +23,9 @@ struct FolderDropDelegate: DropDelegate {
                       let toIndex = folder.apps.firstIndex(where: { $0.id == targetApp.id }) else {
                     return
                 }
-                folder.apps.move(fromOffsets: IndexSet([fromIndex]), toOffset: DropHelper.calculateMoveOffset(fromIndex: fromIndex, toIndex: toIndex))
+                withAnimation(LaunchPadConstants.dragDropAnimation) {
+                    folder.apps.move(fromOffsets: IndexSet([fromIndex]), toOffset: DropHelper.calculateMoveOffset(fromIndex: fromIndex, toIndex: toIndex))
+                }
             }
         }
     }

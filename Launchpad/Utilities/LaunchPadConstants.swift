@@ -7,6 +7,9 @@ class LaunchPadConstants {
    static let springAnimation = Animation.interpolatingSpring(stiffness: 300, damping: 100)
    static let fadeAnimation = Animation.easeInOut(duration: 0.3)
    static let jiggleAnimation = Animation.easeInOut(duration: 0.2).repeatForever(autoreverses: true)
+   static let dragDropAnimationResponse: Double = 0.3
+   static let dragDropAnimationDamping: Double = 2.8
+   static let dragDropAnimation = Animation.spring(response: dragDropAnimationResponse, dampingFraction: dragDropAnimationDamping)
 
    // MARK: - Layout Constants
    static let folderPreviewSize = 9 // Apps shown in folder preview (3x3 grid)

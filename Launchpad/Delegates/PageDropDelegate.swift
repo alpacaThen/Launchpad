@@ -19,8 +19,10 @@ struct PageDropDelegate: DropDelegate {
     private func moveItemToEndOfPage(draggedItem: AppGridItem) {
         guard let (currentPageIndex, currentItemIndex) = findItemLocation(item: draggedItem) else { return }
         
-        pages[currentPageIndex].remove(at: currentItemIndex)
-        pages[targetPage].append(draggedItem.withUpdatedPage(targetPage))
+        withAnimation(LaunchPadConstants.dragDropAnimation) {
+            pages[currentPageIndex].remove(at: currentItemIndex)
+            pages[targetPage].append(draggedItem.withUpdatedPage(targetPage))
+        }
         
         handlePageOverflow(targetPageIndex: targetPage)
     }
