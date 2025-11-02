@@ -1,11 +1,3 @@
-//
-//  SettingsExtensions.swift
-//  LaunchpadPlus
-//
-//  Created by Papp Kristóf on 2025. 11. 02..
-//
-
-
 import Foundation
 
 extension LaunchpadSettings {

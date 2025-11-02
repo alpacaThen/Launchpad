@@ -36,7 +36,9 @@ final class SettingsManager: ObservableObject {
       }
    }
 
-   func resetToDefaults() {
-      settings = LaunchpadSettings()
+   func resetToDefaults() -> LaunchpadSettings {
+      // Preserve product key and custom locations
+      settings = LaunchpadSettings(productKey: settings.productKey, customAppLocations: settings.customAppLocations)
+      return settings
    }
 }

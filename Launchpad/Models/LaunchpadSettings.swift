@@ -7,13 +7,13 @@ struct LaunchpadSettings: Codable, Equatable {
    var iconSize: Double
    var folderColumns: Int
    var folderRows: Int
-   
+
    // MARK: - Interaction & Animation
    var dropDelay: Double
    var scrollDebounceInterval: TimeInterval
    var scrollActivationThreshold: Double
    var enableIconAnimation: Bool
-   
+
    // MARK: - Display & Appearance
    var showDock: Bool
    var transparency: Double
@@ -21,39 +21,37 @@ struct LaunchpadSettings: Codable, Equatable {
    var backgroundType: BackgroundType
    var customBackgroundPath: String
    var backgroundBlur: Double
-   
+
    // MARK: - Behavior
    var startAtLogin: Bool
    var resetOnRelaunch: Bool
-   
+
    // MARK: - Advanced
    var productKey: String
    var customAppLocations: [String]
-   
+
    // MARK: - Defaults
    static let defaultColumns = 7
    static let defaultRows = 5
    static let defaultIconSize: Double = 100.0
    static let defaultFolderColumns = 5
    static let defaultFolderRows = 3
-   
    static let defaultDropDelay: Double = 0.5
    static let defaultScrollDebounceInterval: TimeInterval = 0.8
    static let defaultScrollActivationThreshold: Double = 80.0
-   static let defaultEnableIconAnimation = true
-   
-   static let defaultShowDock = true
    static let defaultTransparency: Double = 1.0
+   static let defaultEnableIconAnimation = true
+   static let defaultStartAtLogin = false
+   static let defaultResetOnRelaunch = true
+   static let defaultShowDock = true
    static let defaultShowIconsInSearch = true
    static let defaultBackgroundType: BackgroundType = .default
    static let defaultCustomBackgroundPath = ""
    static let defaultBackgroundBlur: Double = 10.0
-   
-   static let defaultStartAtLogin = false
-   static let defaultResetOnRelaunch = true
-   
    static let defaultProductKey = ""
    static let defaultCustomAppLocations: [String] = []
+
+
 
    // MARK: - Initializer
    init(
@@ -77,36 +75,33 @@ struct LaunchpadSettings: Codable, Equatable {
       productKey: String = defaultProductKey,
       customAppLocations: [String] = defaultCustomAppLocations
    ) {
-      // Grid Layout - with validation
+      // Layout
       self.columns = max(4, min(12, columns))
       self.rows = max(3, min(10, rows))
       self.iconSize = max(20, min(200, iconSize))
       self.folderColumns = max(3, min(10, folderColumns))
       self.folderRows = max(3, min(8, folderRows))
-      
-      // Interaction & Animation - with validation
+
+      // Interaction
       self.dropDelay = max(0.0, min(3.0, dropDelay))
       self.scrollDebounceInterval = scrollDebounceInterval
       self.scrollActivationThreshold = scrollActivationThreshold
       self.enableIconAnimation = enableIconAnimation
-      
-      // Display & Appearance - with validation
-      self.showDock = showDock
+
+      // Appearance
       self.transparency = max(0.0, min(2.0, transparency))
-      self.showIconsInSearch = showIconsInSearch
       self.backgroundType = backgroundType
       self.customBackgroundPath = customBackgroundPath
       self.backgroundBlur = max(0.0, min(30.0, backgroundBlur))
-      
+
       // Behavior
+      self.showDock = showDock
+      self.showIconsInSearch = showIconsInSearch
       self.startAtLogin = startAtLogin
       self.resetOnRelaunch = resetOnRelaunch
-      
+
       // Advanced
       self.productKey = productKey
       self.customAppLocations = customAppLocations
    }
 }
-
-// MARK: - Computed Properties
-
