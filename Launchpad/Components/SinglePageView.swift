@@ -1,63 +1,64 @@
 import SwiftUI
 
 struct SinglePageView: View {
-   @Binding var pages: [[AppGridItem]]
-   @Binding var draggedItem: AppGridItem?
-   @Binding var isEditMode: Bool
-   let pageIndex: Int
-   let settings: LaunchpadSettings
-   let isFolderOpen: Bool
-   let onItemTap: (AppGridItem) -> Void
-   
-   @State private var hoveredItem: AppGridItem?
-
-   var body: some View {
-      GeometryReader { geo in
-         let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
-
-         ScrollView(.horizontal, showsIndicators: false) {
-            LazyVGrid(
-               columns: GridLayoutUtility.createGridColumns(count: settings.columns, cellWidth: layout.cellWidth, spacing: layout.hSpacing),
-               spacing: layout.hSpacing
-            ) {
-               ForEach(pages[pageIndex]) { item in
-                  GridItemView(
-                     item: item, 
-                     layout: layout, 
-                     isDragged: draggedItem?.id == item.id, 
-                     isEditMode: isEditMode,
-                     isHovered: hoveredItem?.id == item.id && draggedItem != nil,
-                     settings: settings
-                  )
-                     .opacity(isFolderOpen ? LaunchPadConstants.folderOpenOpacity : 1)
-                     .onTapGesture { onItemTap(item)  }
-                     .onDrag {
-                        draggedItem = item
-                        return NSItemProvider(object: item.id.uuidString as NSString)
-                     }
-                     .onDrop(
-                        of: [.text],
-                        delegate: ItemDropDelegate(
-                           pages: $pages,
-                           draggedItem: $draggedItem,
-                           hoveredItem: $hoveredItem,
-                           dropDelay: settings.dropDelay,
-                           targetItem: item,
-                           targetPage: pageIndex,
-                           appsPerPage: settings.appsPerPage
-                        ))
-               }
+    @Binding var pages: [[AppGridItem]]
+    @Binding var draggedItem: AppGridItem?
+    @Binding var isEditMode: Bool
+    let pageIndex: Int
+    let settings: LaunchpadSettings
+    let isFolderOpen: Bool
+    let onItemTap: (AppGridItem) -> Void
+    
+    @State private var hoveredItem: AppGridItem?
+    
+    var body: some View {
+        GeometryReader { geo in
+            let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyVGrid(
+                    columns: GridLayoutUtility.createGridColumns(count: settings.columns, cellWidth: layout.cellWidth, spacing: layout.hSpacing),
+                    spacing: layout.hSpacing
+                ) {
+                    ForEach(pages[pageIndex]) { item in
+                        GridItemView(
+                            item: item, 
+                            layout: layout,
+                            isDragged: draggedItem?.id == item.id,
+                            isDraggedOn: hoveredItem?.id == item.id && draggedItem?.id != item.id,
+                            isHovered: hoveredItem?.id == item.id,
+                            isEditMode: isEditMode,
+                            settings: settings
+                        )
+                        .opacity(isFolderOpen ? LaunchPadConstants.folderOpenOpacity : 1)
+                        .onTapGesture { onItemTap(item)  }
+                        .onDrag {
+                            draggedItem = item
+                            return NSItemProvider(object: item.id.uuidString as NSString)
+                        }
+                        .onDrop(
+                            of: [.text],
+                            delegate: ItemDropDelegate(
+                                pages: $pages,
+                                draggedItem: $draggedItem,
+                                hoveredItem: $hoveredItem,
+                                dropDelay: settings.dropDelay,
+                                targetItem: item,
+                                targetPage: pageIndex,
+                                appsPerPage: settings.appsPerPage
+                            ))
+                    }
+                }
+                .padding(.horizontal, layout.hPadding)
+                .padding(.vertical, layout.vPadding)
+                .frame(minHeight: geo.size.height - layout.vPadding, alignment: .top)
             }
-            .padding(.horizontal, layout.hPadding)
-            .padding(.vertical, layout.vPadding)
-            .frame(minHeight: geo.size.height - layout.vPadding, alignment: .top)
-         }
-         .onDrop(of: [.text], delegate: PageDropDelegate(
-            pages: $pages,
-            draggedItem: $draggedItem,
-            targetPage: pageIndex,
-            appsPerPage: settings.appsPerPage
-         ))
-      }
-   }
+            .onDrop(of: [.text], delegate: PageDropDelegate(
+                pages: $pages,
+                draggedItem: $draggedItem,
+                targetPage: pageIndex,
+                appsPerPage: settings.appsPerPage
+            ))
+        }
+    }
 }

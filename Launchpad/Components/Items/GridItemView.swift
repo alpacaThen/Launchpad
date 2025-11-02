@@ -4,8 +4,9 @@ struct GridItemView: View {
     let item: AppGridItem
     let layout: LayoutMetrics
     let isDragged: Bool
-    let isEditMode: Bool
+    let isDraggedOn: Bool
     let isHovered: Bool
+    let isEditMode: Bool
     let settings: LaunchpadSettings
     
     @State private var jiggleRotation: Double = 0
@@ -14,9 +15,9 @@ struct GridItemView: View {
         Group {
             switch item {
             case .app(let app):
-                AppIconView(app: app, layout: layout, isDragged: isDragged)
+                AppIconView(app: app, layout: layout, isDragged: isDragged, isDraggedOn: isDraggedOn, isHovered: isHovered)
             case .folder(let folder):
-                FolderIconView(folder: folder, layout: layout, isDragged: isDragged, transparency: settings.transparency)
+                FolderIconView(folder: folder, layout: layout, isDragged: isDragged, isDraggedOn: isDraggedOn, isHovered: isHovered, transparency: settings.transparency)
             case .category:
                 EmptyView()  // Categories are not displayed as grid items
             }

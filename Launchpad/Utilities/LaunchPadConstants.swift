@@ -28,10 +28,10 @@ class LaunchPadConstants {
     static let pageIndicatorSpacing: CGFloat = 20
     static let dropZoneWidth: CGFloat = 60
     
-    // MARK: - Drag & Drop Constants
-    static let draggedItemScale: CGFloat = 1.0
-    static let folderOpenOpacity: Double = 0.2
-    static let folderCreationScale: CGFloat = 1.2
+    // MARK: - Scale Constants
+    static let hoveredItemScale: CGFloat = 1.2
+    static let draggedItemScale: CGFloat = 1.5
+    static let folderCreationScale: CGFloat = 0.5
     
     // MARK: - Edit Mode Constants
     static let jiggleRotation: Double = 4.0  // degrees
