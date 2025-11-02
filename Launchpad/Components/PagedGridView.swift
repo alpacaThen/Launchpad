@@ -60,7 +60,7 @@ struct PagedGridView: View {
                   }
                }
                .offset(x: -CGFloat(currentPage) * geo.size.width)
-               .animation(LaunchPadConstants.springAnimation, value: currentPage)
+               .animation(LaunchpadConstants.springAnimation, value: currentPage)
                .padding(.bottom, 16)
             } else {
                SearchResultsView(
@@ -241,7 +241,7 @@ struct PagedGridView: View {
       let altKeyPressed = event.modifierFlags.contains(.option)
       
       if altKeyPressed != isEditMode {
-         withAnimation(LaunchPadConstants.fadeAnimation) {
+         withAnimation(LaunchpadConstants.fadeAnimation) {
             isEditMode = altKeyPressed
          }
       }
@@ -306,14 +306,14 @@ struct PagedGridView: View {
    private func navigateToPreviousPage() {
       guard currentPage > 0 else { return }
 
-      withAnimation(LaunchPadConstants.springAnimation) {
+      withAnimation(LaunchpadConstants.springAnimation) {
          currentPage = currentPage - 1
       }
    }
 
    private func navigateToNextPage() {
       if currentPage < totalPages - 1 {
-         withAnimation(LaunchPadConstants.springAnimation) {
+         withAnimation(LaunchpadConstants.springAnimation) {
             currentPage += 1
          }
       } else {
@@ -323,7 +323,7 @@ struct PagedGridView: View {
 
    private func createNewPage() {
       pages.append([])
-      withAnimation(LaunchPadConstants.springAnimation) {
+      withAnimation(LaunchpadConstants.springAnimation) {
          currentPage = totalPages - 1
       }
    }

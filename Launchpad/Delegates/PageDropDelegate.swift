@@ -11,7 +11,7 @@ struct PageDropDelegate: DropDelegate {
         
         moveItemToEndOfPage(draggedItem: draggedItem)
         
-        AppManager.shared.saveGridItems()
+        AppManager.shared.saveAppGridItems()
         self.draggedItem = nil
         return true
     }
@@ -19,7 +19,7 @@ struct PageDropDelegate: DropDelegate {
     private func moveItemToEndOfPage(draggedItem: AppGridItem) {
         guard let (currentPageIndex, currentItemIndex) = findItemLocation(item: draggedItem) else { return }
         
-        withAnimation(LaunchPadConstants.dragDropAnimation) {
+        withAnimation(LaunchpadConstants.dragDropAnimation) {
             pages[currentPageIndex].remove(at: currentItemIndex)
             pages[targetPage].append(draggedItem.withUpdatedPage(targetPage))
         }

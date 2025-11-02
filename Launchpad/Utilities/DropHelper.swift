@@ -4,7 +4,7 @@ import SwiftUI
 struct DropHelper {
    static func performDelayedMove(
       delay: Double = 0.5,
-      animation: Animation = LaunchPadConstants.easeInOutAnimation,
+      animation: Animation = LaunchpadConstants.easeInOutAnimation,
       action: @escaping () -> Void
    ) {
       DispatchQueue.main.asyncAfter(deadline: .now() + delay) {

@@ -26,14 +26,14 @@ final class CustomLocationsTests: XCTestCase {
       settingsManager.resetToDefaults()
       
       // Clear test data
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
+      UserDefaults.standard.removeObject(forKey: "LaunchpadAppGridItems")
       UserDefaults.standard.removeObject(forKey: "LaunchpadSettings")
    }
    
    override func tearDown() {
       // Clean up test files and data
       try? FileManager.default.removeItem(at: testDirectory)
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
+      UserDefaults.standard.removeObject(forKey: "LaunchpadAppGridItems")
       UserDefaults.standard.removeObject(forKey: "LaunchpadSettings")
       settingsManager.resetToDefaults()
       super.tearDown()
@@ -123,7 +123,7 @@ final class CustomLocationsTests: XCTestCase {
       var updatedSettings = settingsManager.settings
       updatedSettings.customAppLocations = [testDirectory.path]
       settingsManager.saveSettings(newSettings: updatedSettings)
-      appManager.loadGridItems(appsPerPage: 20)
+      appManager.loadAppGridItems(appsPerPage: 20)
       
       // Then: Apps should be discovered from both default and custom locations
       let allItems = appManager.pages.flatMap { $0 }
@@ -157,7 +157,7 @@ final class CustomLocationsTests: XCTestCase {
       var updatedSettings = settingsManager.settings
       updatedSettings.customAppLocations = [customDir1.path, customDir2.path]
       settingsManager.saveSettings(newSettings: updatedSettings)
-      appManager.loadGridItems(appsPerPage: 20)
+      appManager.loadAppGridItems(appsPerPage: 20)
       
       // Then: Apps should be discovered from all locations
       let allItems = appManager.pages.flatMap { $0 }
@@ -183,7 +183,7 @@ final class CustomLocationsTests: XCTestCase {
       settingsManager.saveSettings(newSettings: updatedSettings)
       
       // Then: Should not crash and should still discover default apps
-      XCTAssertNoThrow(appManager.loadGridItems(appsPerPage: 20))
+      XCTAssertNoThrow(appManager.loadAppGridItems(appsPerPage: 20))
       XCTAssertGreaterThan(appManager.pages.count, 0, "Should have at least one page")
    }
    

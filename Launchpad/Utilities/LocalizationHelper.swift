@@ -40,6 +40,7 @@ struct L10n {
    static let startAtLogin = "start_at_login".localized
    static let resetOnRelaunch = "reset_on_relaunch".localized
    static let showIconsInSearch = "show_icons_in_search".localized
+   static let enableIconAnimation = "enable_icon_animation".localized
    static let transparency = "transparency".localized
    
    // MARK: - Actions Settings

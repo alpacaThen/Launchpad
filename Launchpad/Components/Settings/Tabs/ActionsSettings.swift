@@ -98,7 +98,7 @@ struct ActionsSettings: View {
       .alert(L10n.clearAllAppsTitle, isPresented: $showingClearConfirmation) {
          Button(L10n.cancel, role: .cancel) { }
          Button(L10n.clear, role: .destructive) {
-            clearGridItems()
+            clearAppGridItems()
          }
       } message: {
          Text(L10n.clearAllAppsMessage)
@@ -132,8 +132,8 @@ struct ActionsSettings: View {
       showingImportAlert = true
    }
 
-   private func clearGridItems() {
-      appManager.clearGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+   private func clearAppGridItems() {
+      appManager.clearAppGridItems(appsPerPage: settingsManager.settings.appsPerPage)
    }
 
    private func forceQuitApp() {

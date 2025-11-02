@@ -9,7 +9,7 @@ struct FolderDropDelegate: DropDelegate {
     func performDrop(info: DropInfo) -> Bool {
         guard draggedApp != nil else { return false }
         
-        AppManager.shared.saveGridItems()
+        AppManager.shared.saveAppGridItems()
         self.draggedApp = nil
         return true
     }
@@ -23,7 +23,7 @@ struct FolderDropDelegate: DropDelegate {
                       let toIndex = folder.apps.firstIndex(where: { $0.id == targetApp.id }) else {
                     return
                 }
-                withAnimation(LaunchPadConstants.dragDropAnimation) {
+                withAnimation(LaunchpadConstants.dragDropAnimation) {
                     folder.apps.move(fromOffsets: IndexSet([fromIndex]), toOffset: DropHelper.calculateMoveOffset(fromIndex: fromIndex, toIndex: toIndex))
                 }
             }

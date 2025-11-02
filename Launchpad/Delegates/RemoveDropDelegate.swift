@@ -10,13 +10,13 @@ struct RemoveDropDelegate: DropDelegate {
         guard let draggedApp = draggedApp else { return false }
         
         if let index = folder.apps.firstIndex(where: { $0.id == draggedApp.id }) {
-            withAnimation(LaunchPadConstants.dragDropAnimation) {
+            withAnimation(LaunchpadConstants.dragDropAnimation) {
                 let removedApp = folder.apps.remove(at: index)
                 addAppToPage(app: removedApp)
             }
         }
         
-        AppManager.shared.saveGridItems()
+        AppManager.shared.saveAppGridItems()
         self.draggedApp = nil
         return true
     }

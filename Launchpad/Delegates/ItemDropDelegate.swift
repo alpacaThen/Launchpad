@@ -23,7 +23,7 @@ struct ItemDropDelegate: DropDelegate {
          }
       }
       
-      AppManager.shared.saveGridItems()
+      AppManager.shared.saveAppGridItems()
       self.draggedItem = nil
       self.hoveredItem = nil
       return true
@@ -43,7 +43,7 @@ struct ItemDropDelegate: DropDelegate {
                else {
                   return
                }
-               withAnimation(LaunchPadConstants.dragDropAnimation) {
+               withAnimation(LaunchpadConstants.dragDropAnimation) {
                   pages[draggedItem.page].move(
                      fromOffsets: IndexSet([fromIndex]),
                      toOffset: DropHelper.calculateMoveOffset(fromIndex: fromIndex, toIndex: toIndex))
@@ -60,7 +60,7 @@ struct ItemDropDelegate: DropDelegate {
          
          let updatedItem = item.withUpdatedPage(targetPage)
          
-         withAnimation(LaunchPadConstants.dragDropAnimation) {
+         withAnimation(LaunchpadConstants.dragDropAnimation) {
             pages[targetItem.page].insert(updatedItem, at: toIndex)
             pages[draggedItem.page].remove(at: fromIndex)
          }
@@ -111,7 +111,7 @@ struct ItemDropDelegate: DropDelegate {
       let folderItem = AppGridItem.folder(folder)
       let adjustedTargetIndex = app1Index < app2Index ? app2Index - 1 : app2Index
       
-      withAnimation(LaunchPadConstants.dragDropAnimation) {
+      withAnimation(LaunchpadConstants.dragDropAnimation) {
          if app1.page == app2.page {
             let indices = [app1Index, app2Index].sorted(by: >)
             for index in indices {
@@ -146,7 +146,7 @@ struct ItemDropDelegate: DropDelegate {
       let updatedFolder = Folder(name: targetFolder.name, page: targetFolder.page, apps: updatedApps)
       let updatedFolderItem = AppGridItem.folder(updatedFolder)
       
-      withAnimation(LaunchPadConstants.dragDropAnimation) {
+      withAnimation(LaunchpadConstants.dragDropAnimation) {
          pages[targetFolder.page][folderIndex] = updatedFolderItem
          pages[app.page].remove(at: appIndex)
       }

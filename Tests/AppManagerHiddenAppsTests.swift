@@ -169,11 +169,11 @@ final class AppManagerHiddenAppsTests: BaseTestCase {
    
    // MARK: - Integration Tests with Load Grid Items
    
-   func testLoadGridItemsFiltersHiddenApps() {
+   func testLoadAppGridItemsFiltersHiddenApps() {
       // This test verifies that hidden apps are filtered when loading the grid
       // Given: Some apps are hidden
       // We'll use actual discovered apps to test this properly
-      appManager.loadGridItems(appsPerPage: 20)
+      appManager.loadAppGridItems(appsPerPage: 20)
       let allItemsCount = appManager.pages.flatMap { $0 }.count
       
       guard allItemsCount > 0 else {
@@ -210,7 +210,7 @@ final class AppManagerHiddenAppsTests: BaseTestCase {
    func testHideAndUnhideWorkflow() {
       // Test complete hide/unhide workflow
       // Given: Load apps
-      appManager.loadGridItems(appsPerPage: 20)
+      appManager.loadAppGridItems(appsPerPage: 20)
       let originalCount = appManager.pages.flatMap { $0 }.count
       
       guard originalCount > 0 else {
@@ -254,7 +254,7 @@ final class AppManagerHiddenAppsTests: BaseTestCase {
       appManager.pages = [[.folder(folder)]]
       
       // When: Loading grid items (which filters hidden items)
-      appManager.loadGridItems(appsPerPage: 20)
+      appManager.loadAppGridItems(appsPerPage: 20)
       
       // Then: The folder should not appear in the grid
       // Note: This test assumes the folder won't be in discovered apps

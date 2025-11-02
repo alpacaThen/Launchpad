@@ -1,6 +1,6 @@
 import Foundation
 
-class LaunchPadKeys {
+class LaunchpadKeys {
    private static let productKeys = ["BASIC", "PRO", "PREMIUM"]
 
    public static func isActivated(key: String) -> Bool {

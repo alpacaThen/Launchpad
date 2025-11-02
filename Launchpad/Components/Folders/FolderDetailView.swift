@@ -39,13 +39,13 @@ struct FolderDetailView: View {
                         ForEach(folder!.apps) { app in
                            AppIconView(app: app, layout: layout, scale: scale(app: app))
                               .onHover { isHovering in
-                                 withAnimation(LaunchPadConstants.springAnimation) {
+                                 withAnimation(LaunchpadConstants.springAnimation) {
                                     hoveredApp = isHovering ? app : nil
                                  }
                               }
                               .onTapGesture { onItemTap(.app(app))  }
                               .onDrag {
-                                 withAnimation(LaunchPadConstants.easeOutAnimation) {
+                                 withAnimation(LaunchpadConstants.easeOutAnimation) {
                                     draggedApp = app
                                  }
                                  return NSItemProvider(object: app.id.uuidString as NSString)
@@ -66,7 +66,7 @@ struct FolderDetailView: View {
                }
                .opacity(opacity)
             }
-            .frame(width: LaunchPadConstants.folderWidth, height: LaunchPadConstants.folderHeight)
+            .frame(width: LaunchpadConstants.folderWidth, height: LaunchpadConstants.folderHeight)
             .background(FolderBackground(transparency: settings.transparency))
             .shadow(color: .black.opacity(0.15 * settings.transparency), radius: 40, x: 0, y: 20)
             .shadow(color: .black.opacity(0.1 * settings.transparency), radius: 10, x: 0, y: 5)
@@ -82,29 +82,29 @@ struct FolderDetailView: View {
 
    private func scale(app: AppInfo) -> CGFloat {
       if draggedApp?.id == app.id {
-         return LaunchPadConstants.draggedItemScale
-      } else if hoveredApp?.id == app.id {
-         return LaunchPadConstants.hoveredItemScale
+         return LaunchpadConstants.draggedItemScale
+      } else if hoveredApp?.id == app.id && settings.enableIconAnimation {
+         return LaunchpadConstants.hoveredItemScale
       }
       return 1.0
    }
 
    private func performEntranceAnimation() {
-      withAnimation(LaunchPadConstants.springAnimation) {
+      withAnimation(LaunchpadConstants.springAnimation) {
          isAnimatingIn = true
       }
 
-      withAnimation(LaunchPadConstants.easeOutAnimation) {
+      withAnimation(LaunchpadConstants.easeOutAnimation) {
          opacity = 1.0
       }
 
-      withAnimation(LaunchPadConstants.springAnimation) {
+      withAnimation(LaunchpadConstants.springAnimation) {
          headerOffset = 0
       }
    }
 
    private func dismissWithAnimation() {
-      withAnimation(LaunchPadConstants.easeInAnimation) {
+      withAnimation(LaunchpadConstants.easeInAnimation) {
          opacity = 0
          headerOffset = -20
          isAnimatingIn = false
@@ -123,6 +123,6 @@ struct FolderDetailView: View {
       let newFolder = Folder(name: folder!.name, page: folder!.page, apps: folder!.apps)
       pages[pageIndex][itemIndex] = .folder(newFolder)
       folder = nil
-      AppManager.shared.saveGridItems()
+      AppManager.shared.saveAppGridItems()
    }
 }

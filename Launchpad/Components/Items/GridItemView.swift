@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct GridItemView: View {
+struct AppGridItemView: View {
    let item: AppGridItem
    let layout: LayoutMetrics
    let isDragged: Bool
@@ -22,20 +22,20 @@ struct GridItemView: View {
             EmptyView()  // Categories are not displayed as grid items
          }
       }
-      .rotationEffect(.degrees(isEditMode ? jiggleRotation - (LaunchPadConstants.jiggleRotation / 2) : 0))
-      .animation(isDragged ? LaunchPadConstants.easeInOutAnimation : LaunchPadConstants.springAnimation, value: isDragged)
-      .animation(LaunchPadConstants.springAnimation, value: scale)
-      .animation(LaunchPadConstants.jiggleAnimation, value: jiggleRotation)
-      .onChange(of: isEditMode) { jiggleRotation = $1 ? LaunchPadConstants.jiggleRotation : 0 }
+      .rotationEffect(.degrees(isEditMode ? jiggleRotation - (LaunchpadConstants.jiggleRotation / 2) : 0))
+      .animation(isDragged ? LaunchpadConstants.easeInOutAnimation : LaunchpadConstants.springAnimation, value: isDragged)
+      .animation(LaunchpadConstants.springAnimation, value: scale)
+      .animation(LaunchpadConstants.jiggleAnimation, value: jiggleRotation)
+      .onChange(of: isEditMode) { jiggleRotation = $1 ? LaunchpadConstants.jiggleRotation : 0 }
    }
 
    private var scale: CGFloat {
       if isDragged {
-         return LaunchPadConstants.draggedItemScale
+         return LaunchpadConstants.draggedItemScale
       } else if isDraggedOn {
-         return LaunchPadConstants.folderCreationScale
-      } else if isHovered {
-         return LaunchPadConstants.hoveredItemScale
+         return LaunchpadConstants.folderCreationScale
+      } else if isHovered && settings.enableIconAnimation {
+         return LaunchpadConstants.hoveredItemScale
       }
       return 1.0
    }

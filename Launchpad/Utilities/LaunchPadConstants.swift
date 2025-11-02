@@ -1,6 +1,6 @@
 import SwiftUI
 
-class LaunchPadConstants {
+class LaunchpadConstants {
 
    // MARK: - Animation Constants
    static let springAnimation = Animation.interpolatingSpring(stiffness: 300, damping: 100)

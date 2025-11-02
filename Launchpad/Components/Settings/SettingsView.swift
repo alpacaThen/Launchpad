@@ -173,7 +173,7 @@ struct SettingsView: View {
       
       // Reload apps if custom locations changed
       if oldLocations != newLocations {
-         appManager.loadGridItems(appsPerPage: settings.appsPerPage)
+         appManager.loadAppGridItems(appsPerPage: settings.appsPerPage)
       }
    }
 }

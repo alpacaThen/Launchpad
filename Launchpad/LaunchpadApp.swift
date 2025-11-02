@@ -17,8 +17,8 @@ struct LaunchpadApp: App {
                     showSettings: $showSettings,
                     settings: settingsManager.settings
                 )
-                .opacity(showSettings ? LaunchPadConstants.overlayOpacity : 1.0)
-                .animation(LaunchPadConstants.fadeAnimation, value: showSettings)
+                .opacity(showSettings ? LaunchpadConstants.overlayOpacity : 1.0)
+                .animation(LaunchpadConstants.fadeAnimation, value: showSettings)
                 .onTapGesture(perform: AppLauncher.exit)
                 
                 if showSettings {
@@ -35,7 +35,7 @@ struct LaunchpadApp: App {
         guard !isInitialized else { return }
         isInitialized = true
         
-        appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+        appManager.loadAppGridItems(appsPerPage: settingsManager.settings.appsPerPage)
         
         NSMenu.setMenuBarVisible(settingsManager.settings.showDock)
     }

@@ -8,7 +8,7 @@ final class AppManagerDiscoveryTests: BaseTestCase {
     // MARK: - App Discovery Tests
     
     func testAppDiscoveryFindsSystemApps() {
-        appManager.loadGridItems(appsPerPage: 20)
+        appManager.loadAppGridItems(appsPerPage: 20)
         
         let allApps = appManager.pages.flatMap { $0 }.compactMap { item -> AppInfo? in
             if case .app(let app) = item {
@@ -28,7 +28,7 @@ final class AppManagerDiscoveryTests: BaseTestCase {
     }
     
     func testAppDiscoveryPropertiesAreValid() {
-        appManager.loadGridItems(appsPerPage: 20)
+        appManager.loadAppGridItems(appsPerPage: 20)
         
         let allApps = appManager.pages.flatMap { $0 }.compactMap { item -> AppInfo? in
             if case .app(let app) = item {
@@ -58,7 +58,7 @@ final class AppManagerDiscoveryTests: BaseTestCase {
     
     func testAppDiscoveryIgnoresInvalidPaths() {
         // This test verifies that the discovery process properly filters out invalid entries
-        appManager.loadGridItems(appsPerPage: 20)
+        appManager.loadAppGridItems(appsPerPage: 20)
         
         let allApps = appManager.pages.flatMap { $0 }.compactMap { item -> AppInfo? in
             if case .app(let app) = item {
@@ -189,7 +189,7 @@ final class AppManagerDiscoveryTests: BaseTestCase {
     
     func testAppDiscoveryPerformance() {
         measure {
-            appManager.loadGridItems(appsPerPage: 20)
+            appManager.loadAppGridItems(appsPerPage: 20)
         }
     }
     
@@ -214,7 +214,7 @@ final class AppManagerDiscoveryTests: BaseTestCase {
         // For now, we just verify that the discovery process doesn't crash with the current system
         
         XCTAssertNoThrow {
-           self.appManager.loadGridItems(appsPerPage: 20)
+           self.appManager.loadAppGridItems(appsPerPage: 20)
         }
         
         // Should still find some apps despite any permission issues
@@ -224,7 +224,7 @@ final class AppManagerDiscoveryTests: BaseTestCase {
     
     func testHandlingSymlinks() {
         // App discovery should handle symlinks properly
-        appManager.loadGridItems(appsPerPage: 20)
+        appManager.loadAppGridItems(appsPerPage: 20)
         
         let allApps = appManager.pages.flatMap { $0 }.compactMap { item -> AppInfo? in
             if case .app(let app) = item {

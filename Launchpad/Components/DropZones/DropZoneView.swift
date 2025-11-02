@@ -44,7 +44,7 @@ struct DropZoneView: View {
    var body: some View {
       Rectangle()
          .fill(shouldShowChevron ? Color.accentColor.opacity(0.2 * transparency) : Color.clear)
-         .frame(width: LaunchPadConstants.dropZoneWidth)
+         .frame(width: LaunchpadConstants.dropZoneWidth)
          .overlay(alignment: alignment) {
             if shouldShowChevron {
                VStack {
@@ -74,7 +74,7 @@ struct DropZoneView: View {
    }
 
    private func startTimer() {
-      hoverTimer = Timer.scheduledTimer(withTimeInterval: LaunchPadConstants.hoverDelay, repeats: false) { _ in
+      hoverTimer = Timer.scheduledTimer(withTimeInterval: LaunchpadConstants.hoverDelay, repeats: false) { _ in
          DispatchQueue.main.async {
             onNavigate()
          }

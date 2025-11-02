@@ -16,7 +16,7 @@ struct CategoryPageView: View {
             ScrollView(.vertical, showsIndicators: false) {
                VStack(spacing: 24) {
                   LazyVGrid(
-                     columns: GridLayoutUtility.createFlexibleGridColumns(count: Int(geo.size.width) / LaunchPadConstants.categoryBoxSize, spacing: 36),
+                     columns: GridLayoutUtility.createFlexibleGridColumns(count: Int(geo.size.width) / LaunchpadConstants.categoryBoxSize, spacing: 36),
                      spacing: 36
                   ) {
                      ForEach(categoryManager.categories) { category in

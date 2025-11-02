@@ -62,13 +62,13 @@ final class AppManagerPersistenceTests: BaseTestCase {
          [.app(app2), .folder(folder)] // Page 1
       ]
 
-      appManager.saveGridItems()
+      appManager.saveAppGridItems()
 
       // Wait for async save
       try? await Task.sleep(nanoseconds: 100_000_000)
 
       // Verify data was saved
-      let savedData = UserDefaults.standard.array(forKey: "LaunchpadGridItems") as? [[String: Any]]
+      let savedData = UserDefaults.standard.array(forKey: "LaunchpadAppGridItems") as? [[String: Any]]
       XCTAssertNotNil(savedData, "Should save data to UserDefaults")
       XCTAssertEqual(savedData?.count, 4, "Should save 4 items (3 apps + 1 folder)")
 
@@ -86,11 +86,11 @@ final class AppManagerPersistenceTests: BaseTestCase {
          [:] // Empty object
       ]
 
-      UserDefaults.standard.set(corruptedData, forKey: "LaunchpadGridItems")
+      UserDefaults.standard.set(corruptedData, forKey: "LaunchpadAppGridItems")
 
       // Should not crash when loading
       XCTAssertNoThrow {
-         self.appManager.loadGridItems(appsPerPage: 20)
+         self.appManager.loadAppGridItems(appsPerPage: 20)
       }
 
       // Should still discover real apps despite corrupted saved data
@@ -109,11 +109,11 @@ final class AppManagerPersistenceTests: BaseTestCase {
          ]
       ]
 
-      UserDefaults.standard.set(missingAppData, forKey: "LaunchpadGridItems")
+      UserDefaults.standard.set(missingAppData, forKey: "LaunchpadAppGridItems")
 
       // Should handle missing apps gracefully
       XCTAssertNoThrow {
-         self.appManager.loadGridItems(appsPerPage: 20)
+         self.appManager.loadAppGridItems(appsPerPage: 20)
       }
 
       // Should still discover real apps
@@ -131,7 +131,7 @@ final class AppManagerPersistenceTests: BaseTestCase {
    // MARK: - Data Integrity Tests
 
    func testDataConsistencyAfterMultipleOperations() async {
-      appManager.loadGridItems(appsPerPage: 10)
+      appManager.loadAppGridItems(appsPerPage: 10)
       let initialCount = appManager.pages.flatMap { $0 }.count
 
       // 2. Recalculate pages
@@ -143,7 +143,7 @@ final class AppManagerPersistenceTests: BaseTestCase {
       try? await Task.sleep(nanoseconds: 100_000_000)
 
       // 4. Clear and reload
-      appManager.clearGridItems(appsPerPage: 10)
+      appManager.clearAppGridItems(appsPerPage: 10)
       let afterClearCount = appManager.pages.flatMap { $0 }.count
 
       // Counts might differ slightly due to system changes, but should be in reasonable range
@@ -174,12 +174,12 @@ final class AppManagerPersistenceTests: BaseTestCase {
          }
       }
 
-      appManager.saveGridItems()
+      appManager.saveAppGridItems()
 
       try? await Task.sleep(nanoseconds: 200_000_000)
 
       // Verify that some data was saved (exact data depends on timing)
-      let savedData = UserDefaults.standard.array(forKey: "LaunchpadGridItems")
+      let savedData = UserDefaults.standard.array(forKey: "LaunchpadAppGridItems")
       XCTAssertNotNil(savedData, "Should have saved some data")
    }
 
@@ -187,12 +187,12 @@ final class AppManagerPersistenceTests: BaseTestCase {
 
    func testSaveEmptyPages() async {
       appManager.pages = [[]]
-      appManager.saveGridItems()
+      appManager.saveAppGridItems()
 
       // Wait for save
       try? await Task.sleep(nanoseconds: 100_000_000)
 
-      let savedData = UserDefaults.standard.array(forKey: "LaunchpadGridItems") as? [[String: Any]]
+      let savedData = UserDefaults.standard.array(forKey: "LaunchpadAppGridItems") as? [[String: Any]]
       XCTAssertNotNil(savedData, "Should save even empty data")
       XCTAssertEqual(savedData?.count, 0, "Empty pages should result in empty array")
    }

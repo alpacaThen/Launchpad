@@ -9,7 +9,7 @@ final class AppManager: ObservableObject {
    private let fileManager = FileManager.default
 
    private let userDefaults = UserDefaults.standard
-   private let gridItemsKey = "LaunchpadGridItems"
+   private let gridItemsKey = "LaunchpadAppGridItems"
    private let hiddenAppsKey = "LaunchpadHiddenApps"
 
    static let shared = AppManager()
@@ -26,7 +26,7 @@ final class AppManager: ObservableObject {
       }
    }
 
-   func loadGridItems(appsPerPage: Int) {
+   func loadAppGridItems(appsPerPage: Int) {
       print("Load grid items.")
       let apps = discoverApps()
       let gridItems = loadLayoutFromUserDefaults(for: apps)
@@ -35,7 +35,7 @@ final class AppManager: ObservableObject {
       pages = groupItemsByPage(items: visibleItems, appsPerPage: appsPerPage)
    }
 
-   func saveGridItems() {
+   func saveAppGridItems() {
       print("Save grid items.")
       let itemsData = pages.flatMap { $0 }.map { $0.serialize() }
       userDefaults.set(itemsData, forKey: gridItemsKey)
@@ -44,7 +44,7 @@ final class AppManager: ObservableObject {
    func importLayout(appsPerPage: Int) -> (success: Bool, message: String) {
       let filePath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("LaunchpadLayout.json")
       let result = importLayoutFromJSON(filePath: filePath, appsPerPage: appsPerPage)
-      saveGridItems()
+      saveAppGridItems()
       return result
    }
 
@@ -53,10 +53,10 @@ final class AppManager: ObservableObject {
       return exportLayoutToJSON(filePath: filePath)
    }
 
-   func clearGridItems(appsPerPage: Int) {
+   func clearAppGridItems(appsPerPage: Int) {
       print("Clear grid items.")
       userDefaults.removeObject(forKey: gridItemsKey)
-      loadGridItems(appsPerPage: appsPerPage)
+      loadAppGridItems(appsPerPage: appsPerPage)
    }
 
    func importFromOldLaunchpad(appsPerPage: Int) -> Bool {
@@ -73,7 +73,7 @@ final class AppManager: ObservableObject {
       addRemainingApps(items: &gridItems, apps: apps)
 
       pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
-      saveGridItems()
+      saveAppGridItems()
 
       print("Successfully imported layout from old Launchpad")
       return true
@@ -183,12 +183,12 @@ final class AppManager: ObservableObject {
       }
 
       let appsByPath = Dictionary(uniqueKeysWithValues: apps.map { ($0.path, $0) })
-      var gridItems = parseGridItems(from: savedData, appsByPath: appsByPath)
+      var gridItems = parseAppGridItems(from: savedData, appsByPath: appsByPath)
       addRemainingApps(items: &gridItems, apps: apps)
       return gridItems
    }
 
-   private func parseGridItems(from itemsArray: [[String: Any]], appsByPath: [String: AppInfo]) -> [AppGridItem] {
+   private func parseAppGridItems(from itemsArray: [[String: Any]], appsByPath: [String: AppInfo]) -> [AppGridItem] {
       var gridItems: [AppGridItem] = []
 
       for itemData in itemsArray {
@@ -286,7 +286,7 @@ final class AppManager: ObservableObject {
 
          let allApps = discoverApps()
          let appsByPath = Dictionary(uniqueKeysWithValues: allApps.map { ($0.path, $0) })
-         let gridItems = parseGridItems(from: itemsArray, appsByPath: appsByPath)
+         let gridItems = parseAppGridItems(from: itemsArray, appsByPath: appsByPath)
          pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
 
          print("Successfully imported layout from \(filePath.path)")
@@ -330,13 +330,13 @@ final class AppManager: ObservableObject {
    func hideApp(path: String) {
       print("Hide app: \(path)")
       hiddenAppPaths.insert(path)
-      loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+      loadAppGridItems(appsPerPage: settingsManager.settings.appsPerPage)
    }
    
    func unhideApp(path: String, appsPerPage: Int) {
       print("Unhide app: \(path)")
       hiddenAppPaths.remove(path)
-      loadGridItems(appsPerPage: appsPerPage)
+      loadAppGridItems(appsPerPage: appsPerPage)
    }
 
    func getHiddenApps() -> [AppInfo] {

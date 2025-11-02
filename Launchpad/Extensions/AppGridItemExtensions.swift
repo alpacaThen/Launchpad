@@ -8,7 +8,7 @@ extension AppGridItem {
       case .category: return ""
       }
    }
-   
+
    var lastOpenedDate: Date? {
       switch self {
       case .app(let app): return app.lastOpenedDate
@@ -16,7 +16,7 @@ extension AppGridItem {
       case .category: return nil
       }
    }
-   
+
    var installDate: Date? {
       switch self {
       case .app(let app): return app.installDate
@@ -24,7 +24,7 @@ extension AppGridItem {
       case .category: return nil
       }
    }
-   
+
    var appPaths: Set<String> {
       switch self {
       case .app(let app): return [app.path]
@@ -32,7 +32,7 @@ extension AppGridItem {
       case .category: return []
       }
    }
-   
+
    func serialize() -> [String: Any] {
       switch self {
       case .app(let app): return serialize(app)
@@ -40,7 +40,7 @@ extension AppGridItem {
       case .category: return [:]
       }
    }
-   
+
    func serialize(_ folder: Folder) -> [String : Any] {
       return [
          "type": "folder",
@@ -50,7 +50,7 @@ extension AppGridItem {
          "apps": folder.apps.map(serialize)
       ]
    }
-   
+
    func serialize(_ app: AppInfo) -> [String: Any] {
       [
          "type": "app",
@@ -60,7 +60,7 @@ extension AppGridItem {
          "path": app.path
       ]
    }
-   
+
    func withUpdatedPage(_ newPage: Int) -> AppGridItem {
       switch self {
       case .app(let app):

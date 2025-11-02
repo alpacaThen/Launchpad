@@ -2,7 +2,7 @@ import AppKit
 
 extension NSImage {
    // Rasterize the image into a single bitmap rep so it won’t switch designs at small sizes.
-   func flattenedForConsistency(targetPixelSize: CGFloat = LaunchPadConstants.iconDisplaySize) -> NSImage {
+   func flattenedForConsistency(targetPixelSize: CGFloat = LaunchpadConstants.iconDisplaySize) -> NSImage {
       let size = NSSize(width: targetPixelSize, height: targetPixelSize)
       var rect = NSRect(origin: .zero, size: size)
       guard let cg = self.cgImage(forProposedRect: &rect, context: nil, hints: nil) else {

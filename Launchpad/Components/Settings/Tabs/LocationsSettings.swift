@@ -134,7 +134,7 @@ struct LocationsSettings: View {
       settings.customAppLocations.append(trimmedLocation)
       
       // Reload apps to include new location
-      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+      appManager.loadAppGridItems(appsPerPage: settingsManager.settings.appsPerPage)
       
       newLocation = ""
    }
@@ -150,7 +150,7 @@ struct LocationsSettings: View {
       settings.customAppLocations.remove(at: index)
       
       // Reload apps to reflect removed location
-      appManager.loadGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+      appManager.loadAppGridItems(appsPerPage: settingsManager.settings.appsPerPage)
    }
    
    private func selectFolder() {

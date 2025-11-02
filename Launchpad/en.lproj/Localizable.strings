@@ -29,6 +29,7 @@
 "start_at_login" = "Start at Login";
 "reset_on_relaunch" = "Reset search on Relaunch";
 "show_icons_in_search" = "Show ordering options";
+"enable_icon_animation" = "Enable Icon Animation";
 "transparency" = "Transparency";
 
 // MARK: - Actions Settings
@@ -104,7 +105,7 @@
 
 // MARK: - Restart Warning
 "restart_required" = "Restart Required";
-"restart_warning_message" = "Some settings require a force restart of LaunchPad app to take effect.";
+"restart_warning_message" = "Some settings require a force restart of Launchpad app to take effect.";
 
 // MARK: - Activation Settings
 "activation" = "Activation";

@@ -41,7 +41,7 @@ struct CategoryDetailView: View {
                         ForEach(categoryApps) { app in
                            AppIconView(app: app, layout: layout, scale: scale(app: app))
                               .onHover { isHovering in
-                                 withAnimation(LaunchPadConstants.springAnimation) {
+                                 withAnimation(LaunchpadConstants.springAnimation) {
                                     hoveredApp = isHovering ? app : nil
                                  }
                               }
@@ -54,7 +54,7 @@ struct CategoryDetailView: View {
                }
                .opacity(opacity)
             }
-            .frame(width: LaunchPadConstants.folderWidth, height: LaunchPadConstants.folderHeight)
+            .frame(width: LaunchpadConstants.folderWidth, height: LaunchpadConstants.folderHeight)
             .background(
                RoundedRectangle(cornerRadius: 20)
                   .fill(.regularMaterial.opacity(0.75))
@@ -100,29 +100,29 @@ struct CategoryDetailView: View {
    
    private func scale(app: AppInfo) -> CGFloat {
       if draggedApp?.id == app.id {
-         return LaunchPadConstants.draggedItemScale
-      } else if hoveredApp?.id == app.id {
-         return LaunchPadConstants.hoveredItemScale
+         return LaunchpadConstants.draggedItemScale
+      } else if hoveredApp?.id == app.id && settings.enableIconAnimation {
+         return LaunchpadConstants.hoveredItemScale
       }
       return 1.0
    }
    
    private func performEntranceAnimation() {
-      withAnimation(LaunchPadConstants.springAnimation) {
+      withAnimation(LaunchpadConstants.springAnimation) {
          isAnimatingIn = true
       }
       
-      withAnimation(LaunchPadConstants.easeOutAnimation) {
+      withAnimation(LaunchpadConstants.easeOutAnimation) {
          opacity = 1.0
       }
       
-      withAnimation(LaunchPadConstants.springAnimation) {
+      withAnimation(LaunchpadConstants.springAnimation) {
          headerOffset = 0
       }
    }
    
    private func dismissWithAnimation() {
-      withAnimation(LaunchPadConstants.easeInAnimation) {
+      withAnimation(LaunchpadConstants.easeInAnimation) {
          opacity = 0
          headerOffset = -20
          isAnimatingIn = false

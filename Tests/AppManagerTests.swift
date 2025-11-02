@@ -20,8 +20,8 @@ final class AppManagerTests: BaseTestCase {
 
    // MARK: - App Discovery Tests
 
-   func testLoadGridItemsWithoutSavedData() {
-      appManager.loadGridItems(appsPerPage: 20)
+   func testLoadAppGridItemsWithoutSavedData() {
+      appManager.loadAppGridItems(appsPerPage: 20)
 
       XCTAssertGreaterThan(appManager.pages.count, 0, "Should have at least one page")
 
@@ -114,18 +114,18 @@ final class AppManagerTests: BaseTestCase {
 
    // MARK: - Persistence Tests
 
-   func testSaveAndLoadGridItems() async {
+   func testSaveAndLoadAppGridItems() async {
       // Given: Some mock apps
       let mockApps = createMockApps(count: 5, startingPage: 0)
       appManager.pages = [mockApps]
-      appManager.saveGridItems()
+      appManager.saveAppGridItems()
 
       // When: Saving (this happens automatically via property observer)
       // Wait for the async save to complete
       try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
 
       // Then: Data should be saved to UserDefaults
-      let savedData = UserDefaults.standard.array(forKey: "LaunchpadGridItems") as? [[String: Any]]
+      let savedData = UserDefaults.standard.array(forKey: "LaunchpadAppGridItems") as? [[String: Any]]
       XCTAssertNotNil(savedData, "Data should be saved to UserDefaults")
       XCTAssertEqual(savedData?.count, 5, "Should save 5 items")
 
@@ -141,7 +141,7 @@ final class AppManagerTests: BaseTestCase {
       XCTAssertNotNil(firstItem["page"], "Should have page number")
    }
 
-   func testLoadGridItemsWithSavedData() {
+   func testLoadAppGridItemsWithSavedData() {
       // Given: Saved app data in UserDefaults
       let savedData: [[String: Any]] = [
          [
@@ -165,37 +165,37 @@ final class AppManagerTests: BaseTestCase {
          ]
       ]
 
-      UserDefaults.standard.set(savedData, forKey: "LaunchpadGridItems")
+      UserDefaults.standard.set(savedData, forKey: "LaunchpadAppGridItems")
 
       // When: Loading grid items (this would normally discover real apps)
       // Note: This test will fail for apps that don't exist on the system
       // In a real test environment, we'd need to mock the app discovery
 
       // For now, let's test that the method runs without crashing
-      XCTAssertNoThrow(appManager.loadGridItems(appsPerPage: 20))
+      XCTAssertNoThrow(appManager.loadAppGridItems(appsPerPage: 20))
    }
 
    // MARK: - Clear Grid Items Tests
 
-   func testClearGridItems() {
+   func testClearAppGridItems() {
       // Given: Some saved data
       let mockApps = createMockApps(count: 3, startingPage: 0)
       appManager.pages = [mockApps]
-      appManager.saveGridItems()
+      appManager.saveAppGridItems()
 
       // Ensure data is saved
-      let initialData = UserDefaults.standard.array(forKey: "LaunchpadGridItems")
+      let initialData = UserDefaults.standard.array(forKey: "LaunchpadAppGridItems")
       XCTAssertNotNil(initialData, "Should have initial data")
 
       // When: Clearing grid items
-      appManager.clearGridItems(appsPerPage: 20)
+      appManager.clearAppGridItems(appsPerPage: 20)
 
       // Then: UserDefaults should be cleared and new apps discovered
-      _ = UserDefaults.standard.array(forKey: "LaunchpadGridItems")
-      // Note: clearGridItems calls loadGridItems, which may save new data
+      _ = UserDefaults.standard.array(forKey: "LaunchpadAppGridItems")
+      // Note: clearAppGridItems calls loadAppGridItems, which may save new data
       // So we mainly check that the method runs without crashing
       XCTAssertNoThrow({
-         self.appManager.clearGridItems(appsPerPage: 20)
+         self.appManager.clearAppGridItems(appsPerPage: 20)
       })
    }
 
@@ -223,7 +223,7 @@ final class AppManagerTests: BaseTestCase {
 
    // MARK: - Page Update Tests
 
-   func testLoadGridItemsGroupsByPage() {
+   func testLoadAppGridItemsGroupsByPage() {
       // Test that apps are grouped by page when loading
       let mockApps = [
          createMockApp(name: "App 1", path: "/App1.app", bundleId: "com.test.app", page: 0),
@@ -244,7 +244,7 @@ final class AppManagerTests: BaseTestCase {
 
    // MARK: - Edge Cases
 
-   func testEmptyGridItems() {
+   func testEmptyAppGridItems() {
       appManager.pages = []
       appManager.recalculatePages(appsPerPage: 20)
 
@@ -291,21 +291,21 @@ final class AppManagerIntegrationTests: BaseTestCase {
       // Test a complete workflow: load -> modify -> save -> load again
 
       // 1. Initial load
-      appManager.loadGridItems(appsPerPage: 20)
+      appManager.loadAppGridItems(appsPerPage: 20)
       let initialCount = appManager.pages.flatMap { $0 }.count
       XCTAssertGreaterThan(initialCount, 0, "Should discover some apps")
 
-      appManager.saveGridItems()
+      appManager.saveAppGridItems()
       
       // 2. Wait for save to complete
       try? await Task.sleep(nanoseconds: 200_000_000) // 0.2 seconds
 
       // 3. Verify data was saved
-      let savedData = UserDefaults.standard.array(forKey: "LaunchpadGridItems")
+      let savedData = UserDefaults.standard.array(forKey: "LaunchpadAppGridItems")
       XCTAssertNotNil(savedData, "Data should be saved")
 
       // 4. Clear and reload
-      appManager.clearGridItems(appsPerPage: 20)
+      appManager.clearAppGridItems(appsPerPage: 20)
       let reloadedCount = appManager.pages.flatMap { $0 }.count
 
       // 5. Should have similar number of apps (might vary slightly due to system changes)
@@ -314,7 +314,7 @@ final class AppManagerIntegrationTests: BaseTestCase {
 
    func testPageRecalculationWithRealData() {
       // Load real apps
-      appManager.loadGridItems(appsPerPage: 10)
+      appManager.loadAppGridItems(appsPerPage: 10)
       let originalTotalApps = appManager.pages.flatMap { $0 }.count
 
       // Recalculate with different page size

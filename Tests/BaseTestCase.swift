@@ -10,7 +10,7 @@ class BaseTestCase: XCTestCase {
    var appManager: AppManager!
    
    /// Keys used for UserDefaults storage
-   let gridItemsKey = "LaunchpadGridItems"
+   let gridItemsKey = "LaunchpadAppGridItems"
    let hiddenAppsKey = "LaunchpadHiddenApps"
    let settingsKey = "LaunchpadSettings"
    

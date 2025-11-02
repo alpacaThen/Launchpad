@@ -14,7 +14,7 @@ final class IconCacheManager {
          return cachedIcon
       }
 
-      let icon = NSWorkspace.shared.icon(forFile: path).flattenedForConsistency(targetPixelSize: LaunchPadConstants.iconDisplaySize)
+      let icon = NSWorkspace.shared.icon(forFile: path).flattenedForConsistency(targetPixelSize: LaunchpadConstants.iconDisplaySize)
       addToCache(icon: icon, forPath: path)
       return icon
    }

@@ -21,7 +21,7 @@ struct SinglePageView: View {
                     spacing: layout.hSpacing
                 ) {
                     ForEach(pages[pageIndex]) { item in
-                        GridItemView(
+                        AppGridItemView(
                             item: item, 
                             layout: layout,
                             isDragged: draggedItem?.id == item.id,
@@ -30,7 +30,7 @@ struct SinglePageView: View {
                             isEditMode: isEditMode,
                             settings: settings
                         )
-                        .opacity(isFolderOpen ? LaunchPadConstants.dimmedOpacity : 1)
+                        .opacity(isFolderOpen ? LaunchpadConstants.dimmedOpacity : 1)
                         .onHover { isHovering in
                             hoveredItem = isHovering ? item : nil
                         }
@@ -39,7 +39,7 @@ struct SinglePageView: View {
                             draggedItem = item
                             return NSItemProvider(object: item.id.uuidString as NSString)
                         } preview: {
-                            GridItemView(
+                            AppGridItemView(
                                 item: item,
                                 layout: layout,
                                 isDragged: false,

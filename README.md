@@ -1,4 +1,4 @@
-# 🚀 LaunchPad
+# 🚀 LaunchpadPlus
 
 [![Build](https://github.com/kristof12345/Launchpad/actions/workflows/build.yml/badge.svg)](https://github.com/kristof12345/Launchpad/actions/workflows/build.yml)
 [![macOS](https://img.shields.io/badge/macOS-15.6+-blue.svg)](https://www.apple.com/macos/)
@@ -21,7 +21,7 @@ If you like this project and want to support further development:
 - Responsive layout adapts to any screen size
 - Consistent alignment across all views
 
-![LaunchPad Main Interface](docs/images/Launchpad-1.png)
+![Launchpad Main Interface](docs/images/Launchpad-1.png)
 
 ### 🔍 **Smart Search**
 - Real-time fuzzy search as you type

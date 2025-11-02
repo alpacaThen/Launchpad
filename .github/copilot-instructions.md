@@ -1,8 +1,8 @@
-# LaunchPad - Copilot Context
+# LaunchpadPlus - Copilot Context
 
 ## Project Overview
 
-LaunchPad is a modern macOS application launcher built with SwiftUI that serves as a replacement for Apple's deprecated Launchpad. It provides a beautiful, customizable interface for organizing and launching applications with advanced features like folders, search, and drag-and-drop functionality.
+LaunchpadPlus is a modern macOS application launcher built with SwiftUI that serves as a replacement for Apple's deprecated Launchpad. It provides a beautiful, customizable interface for organizing and launching applications with advanced features like folders, search, and drag-and-drop functionality.
 
 ## Architecture & Key Features
 
@@ -194,7 +194,7 @@ enum AppGridItem: Identifiable, Equatable {
 - **`DropAnimationHelper`**: Manages delayed animations during drops
 - **`GridLayoutUtility`**: Creates SwiftUI GridItem configurations
 - **`ImageFlatten`**: NSImage extension for consistent icon rendering
-- **`LaunchPadConstants`**: Centralized constants for animations, layout, timing, and UI
+- **`LaunchpadConstants`**: Centralized constants for animations, layout, timing, and UI
 
 #### Layout System
 - **`LayoutMetrics`**: Calculates responsive grid dimensions
@@ -251,7 +251,7 @@ Launchpad/
 │   ├── DropAnimationHelper.swift  # Animation timing
 │   ├── GridLayoutUtility.swift    # Grid helpers
 │   ├── ImageFlatten.swift         # Icon processing
-│   ├── LaunchPadConstants.swift   # App-wide constants
+│   ├── LaunchpadConstants.swift   # App-wide constants
 │   ├── LocalizationHelper.swift   # L10n system
 │   └── AppGridItemExtensions.swift # Serialization
 └── Localization/
@@ -316,4 +316,4 @@ Launchpad/
 4. **Apply**: Manager methods recalculate layout if needed
 5. **Save**: Automatic persistence via `didSet`
 
-This context provides comprehensive understanding of LaunchPad's architecture, components, and development patterns for effective AI assistance.
+This context provides comprehensive understanding of LaunchpadPlus's architecture, components, and development patterns for effective AI assistance.

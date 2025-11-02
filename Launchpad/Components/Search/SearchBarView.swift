@@ -98,7 +98,7 @@ struct SearchBarView: View {
          }
          .padding(.horizontal, 12)
          .padding(.vertical, 6)
-         .frame(width: LaunchPadConstants.searchBarWidth, height: LaunchPadConstants.searchBarHeight)
+         .frame(width: LaunchpadConstants.searchBarWidth, height: LaunchpadConstants.searchBarHeight)
          .background(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                .fill(Color(NSColor.windowBackgroundColor).opacity(0.4 * transparency))

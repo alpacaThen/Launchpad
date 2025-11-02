@@ -33,7 +33,7 @@ struct FolderNameView: View {
                      DispatchQueue.main.async { nameFieldFocused = true }
                   }
                   .onSubmit {
-                     withAnimation(LaunchPadConstants.easeOutAnimation) { editingName = false }
+                     withAnimation(LaunchpadConstants.easeOutAnimation) { editingName = false }
                      nameFieldFocused = false
                   }
             } else {
@@ -43,7 +43,7 @@ struct FolderNameView: View {
                   .padding(.horizontal, 16)
                   .padding(.vertical, 8)
                   .onTapGesture {
-                     withAnimation(LaunchPadConstants.easeOutAnimation) { editingName = true}
+                     withAnimation(LaunchpadConstants.easeOutAnimation) { editingName = true}
                   }
             }
             Spacer()

@@ -29,6 +29,7 @@
 "start_at_login" = "Automatikus Indítás";
 "reset_on_relaunch" = "Keresés törlése Újraindításkor";
 "show_icons_in_search" = "Rendezés megjelenítése";
+"enable_icon_animation" = "Ikon Animáció Engedélyezése";
 "transparency" = "Átlátszóság";
 
 // MARK: - Actions Settings
