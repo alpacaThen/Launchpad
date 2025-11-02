@@ -32,11 +32,10 @@ struct ItemDropDelegate: DropDelegate {
    func dropEntered(info: DropInfo) {
       guard let draggedItem = draggedItem else { return }
       
-      // Set hovered item for visual feedback
       hoveredItem = targetItem
 
       if draggedItem.page == targetItem.page {
-         DropHelper.performDelayedMove(delay: dropDelay, animation: LaunchPadConstants.smoothSpringAnimation) {
+         DropHelper.performDelayedMove(delay: dropDelay) {
             if self.draggedItem != nil {
                guard let fromIndex = pages[draggedItem.page].firstIndex(where: { $0.id == draggedItem.id }),
                      let toIndex = pages[targetItem.page].firstIndex(where: { $0.id == targetItem.id }) else {
@@ -64,7 +63,6 @@ struct ItemDropDelegate: DropDelegate {
    }
    
    func dropExited(info: DropInfo) {
-      // Clear hover state when drag exits
       if hoveredItem?.id == targetItem.id {
          hoveredItem = nil
       }

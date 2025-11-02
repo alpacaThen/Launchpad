@@ -1,5 +1,5 @@
 import Foundation
 
-class LaunchPadKey {
+class LaunchPadKeys {
    static let productKey = ""
 }

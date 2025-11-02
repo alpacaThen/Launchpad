@@ -69,8 +69,8 @@ struct FolderIconView: View {
       .opacity(isDragged ? 0.5 : 1.0)
       .rotationEffect(.degrees(isEditMode ? jiggleRotation : 0))
       .offset(x: isEditMode ? jiggleOffset : 0, y: isEditMode ? jiggleOffset : 0)
-      .animation(isDragged ? .easeInOut(duration: 0.2) : LaunchPadConstants.smoothSpringAnimation, value: isDragged)
-      .animation(LaunchPadConstants.smoothSpringAnimation, value: isHovered)
+      .animation(isDragged ? .easeInOut(duration: 0.2) : LaunchPadConstants.springAnimation, value: isDragged)
+      .animation(LaunchPadConstants.springAnimation, value: isHovered)
       .onChange(of: isEditMode) { newValue in
          if newValue {
             startJiggling()

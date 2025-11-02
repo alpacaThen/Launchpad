@@ -5,7 +5,6 @@ class LaunchPadConstants {
 
    // MARK: - Animation Constants
    static let springAnimation = Animation.interpolatingSpring(stiffness: 300, damping: 100)
-   static let smoothSpringAnimation = Animation.interpolatingSpring(stiffness: 250, damping: 25)
    static let fadeAnimation = Animation.easeInOut(duration: 0.3)
    static let quickFadeAnimation = Animation.easeInOut(duration: 0.2)
    static let jiggleAnimation = Animation.easeInOut(duration: 0.1).repeatForever(autoreverses: true)
@@ -18,9 +17,9 @@ class LaunchPadConstants {
    static let categoryBoxSize: Int = 440
 
    // MARK: - Timing Constants
-   static let hoverDelay: TimeInterval = 0.8
-   static let animationDelay: TimeInterval = 0.2
-   static let quickAnimationDelay: TimeInterval = 0.1
+   //static let hoverDelay: TimeInterval = 0.8
+   //static let animationDelay: TimeInterval = 0.2
+   //static let quickAnimationDelay: TimeInterval = 0.1
 
    // MARK: - UI Constants
    static let searchBarWidth: CGFloat = 480
@@ -33,13 +32,13 @@ class LaunchPadConstants {
    static let dropZoneWidth: CGFloat = 60
 
    // MARK: - Drag & Drop Constants
-   static let draggedItemScale: CGFloat = 0.9
+   //static let draggedItemScale: CGFloat = 0.9
    static let folderOpenOpacity: Double = 0.2
    static let hoverScaleIncrease: CGFloat = 1.15
    static let folderCreationScale: CGFloat = 1.25
-   static let dropZoneHighlightOpacity: Double = 0.3
+   //static let dropZoneHighlightOpacity: Double = 0.3
    
    // MARK: - Edit Mode Constants
-   static let jiggleRotation: Double = 3.0  // degrees
+   //static let jiggleRotation: Double = 3.0  // degrees
    static let jiggleOffset: CGFloat = 1.5  // points
 }
