@@ -42,7 +42,7 @@ struct SearchResultsView: View {
                }
                .onChange(of: selectedIndex) { _, newIndex in
                   guard newIndex >= 0 && newIndex < apps.count else { return }
-                  withAnimation(.easeInOut(duration: 0.2)) {
+                  withAnimation(LaunchPadConstants.easeInOutAnimation) {
                      proxy.scrollTo(apps[newIndex].id, anchor: .center)
                   }
                }

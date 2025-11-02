@@ -6,6 +6,7 @@ class LaunchPadConstants {
    static let springAnimation = Animation.interpolatingSpring(stiffness: 300, damping: 100)
    static let fadeAnimation = Animation.easeInOut(duration: 0.3)
    static let easeInOutAnimation = Animation.easeInOut(duration: 0.2)
+   static let easeInAnimation = Animation.easeIn(duration: 0.2)
    static let easeOutAnimation = Animation.easeOut(duration: 0.2)
    static let jiggleAnimation = Animation.easeInOut(duration: 0.2).repeatForever(autoreverses: true)
    static let dragDropAnimation = Animation.spring(response: 0.3, dampingFraction: 1.0)
@@ -29,8 +30,8 @@ class LaunchPadConstants {
    // MARK: - UI Constants
    static let searchBarWidth: CGFloat = 480
    static let searchBarHeight: CGFloat = 36
-   static let settingsWindowWidth: CGFloat = 1200
-   static let settingsWindowHeight: CGFloat = 800
+   static let folderWidth: CGFloat = 1200
+   static let folderHeight: CGFloat = 800
    static let pageIndicatorSize: CGFloat = 10
    static let pageIndicatorActiveScale: CGFloat = 1.2
    static let pageIndicatorSpacing: CGFloat = 20

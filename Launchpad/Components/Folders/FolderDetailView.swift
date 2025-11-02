@@ -8,6 +8,7 @@ struct FolderDetailView: View {
 
    @State private var editingName = false
    @State private var draggedApp: AppInfo?
+   @State private var hoveredApp: AppInfo?
    @State private var isAnimatingIn = false
    @State private var opacity: Double = 0
    @State private var headerOffset: CGFloat = -20
@@ -36,10 +37,15 @@ struct FolderDetailView: View {
                         spacing: layout.vSpacing
                      ) {
                         ForEach(folder!.apps) { app in
-                           AppIconView(app: app, layout: layout, scale: 1.0)
+                           AppIconView(app: app, layout: layout, scale: scale(app: app))
+                              .onHover { isHovering in
+                                 withAnimation(LaunchPadConstants.springAnimation) {
+                                    hoveredApp = isHovering ? app : nil
+                                 }
+                              }
                               .onTapGesture { onItemTap(.app(app))  }
                               .onDrag {
-                                 withAnimation(.easeOut(duration: 0.15)) {
+                                 withAnimation(LaunchPadConstants.easeOutAnimation) {
                                     draggedApp = app
                                  }
                                  return NSItemProvider(object: app.id.uuidString as NSString)
@@ -60,7 +66,7 @@ struct FolderDetailView: View {
                }
                .opacity(opacity)
             }
-            .frame(width: LaunchPadConstants.settingsWindowWidth, height: LaunchPadConstants.settingsWindowHeight)
+            .frame(width: LaunchPadConstants.folderWidth, height: LaunchPadConstants.folderHeight)
             .background(FolderBackground(transparency: settings.transparency))
             .shadow(color: .black.opacity(0.15 * settings.transparency), radius: 40, x: 0, y: 20)
             .shadow(color: .black.opacity(0.1 * settings.transparency), radius: 10, x: 0, y: 5)
@@ -74,22 +80,31 @@ struct FolderDetailView: View {
       }
    }
 
+   private func scale(app: AppInfo) -> CGFloat {
+      if draggedApp?.id == app.id {
+         return LaunchPadConstants.draggedItemScale
+      } else if hoveredApp?.id == app.id {
+         return LaunchPadConstants.hoveredItemScale
+      }
+      return 1.0
+   }
+
    private func performEntranceAnimation() {
-      withAnimation(.interpolatingSpring(stiffness: 280, damping: 22)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          isAnimatingIn = true
       }
 
-      withAnimation(.easeOut(duration: 0.3)) {
+      withAnimation(LaunchPadConstants.easeOutAnimation) {
          opacity = 1.0
       }
 
-      withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          headerOffset = 0
       }
    }
 
    private func dismissWithAnimation() {
-      withAnimation(.easeIn(duration: 0.1)) {
+      withAnimation(LaunchPadConstants.easeInAnimation) {
          opacity = 0
          headerOffset = -20
          isAnimatingIn = false

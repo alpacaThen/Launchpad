@@ -47,7 +47,7 @@ struct CategoryDetailView: View {
                }
                .opacity(opacity)
             }
-            .frame(width: LaunchPadConstants.settingsWindowWidth, height: LaunchPadConstants.settingsWindowHeight)
+            .frame(width: LaunchPadConstants.folderWidth, height: LaunchPadConstants.folderHeight)
             .background(
                RoundedRectangle(cornerRadius: 20)
                   .fill(.regularMaterial.opacity(0.75))
@@ -92,21 +92,21 @@ struct CategoryDetailView: View {
    }
 
    private func performEntranceAnimation() {
-      withAnimation(.interpolatingSpring(stiffness: 280, damping: 22)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          isAnimatingIn = true
       }
 
-      withAnimation(.easeOut(duration: 0.3)) {
+      withAnimation(LaunchPadConstants.easeOutAnimation) {
          opacity = 1.0
       }
 
-      withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          headerOffset = 0
       }
    }
    
    private func dismissWithAnimation() {
-      withAnimation(.easeIn(duration: 0.1)) {
+      withAnimation(LaunchPadConstants.easeInAnimation) {
          opacity = 0
          headerOffset = -20
          isAnimatingIn = false

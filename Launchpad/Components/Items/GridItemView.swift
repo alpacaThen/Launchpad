@@ -24,9 +24,7 @@ struct GridItemView: View {
       }
       .rotationEffect(.degrees(isEditMode ? jiggleRotation - (LaunchPadConstants.jiggleRotation / 2) : 0))
       .animation(isDragged ? LaunchPadConstants.easeInOutAnimation : LaunchPadConstants.springAnimation, value: isDragged)
-      .animation(LaunchPadConstants.springAnimation, value: isDragged)
-      .animation(LaunchPadConstants.springAnimation, value: isDraggedOn)
-      .animation(LaunchPadConstants.springAnimation, value: isHovered)
+      .animation(LaunchPadConstants.springAnimation, value: scale)
       .animation(LaunchPadConstants.jiggleAnimation, value: jiggleRotation)
       .onChange(of: isEditMode) { jiggleRotation = $1 ? LaunchPadConstants.jiggleRotation : 0 }
    }
