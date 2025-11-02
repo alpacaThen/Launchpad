@@ -3,25 +3,7 @@ import AppKit
 @testable import LaunchpadPlus
 
 @MainActor
-final class AppManagerPersistenceTests: XCTestCase {
-
-   var appManager: AppManager!
-   let testSuiteName = "test.launchpad.persistence"
-
-   override func setUp() {
-      super.setUp()
-      appManager = AppManager.shared
-
-      // Clear test data
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-      UserDefaults.standard.synchronize()
-   }
-
-   override func tearDown() {
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-      UserDefaults.standard.synchronize()
-      super.tearDown()
-   }
+final class AppManagerPersistenceTests: BaseTestCase {
 
    // MARK: - Serialization Tests
 
@@ -136,23 +118,19 @@ final class AppManagerPersistenceTests: XCTestCase {
 
       // Should still discover real apps
       let allItems = appManager.pages.flatMap { $0 }
-      _ = allItems.contains { item in
+      let hasRealApps = allItems.contains { item in
          if case .app(let app) = item {
             return FileManager.default.fileExists(atPath: app.path)
          }
          return false
       }
-
-      // This might fail in test environments without real apps
-      // XCTAssertTrue(hasRealApps, "Should discover real apps")
+      
+      XCTAssertTrue(hasRealApps || allItems.isEmpty, "Should discover real apps or have empty list")
    }
 
    // MARK: - Data Integrity Tests
 
    func testDataConsistencyAfterMultipleOperations() async {
-      // Perform multiple operations and verify data remains consistent
-
-      // 1. Load initial data
       appManager.loadGridItems(appsPerPage: 10)
       let initialCount = appManager.pages.flatMap { $0 }.count
 

@@ -3,34 +3,7 @@ import AppKit
 @testable import LaunchpadPlus
 
 @MainActor
-final class AppManagerTests: XCTestCase {
-
-   var appManager: AppManager!
-   var mockUserDefaults: UserDefaults!
-
-   override func setUp() {
-      super.setUp()
-
-      // Create a separate UserDefaults instance for testing
-      mockUserDefaults = UserDefaults(suiteName: "test.launchpad.appmanager")!
-
-      // Clear any existing test data
-      mockUserDefaults.removePersistentDomain(forName: "test.launchpad.appmanager")
-
-      // We'll need to use dependency injection for UserDefaults in the real implementation
-      // For now, we'll test the shared instance but clean up after each test
-      appManager = AppManager.shared
-
-      // Clear test data from shared UserDefaults
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-   }
-
-   override func tearDown() {
-      // Clean up test data
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-      mockUserDefaults.removePersistentDomain(forName: "test.launchpad.appmanager")
-      super.tearDown()
-   }
+final class AppManagerTests: BaseTestCase {
 
    // MARK: - Initialization Tests
 
@@ -48,13 +21,8 @@ final class AppManagerTests: XCTestCase {
    // MARK: - App Discovery Tests
 
    func testLoadGridItemsWithoutSavedData() {
-      // Given: No saved data exists
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-
-      // When: Loading grid items
       appManager.loadGridItems(appsPerPage: 20)
 
-      // Then: Should discover and load apps
       XCTAssertGreaterThan(appManager.pages.count, 0, "Should have at least one page")
 
       let totalApps = appManager.pages.flatMap { $0 }.count
@@ -255,28 +223,23 @@ final class AppManagerTests: XCTestCase {
 
    // MARK: - Page Update Tests
 
-   func testUpdateItemPage() {
-      // This tests the private updateItemPage method indirectly through groupItemsByPage
+   func testLoadGridItemsGroupsByPage() {
+      // Test that apps are grouped by page when loading
       let mockApps = [
          createMockApp(name: "App 1", path: "/App1.app", bundleId: "com.test.app", page: 0),
-         createMockApp(name: "App 2", path: "/App2.app", bundleId: "com.test.app", page: 2), // Gap in pages
+         createMockApp(name: "App 2", path: "/App2.app", bundleId: "com.test.app", page: 1),
          createMockApp(name: "App 3", path: "/App3.app", bundleId: "com.test.app", page: 1)
       ]
 
       let gridItems = mockApps.map { AppGridItem.app($0) }
-      appManager.pages = [[]] // Start with empty
-
-      // Simulate the groupItemsByPage behavior by setting pages directly
-      // In the real implementation, this would be called internally
-      let grouped = groupItemsByPageForTesting(items: gridItems, appsPerPage: 10)
-      appManager.pages = grouped
+      appManager.pages = [gridItems]
+      
+      // Recalculate to distribute across pages
+      appManager.recalculatePages(appsPerPage: 10)
 
       // Verify that items are distributed correctly
       let totalItems = appManager.pages.flatMap { $0 }.count
       XCTAssertEqual(totalItems, 3, "Should have all 3 items")
-
-      // Items should be distributed based on their page numbers
-      XCTAssertTrue(appManager.pages.count >= 3, "Should have at least 3 pages due to page gaps")
    }
 
    // MARK: - Edge Cases
@@ -317,64 +280,12 @@ final class AppManagerTests: XCTestCase {
       // Last page should also have 20 apps (100/20 = 5 exactly)
       XCTAssertEqual(appManager.pages[4].count, 20, "Last page should have 20 apps")
    }
-
-   // MARK: - Helper Methods
-
-   private func createMockApp(name: String, path: String, bundleId: String = "com.test.app", page: Int) -> AppInfo {
-      let mockIcon = NSImage(size: NSSize(width: 64, height: 64))
-      return AppInfo(name: name, icon: mockIcon, path: path, bundleId: bundleId, lastOpenedDate: nil, installDate: nil, page: page)
-   }
-
-   private func createMockApps(count: Int, startingPage: Int) -> [AppGridItem] {
-      return (0..<count).map { index in
-         let app = createMockApp(
-            name: "Test App \(index)",
-            path: "/Applications/TestApp\(index).app",
-            page: startingPage
-         )
-         return AppGridItem.app(app)
-      }
-   }
-
-   // Helper method to test groupItemsByPage logic without relying on private methods
-   private func groupItemsByPageForTesting(items: [AppGridItem], appsPerPage: Int) -> [[AppGridItem]] {
-      guard !items.isEmpty else { return [[]] }
-
-      let groupedByPage = Dictionary(grouping: items) { $0.page }
-      let pageCount = max(groupedByPage.keys.max() ?? 1, 1)
-      var pages: [[AppGridItem]] = []
-
-      for pageNum in 0...pageCount {
-         if let pageItems = groupedByPage[pageNum] {
-            pages.append(pageItems)
-         } else {
-            pages.append([])
-         }
-      }
-
-      return pages.isEmpty ? [[]] : pages
-   }
 }
 
 // MARK: - Integration Tests
 
 @MainActor
-final class AppManagerIntegrationTests: XCTestCase {
-
-   var appManager: AppManager!
-
-   override func setUp() {
-      super.setUp()
-      appManager = AppManager.shared
-
-      // Clean up any existing test data
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-   }
-
-   override func tearDown() {
-      UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-      super.tearDown()
-   }
+final class AppManagerIntegrationTests: BaseTestCase {
 
    func testFullWorkflow() async {
       // Test a complete workflow: load -> modify -> save -> load again

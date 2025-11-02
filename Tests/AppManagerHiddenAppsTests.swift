@@ -3,34 +3,7 @@ import AppKit
 @testable import LaunchpadPlus
 
 @MainActor
-final class AppManagerHiddenAppsTests: XCTestCase {
-   
-   var appManager: AppManager!
-   let hiddenAppsKey = "LaunchpadHiddenApps"
-   let gridItemsKey = "LaunchpadGridItems"
-   
-   override func setUp() {
-      super.setUp()
-      appManager = AppManager.shared
-      
-      // Clear test data
-      UserDefaults.standard.removeObject(forKey: hiddenAppsKey)
-      UserDefaults.standard.removeObject(forKey: gridItemsKey)
-      UserDefaults.standard.synchronize()
-      
-      // Reset hidden apps in manager
-      appManager.hiddenAppPaths = Set<String>()
-   }
-   
-   override func tearDown() {
-      UserDefaults.standard.removeObject(forKey: hiddenAppsKey)
-      UserDefaults.standard.removeObject(forKey: gridItemsKey)
-      UserDefaults.standard.synchronize()
-      
-      // Reset hidden apps in manager
-      appManager.hiddenAppPaths = Set<String>()
-      super.tearDown()
-   }
+final class AppManagerHiddenAppsTests: BaseTestCase {
    
    // MARK: - Initialization Tests
    

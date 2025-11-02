@@ -3,25 +3,11 @@ import AppKit
 @testable import LaunchpadPlus
 
 @MainActor
-final class AppManagerDiscoveryTests: XCTestCase {
-    
-    var appManager: AppManager!
-    
-    override func setUp() {
-        super.setUp()
-        appManager = AppManager.shared
-        UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-    }
-    
-    override func tearDown() {
-        UserDefaults.standard.removeObject(forKey: "LaunchpadGridItems")
-        super.tearDown()
-    }
+final class AppManagerDiscoveryTests: BaseTestCase {
     
     // MARK: - App Discovery Tests
     
     func testAppDiscoveryFindsSystemApps() {
-        // Load apps and verify that common system apps are found
         appManager.loadGridItems(appsPerPage: 20)
         
         let allApps = appManager.pages.flatMap { $0 }.compactMap { item -> AppInfo? in
