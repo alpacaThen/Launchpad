@@ -9,6 +9,7 @@ struct PagedGridView: View {
    @State private var currentPage = 1
    @State private var lastScrollTime = Date.distantPast
    @State private var accumulatedScrollX: CGFloat = 0
+   @State private var accumulatedScrollY: CGFloat = 0
    @State private var eventMonitor: Any?
    @State private var searchText = ""
    @State private var selectedSearchIndex = 0
@@ -188,21 +189,42 @@ struct PagedGridView: View {
 
       let absX = abs(event.scrollingDeltaX)
       let absY = abs(event.scrollingDeltaY)
-      guard absX > absY && absX > 0 else { return event }
+      
+      // Support both horizontal (trackpad) and vertical (mouse wheel) scrolling
+      guard (absX > 0 || absY > 0) else { return event }
 
       let now = Date()
       guard now.timeIntervalSince(lastScrollTime) >= settings.scrollDebounceInterval else { return event }
 
-      accumulatedScrollX += event.scrollingDeltaX
+      // Determine which direction has more movement and accumulate accordingly
+      if absX >= absY {
+         // Horizontal scroll (trackpad swipe)
+         accumulatedScrollY = 0  // Reset vertical accumulation when scrolling horizontally
+         accumulatedScrollX += event.scrollingDeltaX
 
-      if accumulatedScrollX <= -settings.scrollActivationThreshold {
-         currentPage = min(currentPage + 1, totalPages - 1)
-         resetScrollState(at: now)
-         return nil
-      } else if accumulatedScrollX >= settings.scrollActivationThreshold {
-         currentPage = max(currentPage - 1, 0)
-         resetScrollState(at: now)
-         return nil
+         if accumulatedScrollX <= -settings.scrollActivationThreshold {
+            currentPage = min(currentPage + 1, totalPages - 1)
+            resetScrollState(at: now)
+            return nil
+         } else if accumulatedScrollX >= settings.scrollActivationThreshold {
+            currentPage = max(currentPage - 1, 0)
+            resetScrollState(at: now)
+            return nil
+         }
+      } else {
+         // Vertical scroll (mouse wheel)
+         accumulatedScrollX = 0  // Reset horizontal accumulation when scrolling vertically
+         accumulatedScrollY += event.scrollingDeltaY
+
+         if accumulatedScrollY <= -settings.scrollActivationThreshold {
+            currentPage = min(currentPage + 1, totalPages - 1)
+            resetScrollState(at: now)
+            return nil
+         } else if accumulatedScrollY >= settings.scrollActivationThreshold {
+            currentPage = max(currentPage - 1, 0)
+            resetScrollState(at: now)
+            return nil
+         }
       }
 
       return event
@@ -211,6 +233,7 @@ struct PagedGridView: View {
    private func resetScrollState(at time: Date) {
       lastScrollTime = time
       accumulatedScrollX = 0
+      accumulatedScrollY = 0
    }
    
    private func handleFlagsChanged(event: NSEvent) -> NSEvent? {
