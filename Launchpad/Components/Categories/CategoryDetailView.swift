@@ -5,18 +5,18 @@ struct CategoryDetailView: View {
    let allApps: [AppInfo]
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
-   
+
    @State private var editingName = false
    @State private var isAnimatingIn = false
    @State private var opacity: Double = 0
    @State private var headerOffset: CGFloat = -20
    @Environment(\.colorScheme) private var colorScheme
-   
+
    var categoryApps: [AppInfo] {
       guard let category = category else { return [] }
       return CategoryManager.shared.getAppsForCategory(category: category, from: allApps)
    }
-   
+
    var body: some View {
       if category != nil {
          ZStack {
@@ -25,19 +25,19 @@ struct CategoryDetailView: View {
                .onTapGesture {
                   dismissWithAnimation()
                }
-            
+
             VStack(spacing: 10) {
                CategoryNameView(category: Binding(get: { category! }, set: { category = $0 }), editingName: $editingName, opacity: opacity, offset: headerOffset)
                GeometryReader { geo in
                   let layout = LayoutMetrics(size: geo.size, columns: settings.folderColumns, rows: settings.folderRows + 1, iconSize: settings.iconSize)
-                  
+
                   ScrollView(.vertical, showsIndicators: false) {
                      LazyVGrid(
                         columns: GridLayoutUtility.createGridColumns(count: settings.folderColumns, cellWidth: layout.cellWidth, spacing: layout.hSpacing),
                         spacing: layout.vSpacing
                      ) {
                         ForEach(categoryApps) { app in
-                           AppIconView(app: app, layout: layout, isDragged: false)
+                           AppIconView(app: app, layout: layout, scale: 1.0)
                               .onTapGesture { onItemTap(.app(app))  }
                         }
                      }
@@ -47,7 +47,7 @@ struct CategoryDetailView: View {
                }
                .opacity(opacity)
             }
-            .frame(width: LaunchPadConstants.settingsWindowWidth, height: LaunchPadConstants.settingsWindowHeight)
+            .frame(width: LaunchPadConstants.folderWidth, height: LaunchPadConstants.folderHeight)
             .background(
                RoundedRectangle(cornerRadius: 20)
                   .fill(.regularMaterial.opacity(0.75))
@@ -90,28 +90,28 @@ struct CategoryDetailView: View {
          }
       }
    }
-   
+
    private func performEntranceAnimation() {
-      withAnimation(.interpolatingSpring(stiffness: 280, damping: 22)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          isAnimatingIn = true
       }
-      
-      withAnimation(.easeOut(duration: 0.3)) {
+
+      withAnimation(LaunchPadConstants.easeOutAnimation) {
          opacity = 1.0
       }
-      
-      withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
+
+      withAnimation(LaunchPadConstants.springAnimation) {
          headerOffset = 0
       }
    }
    
    private func dismissWithAnimation() {
-      withAnimation(.easeIn(duration: 0.1)) {
+      withAnimation(LaunchPadConstants.easeInAnimation) {
          opacity = 0
          headerOffset = -20
          isAnimatingIn = false
       }
-      
+
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
          category = nil
       }

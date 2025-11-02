@@ -32,11 +32,11 @@
 "transparency" = "Transparency";
 
 // MARK: - Actions Settings
-"actions" = "Actions";
+"actions" = "Actions (PRO)";
 "layout_management" = "Layout Management";
 "export_layout" = "Export Layout";
 "import_layout" = "Import Layout";
-"import_from_old_launchpad" = "Import from Old Launchpad (BETA)";
+"import_from_old_launchpad" = "Import from Old Launchpad";
 "clear_all_apps" = "Clear Grid Layout";
 "application_control" = "Application Control";
 "force_quit" = "Force Quit";
@@ -75,7 +75,7 @@
 "new_folder" = "New Folder";
 
 // MARK: - Category Management
-"categories" = "Categories";
+"categories" = "Categories (PREMIUM)";
 "untitled_category" = "Untitled Category";
 "new_category" = "New Category";
 "add_to_category" = "Add to Category";
@@ -110,7 +110,7 @@
 "activation" = "Activation";
 "product_key" = "Product Key";
 "enter_product_key" = "Enter Product Key";
-"activate" = "Activate";
+"activate" = "Click here to activate";
 "activated" = "Activated";
 "not_activated" = "Not Activated";
 "activation_status" = "Activation Status";
@@ -120,7 +120,7 @@
 "purchase_license" = "Purchase License";
 
 // MARK: - Locations Settings
-"locations" = "Locations (BETA)";
+"locations" = "Locations (PRO)";
 "locations_description" = "Add custom folder locations where Launchpad will search for applications. By default, Launchpad searches in /Applications and /System/Applications.";
 "custom_locations" = "Custom Locations";
 "custom_app_locations" = "Custom App Locations";
@@ -136,7 +136,7 @@
 "select_folder_message" = "Select a folder to search for applications";
 
 // MARK: - Background Settings
-"background" = "Background";
+"background" = "Background (PREMIUM)";
 "background_type" = "Background Type";
 "background_default" = "Default (Blur)";
 "background_wallpaper" = "macOS Wallpaper";

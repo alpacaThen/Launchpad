@@ -45,19 +45,21 @@ struct SettingsView: View {
                      icon: "sparkles",
                      label: L10n.features,
                      isSelected: selectedTab == 1,
-                     action: { selectedTab = 1 }
+                     action: { selectedTab = 1 },
                   )
                   SidebarTabButton(
                      icon: "photo",
                      label: L10n.background,
                      isSelected: selectedTab == 2,
-                     action: { selectedTab = 2 }
+                     action: { selectedTab = 2 },
+                     isDisabled: !settings.isPremium
                   )
                   SidebarTabButton(
                      icon: "bolt",
                      label: L10n.actions,
                      isSelected: selectedTab == 3,
-                     action: { selectedTab = 3 }
+                     action: { selectedTab = 3 },
+                     isDisabled: !settings.isPro
                   )
                   SidebarTabButton(
                      icon: "eye.slash",
@@ -69,13 +71,15 @@ struct SettingsView: View {
                      icon: "tag.fill",
                      label: L10n.categories,
                      isSelected: selectedTab == 5,
-                     action: { selectedTab = 5 }
+                     action: { selectedTab = 5 },
+                     isDisabled: !settings.isPremium
                   )
                   SidebarTabButton(
                      icon: "folder",
                      label: L10n.locations,
                      isSelected: selectedTab == 6,
-                     action: { selectedTab = 6 }
+                     action: { selectedTab = 6 },
+                     isDisabled: !settings.isPro
                   )
                   SidebarTabButton(
                      icon: "key.fill",

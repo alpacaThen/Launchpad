@@ -18,7 +18,7 @@
 
 /* Begin PBXFileReference section */
 		624B20782E9FF18A00DCB407 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D43C0B02E7F05EF00259811 /* Launchpad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Launchpad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D43C0B02E7F05EF00259811 /* LaunchpadPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchpadPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -56,7 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				84DD945A2E08882300F7E52A /* Launchpad */,
-				6D43C0B02E7F05EF00259811 /* Launchpad.app */,
+				6D43C0B02E7F05EF00259811 /* LaunchpadPlus.app */,
 				624B20782E9FF18A00DCB407 /* Tests.xctest */,
 				624B20792E9FF18A00DCB407 /* Tests */,
 			);
@@ -88,9 +88,9 @@
 			productReference = 624B20782E9FF18A00DCB407 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		84DD94572E08882300F7E52A /* Launchpad */ = {
+		84DD94572E08882300F7E52A /* LaunchpadPlus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 84DD947A2E08882400F7E52A /* Build configuration list for PBXNativeTarget "Launchpad" */;
+			buildConfigurationList = 84DD947A2E08882400F7E52A /* Build configuration list for PBXNativeTarget "LaunchpadPlus" */;
 			buildPhases = (
 				84DD94542E08882300F7E52A /* Sources */,
 				84DD94552E08882300F7E52A /* Frameworks */,
@@ -103,11 +103,11 @@
 			fileSystemSynchronizedGroups = (
 				84DD945A2E08882300F7E52A /* Launchpad */,
 			);
-			name = Launchpad;
+			name = LaunchpadPlus;
 			packageProductDependencies = (
 			);
 			productName = LaunchBack;
-			productReference = 6D43C0B02E7F05EF00259811 /* Launchpad.app */;
+			productReference = 6D43C0B02E7F05EF00259811 /* LaunchpadPlus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -129,7 +129,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 84DD94532E08882300F7E52A /* Build configuration list for PBXProject "Launchpad" */;
+			buildConfigurationList = 84DD94532E08882300F7E52A /* Build configuration list for PBXProject "LaunchpadPlus" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -144,7 +144,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				84DD94572E08882300F7E52A /* Launchpad */,
+				84DD94572E08882300F7E52A /* LaunchpadPlus */,
 				624B20772E9FF18A00DCB407 /* Tests */,
 			);
 		};
@@ -187,7 +187,7 @@
 /* Begin PBXTargetDependency section */
 		624B207D2E9FF18A00DCB407 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 84DD94572E08882300F7E52A /* Launchpad */;
+			target = 84DD94572E08882300F7E52A /* LaunchpadPlus */;
 			targetProxy = 624B207C2E9FF18A00DCB407 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -214,7 +214,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Launchpad.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Launchpad";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaunchpadPlus.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LaunchpadPlus";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -240,7 +240,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Launchpad.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Launchpad";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaunchpadPlus.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LaunchpadPlus";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
@@ -388,7 +388,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDevelopmentRegion = en;
-				INFOPLIST_KEY_CFBundleDisplayName = Launchpad;
+				INFOPLIST_KEY_CFBundleDisplayName = LaunchpadPlus;
 				INFOPLIST_KEY_CFBundleLocalizations = "en hu";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -426,7 +426,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDevelopmentRegion = en;
-				INFOPLIST_KEY_CFBundleDisplayName = Launchpad;
+				INFOPLIST_KEY_CFBundleDisplayName = LaunchpadPlus;
 				INFOPLIST_KEY_CFBundleLocalizations = "en hu";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -457,7 +457,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		84DD94532E08882300F7E52A /* Build configuration list for PBXProject "Launchpad" */ = {
+		84DD94532E08882300F7E52A /* Build configuration list for PBXProject "LaunchpadPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84DD94782E08882400F7E52A /* Debug */,
@@ -466,7 +466,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		84DD947A2E08882400F7E52A /* Build configuration list for PBXNativeTarget "Launchpad" */ = {
+		84DD947A2E08882400F7E52A /* Build configuration list for PBXNativeTarget "LaunchpadPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84DD947B2E08882400F7E52A /* Debug */,

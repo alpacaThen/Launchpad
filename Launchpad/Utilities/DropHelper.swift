@@ -3,8 +3,8 @@ import SwiftUI
 @MainActor
 struct DropHelper {
    static func performDelayedMove(
-      delay: Double,
-      animation: Animation = .easeInOut(duration: 0.2),
+      delay: Double = 0.5,
+      animation: Animation = LaunchPadConstants.easeInOutAnimation,
       action: @escaping () -> Void
    ) {
       DispatchQueue.main.asyncAfter(deadline: .now() + delay) {

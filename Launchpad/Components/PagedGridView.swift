@@ -16,6 +16,7 @@ struct PagedGridView: View {
    @State private var selectedFolder: Folder?
    @State private var sortOrder: SortOrder = SortOrder.defaultLayout
    @State private var selectedCategory: Category?
+   @State private var isEditMode = false
 
    private var totalPages: Int {
       return pages.count + 1  // +1 for category page
@@ -48,6 +49,7 @@ struct PagedGridView: View {
                      SinglePageView(
                         pages: $pages,
                         draggedItem: $draggedItem,
+                        isEditMode: $isEditMode,
                         pageIndex: pageIndex,
                         settings: settings,
                         isFolderOpen: selectedFolder != nil,
@@ -58,6 +60,7 @@ struct PagedGridView: View {
                }
                .offset(x: -CGFloat(currentPage) * geo.size.width)
                .animation(LaunchPadConstants.springAnimation, value: currentPage)
+               .padding(.bottom, 16)
             } else {
                SearchResultsView(
                   apps: filteredApps(),
@@ -147,12 +150,14 @@ struct PagedGridView: View {
    }
 
    private func setupEventMonitoring() {
-      eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.scrollWheel, .keyDown]) { event in
+      eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.scrollWheel, .keyDown, .keyUp, .flagsChanged]) { event in
          switch event.type {
          case .scrollWheel:
             return handleScrollEvent(event: event)
          case .keyDown:
             return handleKeyEvent(event: event)
+         case .flagsChanged:
+            return handleFlagsChanged(event: event)
          default:
             return event
          }
@@ -206,6 +211,19 @@ struct PagedGridView: View {
    private func resetScrollState(at time: Date) {
       lastScrollTime = time
       accumulatedScrollX = 0
+   }
+   
+   private func handleFlagsChanged(event: NSEvent) -> NSEvent? {
+      // Check if Alt/Option key is pressed
+      let altKeyPressed = event.modifierFlags.contains(.option)
+      
+      if altKeyPressed != isEditMode {
+         withAnimation(LaunchPadConstants.fadeAnimation) {
+            isEditMode = altKeyPressed
+         }
+      }
+      
+      return event
    }
 
    private func handleKeyEvent(event: NSEvent) -> NSEvent? {

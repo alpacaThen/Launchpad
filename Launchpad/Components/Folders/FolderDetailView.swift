@@ -5,13 +5,14 @@ struct FolderDetailView: View {
    @Binding var folder: Folder?
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
-   
+
    @State private var editingName = false
    @State private var draggedApp: AppInfo?
+   @State private var hoveredApp: AppInfo?
    @State private var isAnimatingIn = false
    @State private var opacity: Double = 0
    @State private var headerOffset: CGFloat = -20
-   
+
    var body: some View {
       if folder != nil {
          ZStack {
@@ -24,22 +25,27 @@ struct FolderDetailView: View {
                .onTapGesture {
                   dismissWithAnimation()
                }
-            
+
             VStack(spacing: 10) {
                FolderNameView(folder: Binding(get: { folder! }, set: { folder = $0 }), editingName: $editingName, opacity: opacity, offset: headerOffset)
                GeometryReader { geo in
                   let layout = LayoutMetrics(size: geo.size, columns: settings.folderColumns, rows: settings.folderRows + 1, iconSize: settings.iconSize)
-                  
+
                   ScrollView(.vertical, showsIndicators: false) {
                      LazyVGrid(
                         columns: GridLayoutUtility.createGridColumns(count: settings.folderColumns, cellWidth: layout.cellWidth, spacing: layout.hSpacing),
                         spacing: layout.vSpacing
                      ) {
                         ForEach(folder!.apps) { app in
-                           AppIconView(app: app, layout: layout, isDragged: draggedApp?.id == app.id)
+                           AppIconView(app: app, layout: layout, scale: scale(app: app))
+                              .onHover { isHovering in
+                                 withAnimation(LaunchPadConstants.springAnimation) {
+                                    hoveredApp = isHovering ? app : nil
+                                 }
+                              }
                               .onTapGesture { onItemTap(.app(app))  }
                               .onDrag {
-                                 withAnimation(.easeOut(duration: 0.15)) {
+                                 withAnimation(LaunchPadConstants.easeOutAnimation) {
                                     draggedApp = app
                                  }
                                  return NSItemProvider(object: app.id.uuidString as NSString)
@@ -60,7 +66,7 @@ struct FolderDetailView: View {
                }
                .opacity(opacity)
             }
-            .frame(width: LaunchPadConstants.settingsWindowWidth, height: LaunchPadConstants.settingsWindowHeight)
+            .frame(width: LaunchPadConstants.folderWidth, height: LaunchPadConstants.folderHeight)
             .background(FolderBackground(transparency: settings.transparency))
             .shadow(color: .black.opacity(0.15 * settings.transparency), radius: 40, x: 0, y: 20)
             .shadow(color: .black.opacity(0.1 * settings.transparency), radius: 10, x: 0, y: 5)
@@ -73,33 +79,42 @@ struct FolderDetailView: View {
          }
       }
    }
-   
+
+   private func scale(app: AppInfo) -> CGFloat {
+      if draggedApp?.id == app.id {
+         return LaunchPadConstants.draggedItemScale
+      } else if hoveredApp?.id == app.id {
+         return LaunchPadConstants.hoveredItemScale
+      }
+      return 1.0
+   }
+
    private func performEntranceAnimation() {
-      withAnimation(.interpolatingSpring(stiffness: 280, damping: 22)) {
+      withAnimation(LaunchPadConstants.springAnimation) {
          isAnimatingIn = true
       }
-      
-      withAnimation(.easeOut(duration: 0.3)) {
+
+      withAnimation(LaunchPadConstants.easeOutAnimation) {
          opacity = 1.0
       }
-      
-      withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
+
+      withAnimation(LaunchPadConstants.springAnimation) {
          headerOffset = 0
       }
    }
-   
+
    private func dismissWithAnimation() {
-      withAnimation(.easeIn(duration: 0.1)) {
+      withAnimation(LaunchPadConstants.easeInAnimation) {
          opacity = 0
          headerOffset = -20
          isAnimatingIn = false
       }
-      
+
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
          saveFolder()
       }
    }
-   
+
    private func saveFolder() {
       guard let pageIndex = pages.firstIndex(where: { page in page.contains(where: { $0.id == folder!.id }) }),
             let itemIndex = pages[pageIndex].firstIndex(where: { $0.id == folder!.id }) else {

@@ -30,8 +30,8 @@ struct CategoryBoxView: View {
             spacing: 8
          ) {
             ForEach(previewApps) { app in
-               AppIconView(app: app, layout: layout, isDragged: false)
-                  .onTapGesture { onItemTap(.app(app))  }
+               AppIconView(app: app, layout: layout, scale: 1.0)
+                  .onTapGesture { onItemTap(.app(app)) }
             }
 
             // Fill remaining spots with placeholders
@@ -51,7 +51,7 @@ struct CategoryBoxView: View {
                      LinearGradient(
                         colors: [
                            Color.white.opacity((colorScheme == .dark ? 0.15 : 0.35) * settings.transparency),
-                           Color.white.opacity(0.05 * settings.transparency)
+                           Color.white.opacity(0.05 * settings.transparency),
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing

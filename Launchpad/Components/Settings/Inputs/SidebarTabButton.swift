@@ -5,6 +5,7 @@ struct SidebarTabButton: View {
    let label: String
    let isSelected: Bool
    let action: () -> Void
+   var isDisabled: Bool = false
 
    var body: some View {
       Button(action: action) {
@@ -30,6 +31,7 @@ struct SidebarTabButton: View {
          )
       }
       .buttonStyle(.plain)
-      .foregroundColor(isSelected ? .primary : .secondary)
+      .foregroundColor(isDisabled ? .secondary.opacity(0.5) : (isSelected ? .primary : .secondary))
+      .disabled(isDisabled)
    }
 }
