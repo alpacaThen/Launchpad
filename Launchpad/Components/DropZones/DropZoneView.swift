@@ -12,35 +12,35 @@ struct DropZoneView: View {
    let draggedItem: AppGridItem?
    let onNavigate: () -> Void
    let transparency: Double
-   
+
    @State private var isHovered = false
    @State private var hoverTimer: Timer?
-   
+
    private var canNavigate: Bool {
       switch direction {
       case .left: return currentPage > 0
       case .right: return true // Always allow right navigation to create new page
       }
    }
-   
+
    private var chevronIcon: String {
       direction == .left ? "chevron.left" : "chevron.right"
    }
-   
+
    private var alignment: Alignment {
       direction == .left ? .leading : .trailing
    }
-   
+
    private var padding: EdgeInsets {
       direction == .left
       ? EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
       : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20)
    }
-   
+
    private var shouldShowChevron: Bool {
       isHovered && draggedItem != nil && canNavigate
    }
-   
+
    var body: some View {
       Rectangle()
          .fill(shouldShowChevron ? Color.accentColor.opacity(0.2 * transparency) : Color.clear)
@@ -59,14 +59,12 @@ struct DropZoneView: View {
             }
          }
          .onDrop(of: [.text], isTargeted: $isHovered) { _ in false }
-         .onChange(of: isHovered) { _, newValue in
-            handleHoverChange(newValue)
-         }
+         .onChange(of: isHovered) { handleHoverChange($1) }
          .onDisappear {
             cancelTimer()
          }
    }
-   
+
    private func handleHoverChange(_ isHovering: Bool) {
       if isHovering && draggedItem != nil && canNavigate {
          startTimer()
@@ -74,7 +72,7 @@ struct DropZoneView: View {
          cancelTimer()
       }
    }
-   
+
    private func startTimer() {
       hoverTimer = Timer.scheduledTimer(withTimeInterval: LaunchPadConstants.hoverDelay, repeats: false) { _ in
          DispatchQueue.main.async {
@@ -82,7 +80,7 @@ struct DropZoneView: View {
          }
       }
    }
-   
+
    private func cancelTimer() {
       hoverTimer?.invalidate()
       hoverTimer = nil
