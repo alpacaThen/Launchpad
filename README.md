@@ -12,7 +12,7 @@ If you like this project and want to support further development:
 
 **[📥 Download Launchpad v2.7](https://github.com/kristof12345/Launchpad/releases/download/v2.7/Launchpad.app.zip)**
 
-> ⚠️ **macOS Security Warning?** If macOS blocks the app, see our **[Quick Fix Guide](QUICKFIX.md)** (takes 1 minute) or the full [Troubleshooting Guide](TROUBLESHOOTING.md#-macos-security--gatekeeper-issues).
+**macOS Security Warning?** If macOS blocks the app, see our **[Quick Fix Guide](QUICKFIX.md)**.
 
 ## ✨ Features
 
