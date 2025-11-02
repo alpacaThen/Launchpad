@@ -117,15 +117,7 @@ xcodebuild archive \
     -archivePath "$ARCHIVE_PATH" \
     -destination 'platform=macOS' \
     DEVELOPMENT_TEAM="$TEAM_ID" \
-    CODE_SIGN_STYLE=Automatic \
-    | xcpretty || xcodebuild archive \
-        -project "$PROJECT_FILE" \
-        -scheme "$SCHEME" \
-        -configuration "$CONFIGURATION" \
-        -archivePath "$ARCHIVE_PATH" \
-        -destination 'platform=macOS' \
-        DEVELOPMENT_TEAM="$TEAM_ID" \
-        CODE_SIGN_STYLE=Automatic
+    CODE_SIGN_STYLE=Automatic
 
 echo -e "${GREEN}✓ Archive created successfully${NC}"
 echo ""
@@ -187,11 +179,22 @@ if [ "$NOTARIZE" = true ]; then
     echo ""
     
     # Check if profile exists
+    # Note: We use 'history' as a lightweight check. If it fails, it could mean
+    # the profile doesn't exist OR there are network/auth issues. Either way,
+    # the user needs to set up credentials.
+    echo -e "${YELLOW}Verifying keychain profile...${NC}"
     if ! xcrun notarytool history --keychain-profile "notarization-profile" &>/dev/null; then
-        echo -e "${RED}Error: Keychain profile 'notarization-profile' not found.${NC}"
-        echo -e "${YELLOW}Please run the command above to store your credentials first.${NC}"
+        echo -e "${RED}Error: Cannot access keychain profile 'notarization-profile'.${NC}"
+        echo -e "${YELLOW}This could mean:${NC}"
+        echo -e "${YELLOW}  1. Profile doesn't exist (most common)${NC}"
+        echo -e "${YELLOW}  2. Network connectivity issues${NC}"
+        echo -e "${YELLOW}  3. Credentials need to be refreshed${NC}"
+        echo ""
+        echo -e "${YELLOW}Please run the command above to store/update your credentials.${NC}"
         exit 1
     fi
+    echo -e "${GREEN}✓ Keychain profile verified${NC}"
+    echo ""
     
     # Submit for notarization using keychain profile
     echo -e "${YELLOW}Submitting to Apple (this may take several minutes)...${NC}"
