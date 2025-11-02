@@ -12,7 +12,7 @@ If you like this project and want to support further development:
 
 **[📥 Download Launchpad v2.7](https://github.com/kristof12345/Launchpad/releases/download/v2.7/Launchpad.app.zip)**
 
-> ⚠️ **Important:** macOS may show a security warning on first launch because this app is not code-signed by Apple. This is normal for open-source apps. See [🛠️ Troubleshooting Guide](TROUBLESHOOTING.md#-macos-security--gatekeeper-issues) for easy instructions to safely open the app.
+> ⚠️ **macOS Security Warning?** If macOS blocks the app, see our **[Quick Fix Guide](QUICKFIX.md)** (takes 1 minute) or the full [Troubleshooting Guide](TROUBLESHOOTING.md#-macos-security--gatekeeper-issues).
 
 ## ✨ Features
 
@@ -154,7 +154,8 @@ xcodebuild test -scheme LaunchpadPlus -destination 'platform=macOS' -parallel-te
 
 ## 📚 Documentation
 
-- **[🛠️ Troubleshooting Guide](TROUBLESHOOTING.md)** - Solutions for common issues, especially macOS security warnings
+- **[⚡ Quick Fix](QUICKFIX.md)** - Fast solution for macOS security warnings (1 minute)
+- **[🛠️ Troubleshooting Guide](TROUBLESHOOTING.md)** - Solutions for common issues and detailed explanations
 - **[🔒 Security Policy](SECURITY.md)** - Code signing information and security best practices
 - **[🤝 Contributing Guide](CONTRIBUTING.md)** - How to build, develop, and contribute to the project
 
