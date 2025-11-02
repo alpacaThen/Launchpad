@@ -6,6 +6,8 @@ struct CategoryDetailView: View {
    let settings: LaunchpadSettings
    let onItemTap: (AppGridItem) -> Void
 
+   @State private var hoveredApp: AppInfo?
+   @State private var draggedApp: AppInfo?
    @State private var editingName = false
    @State private var isAnimatingIn = false
    @State private var opacity: Double = 0
@@ -37,7 +39,12 @@ struct CategoryDetailView: View {
                         spacing: layout.vSpacing
                      ) {
                         ForEach(categoryApps) { app in
-                           AppIconView(app: app, layout: layout, scale: 1.0)
+                           AppIconView(app: app, layout: layout, scale: scale(app: app))
+                              .onHover { isHovering in
+                                 withAnimation(LaunchPadConstants.springAnimation) {
+                                    hoveredApp = isHovering ? app : nil
+                                 }
+                              }
                               .onTapGesture { onItemTap(.app(app))  }
                         }
                      }
@@ -91,6 +98,15 @@ struct CategoryDetailView: View {
       }
    }
 
+   private func scale(app: AppInfo) -> CGFloat {
+      if draggedApp?.id == app.id {
+         return LaunchPadConstants.draggedItemScale
+      } else if hoveredApp?.id == app.id {
+         return LaunchPadConstants.hoveredItemScale
+      }
+      return 1.0
+   }
+   
    private func performEntranceAnimation() {
       withAnimation(LaunchPadConstants.springAnimation) {
          isAnimatingIn = true
@@ -104,7 +120,7 @@ struct CategoryDetailView: View {
          headerOffset = 0
       }
    }
-   
+
    private func dismissWithAnimation() {
       withAnimation(LaunchPadConstants.easeInAnimation) {
          opacity = 0
