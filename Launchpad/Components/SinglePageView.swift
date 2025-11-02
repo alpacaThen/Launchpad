@@ -25,16 +25,30 @@ struct SinglePageView: View {
                             item: item, 
                             layout: layout,
                             isDragged: draggedItem?.id == item.id,
-                            isDraggedOn: hoveredItem?.id == item.id && draggedItem?.id != item.id,
+                            isDraggedOn: hoveredItem?.id == item.id && draggedItem != nil && draggedItem?.id != item.id,
                             isHovered: hoveredItem?.id == item.id,
                             isEditMode: isEditMode,
                             settings: settings
                         )
-                        .opacity(isFolderOpen ? LaunchPadConstants.folderOpenOpacity : 1)
+                        .opacity(isFolderOpen ? 0.2 : 1)
+                        .onHover { isHovering in
+                            hoveredItem = isHovering ? item : nil
+                        }
                         .onTapGesture { onItemTap(item)  }
                         .onDrag {
                             draggedItem = item
                             return NSItemProvider(object: item.id.uuidString as NSString)
+                        } preview: {
+                            GridItemView(
+                                item: item,
+                                layout: layout,
+                                isDragged: false,
+                                isDraggedOn: false,
+                                isHovered: false,
+                                isEditMode: false,
+                                settings: settings
+                            )
+                            .frame(width: layout.cellWidth, height: layout.cellWidth + layout.fontSize + 16)
                         }
                         .onDrop(
                             of: [.text],

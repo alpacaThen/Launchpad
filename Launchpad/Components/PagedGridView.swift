@@ -60,6 +60,7 @@ struct PagedGridView: View {
                }
                .offset(x: -CGFloat(currentPage) * geo.size.width)
                .animation(LaunchPadConstants.springAnimation, value: currentPage)
+               .padding(.bottom, 16)
             } else {
                SearchResultsView(
                   apps: filteredApps(),
