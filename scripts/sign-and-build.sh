@@ -175,21 +175,28 @@ if [ "$NOTARIZE" = true ]; then
     cd ../..
     
     echo -e "${YELLOW}Submitting for notarization...${NC}"
-    echo -e "${BLUE}You will need:${NC}"
-    echo -e "${BLUE}  - Your Apple ID email${NC}"
-    echo -e "${BLUE}  - An app-specific password (create at https://appleid.apple.com)${NC}"
+    echo -e "${BLUE}For security, notarytool requires stored credentials in keychain.${NC}"
+    echo -e "${BLUE}If you haven't set up a profile, run this first:${NC}"
+    echo ""
+    echo -e "${BLUE}  xcrun notarytool store-credentials \"notarization-profile\" \\${NC}"
+    echo -e "${BLUE}    --apple-id \"your@email.com\" \\${NC}"
+    echo -e "${BLUE}    --team-id \"YOUR_TEAM_ID\" \\${NC}"
+    echo -e "${BLUE}    --password \"app-specific-password\"${NC}"
+    echo ""
+    echo -e "${YELLOW}Create app-specific password at: https://appleid.apple.com${NC}"
     echo ""
     
-    read -p "Enter your Apple ID: " APPLE_ID
-    read -sp "Enter your app-specific password: " APP_PASSWORD
-    echo ""
+    # Check if profile exists
+    if ! xcrun notarytool history --keychain-profile "notarization-profile" &>/dev/null; then
+        echo -e "${RED}Error: Keychain profile 'notarization-profile' not found.${NC}"
+        echo -e "${YELLOW}Please run the command above to store your credentials first.${NC}"
+        exit 1
+    fi
     
-    # Submit for notarization
+    # Submit for notarization using keychain profile
     echo -e "${YELLOW}Submitting to Apple (this may take several minutes)...${NC}"
     xcrun notarytool submit "$ZIP_NAME" \
-        --apple-id "$APPLE_ID" \
-        --team-id "$TEAM_ID" \
-        --password "$APP_PASSWORD" \
+        --keychain-profile "notarization-profile" \
         --wait
     
     # Staple the ticket
