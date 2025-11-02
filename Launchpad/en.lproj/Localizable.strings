@@ -23,8 +23,6 @@
 "drop_animation_delay" = "Reordering Delay";
 "page_scroll_debounce" = "Page Scroll Debounce";
 "page_scroll_threshold" = "Page Scroll Threshold";
-"display_options" = "Display Options";
-"animation_settings" = "Animation Settings";
 "show_dock" = "Show Dock";
 "start_at_login" = "Start at Login";
 "reset_on_relaunch" = "Reset search on Relaunch";
@@ -79,8 +77,6 @@
 "categories" = "Categories (PREMIUM)";
 "untitled_category" = "Untitled Category";
 "new_category" = "New Category";
-"add_to_category" = "Add to Category";
-"remove_from_category" = "Remove from Category";
 "manage_categories" = "Manage Categories";
 "delete_category" = "Delete Category";
 "delete_category_title" = "Delete Category";
@@ -92,20 +88,13 @@
 "categories_description" = "Organize your apps into categories. Apps can belong to multiple categories.";
 "create_category" = "Create Category";
 "category_name" = "Category Name";
-"rename_category" = "Rename Category";
-"filter_by_category" = "Filter by Category";
 "all_apps" = "All Apps";
-"clear_categories" = "Clear All Categories";
 
 // MARK: - Numbers
 "number_10" = "10";
 "number_200" = "200";
 "time_0_0s" = "0.0s";
 "time_3_0s" = "3.0s";
-
-// MARK: - Restart Warning
-"restart_required" = "Restart Required";
-"restart_warning_message" = "Some settings require a force restart of Launchpad app to take effect.";
 
 // MARK: - Activation Settings
 "activation" = "Activation";
@@ -115,12 +104,11 @@
 "activated" = "Activated";
 "not_activated" = "Not Activated";
 "activation_status" = "Activation Status";
+"activate" = "Click here to activate";
+"activated" = "Activated";
+"not_activated" = "Not Activated";
 "invalid_product_key" = "Invalid Product Key";
 "activation_successful" = "Activation Successful";
-"purchase_prompt" = "Don't have a license yet? Purchase one to unlock all features.";
-"purchase_license" = "Purchase License";
-
-// MARK: - Locations Settings
 "locations" = "Locations (PRO)";
 "locations_description" = "Add custom folder locations where Launchpad will search for applications. By default, Launchpad searches in /Applications and /System/Applications.";
 "custom_locations" = "Custom Locations";
@@ -131,11 +119,10 @@
 "browse_folder" = "Browse for folder";
 "add_location_help" = "Add this location";
 "invalid_location" = "Invalid Location";
-"location_does_not_exist" = "The specified path does not exist.";
-"location_not_directory" = "The specified path is not a directory.";
-"location_already_added" = "This location has already been added.";
-"select_folder_message" = "Select a folder to search for applications";
-
+"add_location" = "Add Location";
+"location_placeholder" = "/path/to/folder";
+"browse_folder" = "Browse for folder";
+"invalid_location" = "Invalid Location";
 // MARK: - Background Settings
 "background" = "Background (PREMIUM)";
 "background_type" = "Background Type";
