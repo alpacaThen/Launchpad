@@ -24,7 +24,7 @@ struct PageDropDelegate: DropDelegate {
             pages[targetPage].append(draggedItem.withUpdatedPage(targetPage))
         }
         
-        handlePageOverflow(targetPageIndex: targetPage)
+        PageOverflowHelper.handleOverflow(pages: &pages, pageIndex: targetPage, appsPerPage: appsPerPage)
     }
     
     private func findItemLocation(item: AppGridItem) -> (pageIndex: Int, itemIndex: Int)? {
@@ -34,22 +34,6 @@ struct PageDropDelegate: DropDelegate {
             }
         }
         return nil
-    }
-    
-    private func handlePageOverflow(targetPageIndex: Int) {
-        while pages[targetPageIndex].count > appsPerPage {
-            let overflowItem = pages[targetPageIndex].removeLast()
-            let nextPageNumber = targetPageIndex + 1
-            
-            let updatedOverflowItem = overflowItem.withUpdatedPage(nextPageNumber)
-            
-            if nextPageNumber >= pages.count {
-                pages.append([updatedOverflowItem])
-            } else {
-                pages[nextPageNumber].insert(updatedOverflowItem, at: 0)
-                handlePageOverflow(targetPageIndex: nextPageNumber)
-            }
-        }
     }
     
     func dropUpdated(info: DropInfo) -> DropProposal? {

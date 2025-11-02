@@ -10,9 +10,9 @@ final class SettingsManager: ObservableObject {
    private let settingsKey = "LaunchpadSettings"
 
    private init() {
-      self.settings = Self.loadSettings()
+      loadSettings()
    }
-
+   
    func saveSettings(newSettings: LaunchpadSettings) {
       settings = newSettings
 
@@ -21,13 +21,21 @@ final class SettingsManager: ObservableObject {
       userDefaults.set(data, forKey: settingsKey)
    }
 
-   private static func loadSettings() -> LaunchpadSettings {
-      guard let data = UserDefaults.standard.data(forKey: "LaunchpadSettings"),
-            let settings = try? JSONDecoder().decode(LaunchpadSettings.self, from: data)
-      else {
-         return LaunchpadSettings()
+   private func loadSettings() {
+      self.settings = LaunchpadSettings()
+
+      print("Load settings.")
+      guard let data = UserDefaults.standard.data(forKey: settingsKey) else {
+         print("No saved settings found.")
+         return
       }
-      return settings
+
+      do {
+         settings = try JSONDecoder().decode(LaunchpadSettings.self, from: data)
+         print("Loaded settings.")
+      } catch {
+         print("Failed to load settings: \(error)")
+      }
    }
 
    func resetToDefaults() {

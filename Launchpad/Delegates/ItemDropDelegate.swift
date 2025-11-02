@@ -8,10 +8,10 @@ struct ItemDropDelegate: DropDelegate {
    let targetItem: AppGridItem
    let targetPage: Int
    let appsPerPage: Int
-   
+
    func performDrop(info: DropInfo) -> Bool {
       guard let draggedItem = draggedItem else { return false }
-      
+
       if draggedItem.id != targetItem.id {
          switch (draggedItem, targetItem) {
          case (.app(let draggedApp), .app(let targetApp)):
@@ -22,18 +22,18 @@ struct ItemDropDelegate: DropDelegate {
             break
          }
       }
-      
+
       AppManager.shared.saveAppGridItems()
       self.draggedItem = nil
       self.hoveredItem = nil
       return true
    }
-   
+
    func dropEntered(info: DropInfo) {
       guard let draggedItem = draggedItem else { return }
-      
+
       hoveredItem = targetItem
-      
+
       if draggedItem.page == targetItem.page {
          DropHelper.performDelayedMove(delay: dropDelay) {
             if self.draggedItem != nil {
@@ -57,43 +57,26 @@ struct ItemDropDelegate: DropDelegate {
             return
          }
          let item = pages[draggedItem.page][fromIndex]
-         
+
          let updatedItem = item.withUpdatedPage(targetPage)
-         
+
          withAnimation(LaunchpadConstants.dragDropAnimation) {
             pages[targetItem.page].insert(updatedItem, at: toIndex)
             pages[draggedItem.page].remove(at: fromIndex)
          }
-         
+
          self.draggedItem = updatedItem
-         
-         handlePageOverflow(targetPageIndex: targetItem.page)
+
+         PageOverflowHelper.handleOverflow(pages: &pages, pageIndex: targetItem.page, appsPerPage: appsPerPage)
       }
    }
-   
+
    func dropExited(info: DropInfo) {
       if hoveredItem?.id == targetItem.id {
          hoveredItem = nil
       }
    }
-   
-   private func handlePageOverflow(targetPageIndex: Int) {
-      while pages[targetPageIndex].count > appsPerPage {
-         let overflowItem = pages[targetPageIndex].removeLast()
-         
-         let nextPageNumber = targetPageIndex + 1
-         
-         let updatedOverflowItem = overflowItem.withUpdatedPage(nextPageNumber)
-         
-         if nextPageNumber >= pages.count {
-            pages.append([updatedOverflowItem])
-         } else {
-            pages[nextPageNumber].insert(updatedOverflowItem, at: 0)
-            handlePageOverflow(targetPageIndex: nextPageNumber)
-         }
-      }
-   }
-   
+
    private func createFolder(with app1: AppInfo, and app2: AppInfo) {
       guard
          let app1Index = pages[app1.page].firstIndex(where: {
@@ -105,12 +88,12 @@ struct ItemDropDelegate: DropDelegate {
             return false
          })
       else { return }
-      
+
       let folderName = L10n.newFolder
       let folder = Folder(name: folderName, page: app2.page, apps: [app1, app2])
       let folderItem = AppGridItem.folder(folder)
       let adjustedTargetIndex = app1Index < app2Index ? app2Index - 1 : app2Index
-      
+
       withAnimation(LaunchpadConstants.dragDropAnimation) {
          if app1.page == app2.page {
             let indices = [app1Index, app2Index].sorted(by: >)
@@ -122,13 +105,13 @@ struct ItemDropDelegate: DropDelegate {
          } else {
             pages[app1.page].remove(at: app1Index)
             pages[app2.page].remove(at: app2Index)
-            
+
             let insertIndex = min(app2Index, pages[app2.page].count)
             pages[app2.page].insert(folderItem, at: insertIndex)
          }
       }
    }
-   
+
    private func addAppToFolder(app: AppInfo, targetFolder: Folder) {
       guard
          let appIndex = pages[app.page].firstIndex(where: {
@@ -140,18 +123,18 @@ struct ItemDropDelegate: DropDelegate {
             return false
          })
       else { return }
-      
+
       var updatedApps = targetFolder.apps
       updatedApps.append(app)
       let updatedFolder = Folder(name: targetFolder.name, page: targetFolder.page, apps: updatedApps)
       let updatedFolderItem = AppGridItem.folder(updatedFolder)
-      
+
       withAnimation(LaunchpadConstants.dragDropAnimation) {
          pages[targetFolder.page][folderIndex] = updatedFolderItem
          pages[app.page].remove(at: appIndex)
       }
    }
-   
+
    func dropUpdated(info: DropInfo) -> DropProposal? {
       return DropProposal(operation: .move)
    }

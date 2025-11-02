@@ -253,7 +253,7 @@ struct PagedGridView: View {
       print(event.keyCode)
       // Handle special keys
       switch event.keyCode {
-      case 53:  // ESC
+      case KeyCodeConstants.escape:
          if !searchText.isEmpty {
             searchText = ""
             selectedSearchIndex = 0
@@ -264,33 +264,33 @@ struct PagedGridView: View {
             selectedFolder = nil
             selectedCategory = nil
          }
-      case 123:  // Left arrow
+      case KeyCodeConstants.leftArrow:
          if !searchText.isEmpty {
             navigateSearchLeft()
             return nil
          } else if selectedFolder == nil && selectedCategory == nil {
             navigateToPreviousPage()
          }
-      case 124:  // Right arrow
+      case KeyCodeConstants.rightArrow:
          if !searchText.isEmpty {
             navigateSearchRight()
             return nil
          } else if selectedFolder == nil && selectedCategory == nil {
             navigateToNextPage()
          }
-      case 125:  // Down arrow
+      case KeyCodeConstants.downArrow:
          if !searchText.isEmpty {
             navigateSearchDown()
             return nil
          }
-      case 126:  // Up arrow
+      case KeyCodeConstants.upArrow:
          if !searchText.isEmpty {
             navigateSearchUp()
             return nil
          }
-      case 43:  // CMD + Comma
+      case KeyCodeConstants.comma:
          showSettings = true
-      case 36:  // Enter
+      case KeyCodeConstants.enter:
          if selectedCategory != nil {
             launchAllAppsInCategory()
          } else {
@@ -351,52 +351,29 @@ struct PagedGridView: View {
    private func navigateSearchLeft() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-
-      if selectedSearchIndex > 0 {
-         selectedSearchIndex -= 1
-      } else {
-         selectedSearchIndex = apps.count - 1
-      }
+      
+      selectedSearchIndex = NavigationHelper.navigateLeft(currentIndex: selectedSearchIndex, itemCount: apps.count)
    }
 
    private func navigateSearchRight() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-
-      if selectedSearchIndex < apps.count - 1 {
-         selectedSearchIndex += 1
-      } else {
-         selectedSearchIndex = 0
-      }
+      
+      selectedSearchIndex = NavigationHelper.navigateRight(currentIndex: selectedSearchIndex, itemCount: apps.count)
    }
 
    private func navigateSearchUp() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-
-      let newIndex = selectedSearchIndex - settings.columns
-      if newIndex >= 0 {
-         selectedSearchIndex = newIndex
-      } else {
-         // Wrap to bottom row
-         let lastRowStartIndex = (apps.count - 1) / settings.columns * settings.columns
-         let columnOffset = selectedSearchIndex % settings.columns
-         selectedSearchIndex = min(lastRowStartIndex + columnOffset, apps.count - 1)
-      }
+      
+      selectedSearchIndex = NavigationHelper.navigateUp(currentIndex: selectedSearchIndex, itemCount: apps.count, columns: settings.columns)
    }
 
    private func navigateSearchDown() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-
-      let newIndex = selectedSearchIndex + settings.columns
-      if newIndex < apps.count {
-         selectedSearchIndex = newIndex
-      } else {
-         // Wrap to top row
-         let columnOffset = selectedSearchIndex % settings.columns
-         selectedSearchIndex = min(columnOffset, apps.count - 1)
-      }
+      
+      selectedSearchIndex = NavigationHelper.navigateDown(currentIndex: selectedSearchIndex, itemCount: apps.count, columns: settings.columns)
    }
 
    private func handleAppActivation() {
