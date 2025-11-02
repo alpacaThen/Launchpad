@@ -101,7 +101,7 @@ struct ActivationSettings: View {
    private func validateAndActivate() {
       settings.productKey = enteredProductKey.trimmingCharacters(in: .whitespacesAndNewlines)
       
-      if settings.productKey == LaunchPadKey.productKey {
+      if settings.productKey == LaunchPadKeys.productKey {
          isValid = true
          validationMessage = L10n.activationSuccessful
          showValidationMessage = true

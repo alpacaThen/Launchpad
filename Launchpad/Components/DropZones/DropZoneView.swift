@@ -16,8 +16,6 @@ struct DropZoneView: View {
    @State private var isHovered = false
    @State private var hoverTimer: Timer?
    
-   private let hoverDelay: TimeInterval = LaunchPadConstants.hoverDelay
-   
    private var canNavigate: Bool {
       switch direction {
       case .left: return currentPage > 0
@@ -78,7 +76,7 @@ struct DropZoneView: View {
    }
    
    private func startTimer() {
-      hoverTimer = Timer.scheduledTimer(withTimeInterval: hoverDelay, repeats: false) { _ in
+      hoverTimer = Timer.scheduledTimer(withTimeInterval: LaunchPadConstants.hoverDelay, repeats: false) { _ in
          DispatchQueue.main.async {
             onNavigate()
          }

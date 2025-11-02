@@ -91,6 +91,6 @@ struct LaunchpadSettings: Codable, Equatable {
    }
 
    var isActivated: Bool {
-      return LaunchPadKey.productKey.isEmpty || productKey == LaunchPadKey.productKey
+      return LaunchPadKeys.productKey.isEmpty || productKey == LaunchPadKeys.productKey
    }
 }

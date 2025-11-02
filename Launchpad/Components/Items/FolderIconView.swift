@@ -5,23 +5,8 @@ struct FolderIconView: View {
    let folder: Folder
    let layout: LayoutMetrics
    let isDragged: Bool
-   let isEditMode: Bool
-   let isHovered: Bool
    let transparency: Double
-   @Environment(\.colorScheme) private var colorScheme
-   
-   init(folder: Folder, layout: LayoutMetrics, isDragged: Bool, isEditMode: Bool = false, isHovered: Bool = false, transparency: Double) {
-      self.folder = folder
-      self.layout = layout
-      self.isDragged = isDragged
-      self.isEditMode = isEditMode
-      self.isHovered = isHovered
-      self.transparency = transparency
-   }
-   
-   @State private var jiggleOffset: CGFloat = 0
-   @State private var jiggleRotation: Double = 0
-   
+   @Environment(\.colorScheme) private var colorScheme    
    var body: some View {
       let gridSpacing: CGFloat = 1.5
       
@@ -65,63 +50,8 @@ struct FolderIconView: View {
             .multilineTextAlignment(.center)
             .frame(width: layout.cellWidth)
       }
-      .scaleEffect(scaleEffect)
+      .scaleEffect(isDragged ? 0.8 : 1.0)
       .opacity(isDragged ? 0.5 : 1.0)
-      .rotationEffect(.degrees(isEditMode ? jiggleRotation : 0))
-      .offset(x: isEditMode ? jiggleOffset : 0, y: isEditMode ? jiggleOffset : 0)
-      .animation(isDragged ? .easeInOut(duration: 0.2) : LaunchPadConstants.springAnimation, value: isDragged)
-      .animation(LaunchPadConstants.springAnimation, value: isHovered)
-      .onChange(of: isEditMode) { newValue in
-         if newValue {
-            startJiggling()
-         } else {
-            stopJiggling()
-         }
-      }
-      .onAppear {
-         if isEditMode {
-            startJiggling()
-         }
-      }
-   }
-   
-   private var scaleEffect: CGFloat {
-      if isDragged {
-         return 0.8
-      } else if isHovered {
-         return LaunchPadConstants.hoverScaleIncrease
-      }
-      return 1.0
-   }
-   
-   private func startJiggling() {
-      withAnimation(LaunchPadConstants.jiggleAnimation) {
-         jiggleRotation = LaunchPadConstants.jiggleRotation * 0.8  // Slightly less rotation for folders
-         jiggleOffset = LaunchPadConstants.jiggleOffset
-      }
-      
-      // Reverse the animation after a short delay to create oscillation
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-         if isEditMode {
-            withAnimation(LaunchPadConstants.jiggleAnimation) {
-               jiggleRotation = -LaunchPadConstants.jiggleRotation * 0.8
-               jiggleOffset = -LaunchPadConstants.jiggleOffset
-            }
-            
-            // Continue the loop
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-               if isEditMode {
-                  startJiggling()
-               }
-            }
-         }
-      }
-   }
-   
-   private func stopJiggling() {
-      withAnimation(LaunchPadConstants.quickFadeAnimation) {
-         jiggleRotation = 0
-         jiggleOffset = 0
-      }
+      .animation(.easeInOut(duration: 0.2), value: isDragged)
    }
 }

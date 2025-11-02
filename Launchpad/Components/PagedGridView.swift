@@ -217,7 +217,7 @@ struct PagedGridView: View {
       let altKeyPressed = event.modifierFlags.contains(.option)
       
       if altKeyPressed != isEditMode {
-         withAnimation(LaunchPadConstants.quickFadeAnimation) {
+         withAnimation(LaunchPadConstants.fadeAnimation) {
             isEditMode = altKeyPressed
          }
       }
