@@ -20,7 +20,7 @@
 "folder_columns" = "Folder Columns";
 "folder_rows" = "Folder Rows";
 "icon_size" = "Icon Size";
-"drop_animation_delay" = "Drop Animation Delay";
+"drop_animation_delay" = "Reordering Delay";
 "page_scroll_debounce" = "Page Scroll Debounce";
 "page_scroll_threshold" = "Page Scroll Threshold";
 "display_options" = "Display Options";
