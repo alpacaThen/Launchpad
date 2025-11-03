@@ -7,15 +7,15 @@ struct SearchBarView: View {
    var onSettingsOpen: (() -> Void)?
    var transparency: Double
    var showIcons: Bool
-   
+
    @State private var showSortMenu = false
    @State private var hoveredItem: SortOrder?
    @FocusState private var isFocused: Bool
-   
+
    var body: some View {
       HStack(spacing: 12) {
          Spacer()
-         
+
          // Sort button
          if showIcons {
             Button(action: { showSortMenu.toggle() }) {
@@ -23,10 +23,7 @@ struct SearchBarView: View {
                   .font(.system(size: 16, weight: .medium))
                   .foregroundColor(.white)
                   .frame(width: 36, height: 36)
-                  .background(
-                     Circle()
-                        .fill(Color(NSColor.windowBackgroundColor).opacity(0.4 * transparency))
-                  )
+                  .background(Circle().fill(Color(.windowBackgroundColor).opacity(0.4 * transparency)))
                   .shadow(color: Color.black.opacity(0.2 * transparency), radius: 10, x: 0, y: 3)
             }
             .buttonStyle(.plain)
@@ -53,10 +50,7 @@ struct SearchBarView: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(
-                           Rectangle()
-                              .fill(hoveredItem == order ? Color.primary.opacity(0.06) : Color.clear)
-                        )
+                        .background(Rectangle().fill(hoveredItem == order ? Color.primary.opacity(0.06) : Color.clear))
                      }
                      .buttonStyle(SortMenuItemButtonStyle())
                      .onHover { hovering in
@@ -70,19 +64,19 @@ struct SearchBarView: View {
                .frame(minWidth: 220)
             }
          }
-         
+
          // Search bar
          HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                .foregroundColor(.secondary)
                .font(.system(size: 14))
-            
+
             TextField(L10n.searchPlaceholder, text: $searchText)
                .textFieldStyle(.plain)
                .font(.system(size: 16, weight: .regular))
                .focused($isFocused)
                .tint(.gray)
-            
+
             if !searchText.isEmpty {
                Button(action: {
                   searchText = "";
@@ -99,12 +93,9 @@ struct SearchBarView: View {
          .padding(.horizontal, 12)
          .padding(.vertical, 6)
          .frame(width: LaunchpadConstants.searchBarWidth, height: LaunchpadConstants.searchBarHeight)
-         .background(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-               .fill(Color(NSColor.windowBackgroundColor).opacity(0.4 * transparency))
-         )
+         .background(RoundedRectangle(cornerRadius: 24, style: .continuous).fill(Color(.windowBackgroundColor).opacity(0.4 * transparency)))
          .shadow(color: Color.black.opacity(0.2 * transparency), radius: 10, x: 0, y: 3)
-         
+
          // Settings button
          if showIcons {
             Button(action: { onSettingsOpen?() }) {
@@ -112,10 +103,7 @@ struct SearchBarView: View {
                   .font(.system(size: 16, weight: .medium))
                   .foregroundColor(.white)
                   .frame(width: 36, height: 36)
-                  .background(
-                     Circle()
-                        .fill(Color(NSColor.windowBackgroundColor).opacity(0.4 * transparency))
-                  )
+                  .background(Circle().fill(Color(.windowBackgroundColor).opacity(0.4 * transparency)))
                   .shadow(color: Color.black.opacity(0.2 * transparency), radius: 10, x: 0, y: 3)
             }
             .buttonStyle(.plain)
