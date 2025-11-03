@@ -12,7 +12,7 @@ struct CategoryPageView: View {
          EmptyCategoriesView()
       } else {
          GeometryReader { geo in
-            let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize, margin: settings.margin)
+            let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
             ScrollView(.vertical, showsIndicators: false) {
                VStack(spacing: 24) {
                   LazyVGrid(
