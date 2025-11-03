@@ -6,17 +6,17 @@ struct CategoryBoxView: View {
    let settings: LaunchpadSettings
    let layout: LayoutMetrics
    let onItemTap: (AppGridItem) -> Void
-
+   
    @Environment(\.colorScheme) private var colorScheme
-
+   
    private var categoryApps: [AppInfo] {
       CategoryManager.shared.getAppsForCategory(category: category, from: allApps)
    }
-
+   
    private var previewApps: [AppInfo] {
       Array(categoryApps.prefix(9))
    }
-
+   
    var body: some View {
       VStack(alignment: .leading, spacing: 12) {
          Text(category.name)
@@ -24,7 +24,7 @@ struct CategoryBoxView: View {
             .foregroundColor(.primary)
             .padding(.leading, 16)
             .padding(.top, 16)
-
+         
          LazyVGrid(
             columns: GridLayoutUtility.createFlexibleGridColumns(count: 3, spacing: 12),
             spacing: 8
@@ -33,7 +33,7 @@ struct CategoryBoxView: View {
                AppIconView(app: app, layout: layout, scale: 1.0)
                   .onTapGesture { onItemTap(.app(app)) }
             }
-
+            
             // Fill remaining spots with placeholders
             ForEach(0..<max(0, 9 - previewApps.count), id: \.self) { _ in
                placeholderBox()
@@ -66,7 +66,7 @@ struct CategoryBoxView: View {
          }
       }
    }
-
+   
    private func placeholderBox() -> some View {
       RoundedRectangle(cornerRadius: 12)
          .fill(Color.clear)

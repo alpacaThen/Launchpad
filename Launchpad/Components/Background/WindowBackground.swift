@@ -9,7 +9,7 @@ struct WindowBackground: NSViewRepresentable {
       view.state = .active
       return view
    }
-
+   
    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
       nsView.material = .fullScreenUI
       nsView.blendingMode = .behindWindow

@@ -25,8 +25,7 @@ struct LaunchpadApp: App {
                     SettingsView(onDismiss: { showSettings = false }, initialTab: settingsManager.settings.isActivated ? 0 : 7)
                 }
             }
-            .background(
-                BackgroundView(settings: settingsManager.settings))
+            .background(BackgroundView(settings: settingsManager.settings))
             .onAppear(perform: initialize)
         }
     }
