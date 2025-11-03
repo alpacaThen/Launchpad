@@ -7,9 +7,9 @@ struct FolderIconView: View {
    let scale: CGFloat
    let transparency: Double
    let labelColor: Color
-   
-   @Environment(\.colorScheme) private var colorScheme
-   
+
+   @Environment(\.colorScheme) private var theme
+
    init(folder: Folder, layout: LayoutMetrics, scale: CGFloat, transparency: Double, labelColor: Color = Color(nsColor: .labelColor)) {
       self.folder = folder
       self.layout = layout
@@ -22,8 +22,7 @@ struct FolderIconView: View {
       VStack(spacing: 8) {
          ZStack {
             RoundedRectangle(cornerRadius: layout.iconSize * LaunchpadConstants.folderPreviewIconSize)
-               .fill(colorScheme == .dark ? Color.black.opacity(LaunchpadConstants.overlayOpacity * transparency) : Color.white.opacity(LaunchpadConstants.overlayOpacity * transparency))
-               .background(RoundedRectangle(cornerRadius: layout.iconSize * LaunchpadConstants.folderPreviewIconSize).fill(.ultraThinMaterial))
+               .fill(theme == .dark ? .black.opacity(LaunchpadConstants.overlayOpacity * transparency) : .white.opacity(LaunchpadConstants.overlayOpacity * transparency))
                .frame(width: layout.iconSize * LaunchpadConstants.folderSizeMultiplier, height: layout.iconSize * LaunchpadConstants.folderSizeMultiplier)
 
             LazyVGrid(columns: GridLayoutUtility.createFlexibleGridColumns(count: 3, spacing: LaunchpadConstants.folderPreviewSpace),spacing: LaunchpadConstants.folderPreviewSpace) {
@@ -47,11 +46,11 @@ struct FolderIconView: View {
          .frame(width: layout.iconSize, height: layout.iconSize)
          .clipShape(RoundedRectangle(cornerRadius: 16))
          .shadow(
-            color: colorScheme == .dark ? Color.black.opacity(0.6 * transparency) : Color.black.opacity(0.3 * transparency),
+            color: theme == .dark ? .black.opacity(0.6 * transparency) : .black.opacity(0.3 * transparency),
             radius: 6, x: 0, y: 6
          )
          .shadow(
-            color: colorScheme == .dark ? Color.black.opacity(0.3 * transparency) : Color.black.opacity(0.1 * transparency),
+            color: theme == .dark ? .black.opacity(0.3 * transparency) : .black.opacity(0.1 * transparency),
             radius: 4, x: 0, y: 2
          )
          Text(folder.name)
