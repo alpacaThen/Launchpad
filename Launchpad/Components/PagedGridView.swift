@@ -383,7 +383,7 @@ struct PagedGridView: View {
          searchText = ""
       }
 
-      if !settings.isActivated {
+      if !SettingsManager.shared.settings.isActivated {
          showSettings = true
       }
    }

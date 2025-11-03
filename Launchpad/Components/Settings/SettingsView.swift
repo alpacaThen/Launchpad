@@ -128,7 +128,6 @@ struct SettingsView: View {
                }
             }
          }
-
          .padding(24)
          .frame(width: 740, height: 480)
          .background(
