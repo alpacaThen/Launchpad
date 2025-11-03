@@ -6,7 +6,17 @@ struct FolderIconView: View {
    let layout: LayoutMetrics
    let scale: CGFloat
    let transparency: Double
+   let labelColor: Color
+   
    @Environment(\.colorScheme) private var colorScheme
+   
+   init(folder: Folder, layout: LayoutMetrics, scale: CGFloat, transparency: Double, labelColor: Color = Color(nsColor: .labelColor)) {
+      self.folder = folder
+      self.layout = layout
+      self.scale = scale
+      self.transparency = transparency
+      self.labelColor = labelColor
+   }
 
    var body: some View {
       VStack(spacing: 8) {
@@ -46,6 +56,7 @@ struct FolderIconView: View {
          )
          Text(folder.name)
             .font(.system(size: layout.fontSize))
+            .foregroundColor(labelColor)
             .lineLimit(1)
             .frame(width: layout.cellWidth)
       }

@@ -1,7 +1,7 @@
 import Foundation
 
 class LaunchpadKeys {
-   private static let productKeys = ["BASIC-72", "PRO-48", "PREMIUM-56"]
+   private static let productKeys = ["BASIC", "PRO", "PREMIUM"]
 
    public static func isActivated(key: String) -> Bool {
       return key == productKeys[0] || key == productKeys[1] || key == productKeys[2]
