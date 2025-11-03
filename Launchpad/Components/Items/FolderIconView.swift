@@ -23,6 +23,7 @@ struct FolderIconView: View {
          ZStack {
             RoundedRectangle(cornerRadius: layout.iconSize * LaunchpadConstants.folderPreviewIconSize)
                .fill(theme == .dark ? .black.opacity(LaunchpadConstants.overlayOpacity * transparency) : .white.opacity(LaunchpadConstants.overlayOpacity * transparency))
+               .background(RoundedRectangle(cornerRadius: layout.iconSize * LaunchpadConstants.folderPreviewIconSize).fill(.ultraThinMaterial))
                .frame(width: layout.iconSize * LaunchpadConstants.folderSizeMultiplier, height: layout.iconSize * LaunchpadConstants.folderSizeMultiplier)
 
             LazyVGrid(columns: GridLayoutUtility.createFlexibleGridColumns(count: 3, spacing: LaunchpadConstants.folderPreviewSpace),spacing: LaunchpadConstants.folderPreviewSpace) {
