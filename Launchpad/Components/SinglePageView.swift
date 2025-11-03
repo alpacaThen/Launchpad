@@ -13,7 +13,7 @@ struct SinglePageView: View {
     
     var body: some View {
         GeometryReader { geo in
-            let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
+            let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize, margin: settings.margin)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyVGrid(

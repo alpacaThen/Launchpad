@@ -8,7 +8,7 @@ struct SearchResultsView: View {
    
    var body: some View {
       GeometryReader { geo in
-         let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize)
+         let layout = LayoutMetrics(size: geo.size, columns: settings.columns, rows: settings.rows, iconSize: settings.iconSize, margin: settings.margin)
          let shouldCenterAlign = apps.count < settings.columns
          
          if apps.isEmpty {

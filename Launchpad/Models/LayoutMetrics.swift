@@ -10,10 +10,10 @@ struct LayoutMetrics {
    let iconSize: CGFloat
    let fontSize: CGFloat
    
-   init(size: CGSize, columns: Int, rows: Int, iconSize: Double) {
+   init(size: CGSize, columns: Int, rows: Int, iconSize: Double, margin: Double = 0.0) {
       self.iconSize = iconSize
       
-      hPadding = 0.0; //size.width * 0.06
+      hPadding = margin
       vPadding = size.height * 0.04
       hSpacing = size.height < 800 ? size.height * 0.04 : size.height * 0.03
       

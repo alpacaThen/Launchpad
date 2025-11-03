@@ -46,7 +46,7 @@ struct FolderIconView: View {
          )
          Text(folder.name)
             .font(.system(size: layout.fontSize))
-            .multilineTextAlignment(.center)
+            .lineLimit(1)
             .frame(width: layout.cellWidth)
       }
       .scaleEffect(scale)

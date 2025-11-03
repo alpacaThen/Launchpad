@@ -26,6 +26,15 @@ struct LayoutSettings: View {
             )
 
             SettingsSlider(
+               title: L10n.margin,
+               value: $settings.margin,
+               range: 0...300,
+               step: 10,
+               minLabel: "0",
+               maxLabel: "300"
+            )
+
+            SettingsSlider(
                title: L10n.transparency,
                value: $settings.transparency,
                range: 0.0...2.0,

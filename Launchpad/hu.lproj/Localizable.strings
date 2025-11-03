@@ -20,6 +20,7 @@
 "folder_columns" = "Mappa oszlopok";
 "folder_rows" = "Mappa sorok";
 "icon_size" = "Ikon méret";
+"margin" = "Margó";
 "drop_animation_delay" = "Átrendezés késleltetés";
 "page_scroll_debounce" = "Görgetés késleltetés";
 "page_scroll_threshold" = "Görgetési küszöb";

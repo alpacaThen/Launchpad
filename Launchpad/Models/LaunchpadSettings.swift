@@ -5,6 +5,7 @@ struct LaunchpadSettings: Codable, Equatable {
    var columns: Int
    var rows: Int
    var iconSize: Double
+   var margin: Double
    var folderColumns: Int
    var folderRows: Int
 
@@ -34,6 +35,7 @@ struct LaunchpadSettings: Codable, Equatable {
    static let defaultColumns = 7
    static let defaultRows = 5
    static let defaultIconSize: Double = 100.0
+   static let defaultMargin: Double = 20.0
    static let defaultFolderColumns = 5
    static let defaultFolderRows = 3
    static let defaultDropDelay: Double = 0.5
@@ -58,6 +60,7 @@ struct LaunchpadSettings: Codable, Equatable {
       columns: Int = defaultColumns,
       rows: Int = defaultRows,
       iconSize: Double = defaultIconSize,
+      margin: Double = defaultMargin,
       folderColumns: Int = defaultFolderColumns,
       folderRows: Int = defaultFolderRows,
       dropDelay: Double = defaultDropDelay,
@@ -79,6 +82,7 @@ struct LaunchpadSettings: Codable, Equatable {
       self.columns = max(4, min(12, columns))
       self.rows = max(3, min(10, rows))
       self.iconSize = max(20, min(200, iconSize))
+      self.margin = max(0, min(300, margin))
       self.folderColumns = max(3, min(10, folderColumns))
       self.folderRows = max(3, min(8, folderRows))
 
