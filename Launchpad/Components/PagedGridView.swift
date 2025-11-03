@@ -212,7 +212,9 @@ struct PagedGridView: View {
             return nil
          }
       } else {
-         // Vertical scroll (mouse wheel)
+         // Vertical scroll (mouse wheel) - disabled on category page
+         guard currentPage != 0 else { return event }
+         
          accumulatedScrollX = 0  // Reset horizontal accumulation when scrolling vertically
          accumulatedScrollY += event.scrollingDeltaY
 
