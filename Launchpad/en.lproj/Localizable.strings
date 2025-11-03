@@ -30,6 +30,7 @@
 "show_icons_in_search" = "Show ordering options";
 "enable_icon_animation" = "Enable Icon Animation";
 "transparency" = "Transparency";
+"label_font_color" = "Label Font Color";
 
 // MARK: - Actions Settings
 "actions" = "Actions (PRO)";

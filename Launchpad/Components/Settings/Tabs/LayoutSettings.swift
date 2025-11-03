@@ -42,6 +42,11 @@ struct LayoutSettings: View {
                minLabel: "0%",
                maxLabel: "200%"
             )
+
+            SettingsColorPicker(
+               title: L10n.labelFontColor,
+               hexColor: $settings.labelFontColor
+            )
          }
       }
       .padding(.horizontal, 8)

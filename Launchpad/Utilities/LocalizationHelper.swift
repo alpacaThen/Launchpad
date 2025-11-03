@@ -41,6 +41,7 @@ struct L10n {
    static let showIconsInSearch = "show_icons_in_search".localized
    static let enableIconAnimation = "enable_icon_animation".localized
    static let transparency = "transparency".localized
+   static let labelFontColor = "label_font_color".localized
    
    // MARK: - Actions Settings
    static let actions = "actions".localized

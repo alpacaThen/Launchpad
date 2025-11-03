@@ -5,6 +5,14 @@ struct AppIconView: View {
    let app: AppInfo
    let layout: LayoutMetrics
    let scale: CGFloat
+   let labelColor: Color
+
+   init(app: AppInfo, layout: LayoutMetrics, scale: CGFloat, labelColor: Color = Color(nsColor: .labelColor)) {
+      self.app = app
+      self.layout = layout
+      self.scale = scale
+      self.labelColor = labelColor
+   }
 
    var body: some View {
       VStack(spacing: 8) {
@@ -18,6 +26,7 @@ struct AppIconView: View {
 
          Text(app.name)
             .font(.system(size: layout.fontSize))
+            .foregroundColor(labelColor)
             .lineLimit(1)
             .frame(width: layout.cellWidth)
       }

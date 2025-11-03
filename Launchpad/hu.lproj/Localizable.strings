@@ -30,6 +30,7 @@
 "show_icons_in_search" = "Rendezés megjelenítése";
 "enable_icon_animation" = "Ikon animáció";
 "transparency" = "Átlátszóság";
+"label_font_color" = "Felirat betűszín";
 
 // MARK: - Actions Settings
 "actions" = "Műveletek";

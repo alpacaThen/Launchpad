@@ -22,6 +22,7 @@ struct LaunchpadSettings: Codable, Equatable {
    var backgroundType: BackgroundType
    var customBackgroundPath: String
    var backgroundBlur: Double
+   var labelFontColor: String?
 
    // MARK: - Behavior
    var startAtLogin: Bool
@@ -48,10 +49,7 @@ struct LaunchpadSettings: Codable, Equatable {
    static let defaultShowDock = true
    static let defaultShowIconsInSearch = true
    static let defaultBackgroundType: BackgroundType = .default
-   static let defaultCustomBackgroundPath = ""
    static let defaultBackgroundBlur: Double = 10.0
-   static let defaultProductKey = ""
-   static let defaultCustomAppLocations: [String] = []
 
 
 
@@ -71,12 +69,13 @@ struct LaunchpadSettings: Codable, Equatable {
       transparency: Double = defaultTransparency,
       showIconsInSearch: Bool = defaultShowIconsInSearch,
       backgroundType: BackgroundType = defaultBackgroundType,
-      customBackgroundPath: String = defaultCustomBackgroundPath,
+      customBackgroundPath: String = "",
       backgroundBlur: Double = defaultBackgroundBlur,
+      labelFontColor: String? = nil,
       startAtLogin: Bool = defaultStartAtLogin,
       resetOnRelaunch: Bool = defaultResetOnRelaunch,
-      productKey: String = defaultProductKey,
-      customAppLocations: [String] = defaultCustomAppLocations
+      productKey: String = "",
+      customAppLocations: [String] = []
    ) {
       // Layout
       self.columns = max(4, min(12, columns))
@@ -97,6 +96,7 @@ struct LaunchpadSettings: Codable, Equatable {
       self.backgroundType = backgroundType
       self.customBackgroundPath = customBackgroundPath
       self.backgroundBlur = max(0.0, min(30.0, backgroundBlur))
+      self.labelFontColor = labelFontColor
 
       // Behavior
       self.showDock = showDock
