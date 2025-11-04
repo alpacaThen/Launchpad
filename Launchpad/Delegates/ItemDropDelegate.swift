@@ -8,6 +8,7 @@ struct ItemDropDelegate: DropDelegate {
    let targetItem: AppGridItem
    let targetPage: Int
    let appsPerPage: Int
+   let isEditMode: Bool
 
    func performDrop(info: DropInfo) -> Bool {
       guard let draggedItem = draggedItem else { return false }
@@ -33,6 +34,11 @@ struct ItemDropDelegate: DropDelegate {
       guard let draggedItem = draggedItem else { return }
 
       hoveredItem = targetItem
+      
+      // In edit mode, don't rearrange items - only allow folder creation
+      if isEditMode {
+         return
+      }
 
       if draggedItem.page == targetItem.page {
          DropHelper.performDelayedMove(delay: dropDelay) {

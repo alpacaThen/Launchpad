@@ -59,7 +59,8 @@ struct SinglePageView: View {
                                 dropDelay: settings.dropDelay,
                                 targetItem: item,
                                 targetPage: pageIndex,
-                                appsPerPage: settings.appsPerPage
+                                appsPerPage: settings.appsPerPage,
+                                isEditMode: isEditMode
                             ))
                     }
                 }
