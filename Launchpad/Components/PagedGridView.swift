@@ -252,7 +252,6 @@ struct PagedGridView: View {
    }
 
    private func handleKeyEvent(event: NSEvent) -> NSEvent? {
-      print(event.keyCode)
       // Handle special keys
       switch event.keyCode {
       case KeyCodeConstants.escape:
