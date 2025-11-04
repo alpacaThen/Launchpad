@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct CategoryContextMenu: View {
-   let app: AppInfo
+   @ObservedObject private var categoryManager = CategoryManager.shared
    
-   private let categoryManager = CategoryManager.shared
+   let app: AppInfo
    
    var appCategories: [Category] {
       categoryManager.getCategoriesForApp(appPath: app.path)
