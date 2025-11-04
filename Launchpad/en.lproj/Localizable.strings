@@ -68,8 +68,8 @@
 "sort_by_default" = "Default";
 "sort_by_name" = "Name";
 "sort_by_type" = "Type (Folders First)";
-"sort_by_last_opened" = "Last Opened (BETA)";
-"sort_by_install_date" = "Install Date (BETA)";
+"sort_by_last_opened" = "Recently Opened";
+"sort_by_install_date" = "Install Date";
 
 // MARK: - Folder Management
 "untitled_folder" = "Untitled Folder";
