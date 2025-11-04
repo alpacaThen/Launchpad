@@ -8,6 +8,8 @@ struct LaunchpadSettings: Codable, Equatable {
    var margin: Double
    var folderColumns: Int
    var folderRows: Int
+   var categoryColumns: Int
+   var categoryRows: Int
 
    // MARK: - Interaction & Animation
    var dropDelay: Double
@@ -39,6 +41,8 @@ struct LaunchpadSettings: Codable, Equatable {
    static let defaultMargin: Double = 20.0
    static let defaultFolderColumns = 5
    static let defaultFolderRows = 3
+   static let defaultCategoryColumns = 3
+   static let defaultCategoryRows = 2
    static let defaultDropDelay: Double = 0.5
    static let defaultScrollDebounceInterval: TimeInterval = 0.8
    static let defaultScrollActivationThreshold: Double = 80.0
@@ -61,6 +65,8 @@ struct LaunchpadSettings: Codable, Equatable {
       margin: Double = defaultMargin,
       folderColumns: Int = defaultFolderColumns,
       folderRows: Int = defaultFolderRows,
+      categoryColumns: Int = defaultCategoryColumns,
+      categoryRows: Int = defaultCategoryRows,
       dropDelay: Double = defaultDropDelay,
       scrollDebounceInterval: TimeInterval = defaultScrollDebounceInterval,
       scrollActivationThreshold: Double = defaultScrollActivationThreshold,
@@ -84,6 +90,8 @@ struct LaunchpadSettings: Codable, Equatable {
       self.margin = max(0, min(300, margin))
       self.folderColumns = max(3, min(10, folderColumns))
       self.folderRows = max(3, min(8, folderRows))
+      self.categoryColumns = max(2, min(4, categoryColumns))
+      self.categoryRows = max(2, min(4, categoryRows))
 
       // Interaction
       self.dropDelay = max(0.0, min(3.0, dropDelay))

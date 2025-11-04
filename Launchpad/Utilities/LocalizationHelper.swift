@@ -30,6 +30,8 @@ struct L10n {
    static let rows = "rows".localized
    static let folderColumns = "folder_columns".localized
    static let folderRows = "folder_rows".localized
+   static let categoryColumns = "category_columns".localized
+   static let categoryRows = "category_rows".localized
    static let iconSize = "icon_size".localized
    static let margin = "margin".localized
    static let dropAnimationDelay = "drop_animation_delay".localized
