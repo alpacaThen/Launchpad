@@ -104,6 +104,11 @@ final class AppManager: ObservableObject {
          allItems = loadLayoutFromUserDefaults(for: apps)
       }
 
+      // Reset page numbers to 0 for proper redistribution when not using default layout
+      if sortOrder != .defaultLayout {
+         allItems = allItems.map { $0.withUpdatedPage(0) }
+      }
+
       pages = groupItemsByPage(items: allItems, appsPerPage: appsPerPage)
    }
 
