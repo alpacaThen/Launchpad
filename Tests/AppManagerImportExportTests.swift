@@ -369,9 +369,7 @@ final class AppManagerImportExportTests: XCTestCase {
         }
         
         // Group into pages
-        let pages = Dictionary(grouping: largeDataset) { $0.page }
-            .sorted { $0.key < $1.key }
-            .map { $0.value }
+        let pages = Dictionary(grouping: largeDataset) { $0.page }.sorted { $0.key < $1.key }.map { $0.value }
         
         appManager.pages = pages
         

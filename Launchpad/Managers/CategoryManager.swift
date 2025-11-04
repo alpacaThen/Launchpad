@@ -54,7 +54,7 @@ final class CategoryManager: ObservableObject {
    }
 
    func getAppsForCategory(category: Category, from allApps: [AppInfo]) -> [AppInfo] {
-      let appsByPath = Dictionary(uniqueKeysWithValues: allApps.map { ($0.path, $0) })
+      let appsByPath = Dictionary(uniqueKeysWithValues: allApps.unique(by: \.path).map { ($0.path, $0) })
       return category.appPaths.compactMap { appsByPath[$0] }
    }
 
@@ -155,3 +155,4 @@ final class CategoryManager: ObservableObject {
       userDefaults.removeObject(forKey: categoriesKey)
    }
 }
+

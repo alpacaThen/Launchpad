@@ -192,7 +192,7 @@ final class AppManager: ObservableObject {
          return apps.map { .app($0) }
       }
 
-      let appsByPath = Dictionary(uniqueKeysWithValues: apps.map { ($0.path, $0) })
+      let appsByPath = Dictionary(uniqueKeysWithValues: apps.unique(by: \.path).map { ($0.path, $0) })
       var gridItems = parseAppGridItems(from: savedData, appsByPath: appsByPath)
       addRemainingApps(items: &gridItems, apps: apps)
       return gridItems
@@ -290,7 +290,7 @@ final class AppManager: ObservableObject {
          }
 
          let allApps = discoverApps()
-         let appsByPath = Dictionary(uniqueKeysWithValues: allApps.map { ($0.path, $0) })
+         let appsByPath = Dictionary(uniqueKeysWithValues: allApps.unique(by: \.path).map { ($0.path, $0) })
          let gridItems = parseAppGridItems(from: itemsArray, appsByPath: appsByPath)
          pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
 

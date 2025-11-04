@@ -16,6 +16,12 @@ struct LayoutSettings: View {
                SettingsNumberField(title: L10n.folderColumns, value: $settings.folderColumns, range: 2...8)
                SettingsNumberField(title: L10n.folderRows, value: $settings.folderRows, range: 1...6)
             }
+            HStack(spacing: 24) {
+               SettingsNumberField(title: L10n.categoryColumns, value: $settings.categoryColumns, range: 2...4)
+               SettingsNumberField(title: L10n.categoryRows, value: $settings.categoryRows, range: 2...4)
+               Spacer()
+               Spacer()
+            }
             SettingsSlider(
                title: L10n.iconSize,
                value: $settings.iconSize,

@@ -19,6 +19,8 @@
 "rows" = "Sorok";
 "folder_columns" = "Mappa oszlopok";
 "folder_rows" = "Mappa sorok";
+"category_columns" = "Kategória oszlopok";
+"category_rows" = "Kategória sorok";
 "icon_size" = "Ikon méret";
 "margin" = "Margó";
 "drop_animation_delay" = "Átrendezés késleltetés";
