@@ -9,9 +9,11 @@ struct ItemDropDelegate: DropDelegate {
    let targetPage: Int
    let appsPerPage: Int
    let isEditMode: Bool
+   let canEdit: Bool
 
    func performDrop(info: DropInfo) -> Bool {
       guard let draggedItem = draggedItem else { return false }
+      guard canEdit else { return false }
 
       if draggedItem.id != targetItem.id {
          switch (draggedItem, targetItem) {
@@ -24,7 +26,9 @@ struct ItemDropDelegate: DropDelegate {
          }
       }
 
+      PageOverflowHelper.handleOverflow(pages: &pages, pageIndex: targetItem.page, appsPerPage: appsPerPage)
       AppManager.shared.saveAppGridItems()
+      
       self.draggedItem = nil
       self.hoveredItem = nil
       return true
@@ -72,8 +76,6 @@ struct ItemDropDelegate: DropDelegate {
          }
 
          self.draggedItem = updatedItem
-
-         PageOverflowHelper.handleOverflow(pages: &pages, pageIndex: targetItem.page, appsPerPage: appsPerPage)
       }
    }
 
