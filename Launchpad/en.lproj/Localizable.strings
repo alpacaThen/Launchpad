@@ -41,6 +41,9 @@
 "import_layout" = "Import Layout";
 "import_from_old_launchpad" = "Import from Old Launchpad (BETA)";
 "clear_all_apps" = "Clear Grid Layout";
+"refresh_apps" = "Refresh Apps";
+
+// Application Control
 "application_control" = "Application Control";
 "force_quit" = "Force Quit";
 

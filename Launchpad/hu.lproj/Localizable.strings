@@ -41,6 +41,9 @@
 "import_layout" = "Importálás";
 "import_from_old_launchpad" = "Importálás régi Launchpad-ből";
 "clear_all_apps" = "Elrendezés törlése";
+"refresh_apps" = "Alkalmazások frissítése";
+
+// Application Control
 "application_control" = "Alkalmazás vezérlés";
 "force_quit" = "Kilépés";
 

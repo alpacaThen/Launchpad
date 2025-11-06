@@ -21,4 +21,7 @@ enum KeyCodeConstants {
    
    /// Comma key - used with CMD for settings (CMD+,)
    static let comma: UInt16 = 43
+   
+   /// R key - used with CMD for refresh (CMD+R)
+   static let r: UInt16 = 15
 }

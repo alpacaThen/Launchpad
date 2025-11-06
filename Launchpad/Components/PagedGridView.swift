@@ -3,10 +3,10 @@ import SwiftUI
 
 struct PagedGridView: View {
    @EnvironmentObject private var settingsManager: SettingsManager
-   
+
    @Binding var pages: [[AppGridItem]]
    @Binding var showSettings: Bool
-   
+
    @State private var currentPage = 1
    @State private var lastScrollTime = Date.distantPast
    @State private var accumulatedScrollX: CGFloat = 0
@@ -19,11 +19,11 @@ struct PagedGridView: View {
    @State private var sortOrder: SortOrder = SortOrder.defaultLayout
    @State private var selectedCategory: Category?
    @State private var isEditMode = false
-   
+
    private var totalPages: Int {
       return pages.count + 1  // +1 for category page
    }
-   
+
    var body: some View {
       VStack(spacing: 0) {
          SearchBarView(
@@ -34,7 +34,7 @@ struct PagedGridView: View {
             transparency: settingsManager.settings.transparency,
             showIcons: settingsManager.settings.showIconsInSearch
          )
-         
+
          GeometryReader { geo in
             if searchText.isEmpty {
                HStack(spacing: 0) {
@@ -45,7 +45,7 @@ struct PagedGridView: View {
                      onItemTap: handleTap
                   )
                   .frame(width: geo.size.width, height: geo.size.height)
-                  
+
                   // Regular app pages
                   ForEach(pages.indices, id: \.self) { pageIndex in
                      SinglePageView(
@@ -86,21 +86,21 @@ struct PagedGridView: View {
       .onChange(of: searchText) {
          selectedSearchIndex = 0
       }
-      
+
       FolderDetailView(
          pages: $pages,
          folder: $selectedFolder,
          settings: settingsManager.settings,
          onItemTap: handleTap
       )
-      
+
       CategoryDetailView(
          category: $selectedCategory,
          allApps: allApps(),
          settings: settingsManager.settings,
          onItemTap: handleTap
       )
-      
+
       PageDropZonesView(
          currentPage: currentPage,
          totalPages: totalPages,
@@ -110,10 +110,10 @@ struct PagedGridView: View {
          transparency: settingsManager.settings.transparency
       )
    }
-   
+
    private func filteredApps() -> [AppInfo] {
       guard !searchText.isEmpty else { return [] }
-      
+
       let searchTerm = searchText.lowercased()
       return pages.flatMap { $0 }.flatMap { item -> [AppInfo] in
          switch item {
@@ -130,7 +130,7 @@ struct PagedGridView: View {
          }
       }
    }
-   
+
    private func allApps() -> [AppInfo] {
       pages.flatMap { $0 }.compactMap { item in
          if case .app(let app) = item {
@@ -139,7 +139,7 @@ struct PagedGridView: View {
          return nil
       }
    }
-   
+
    private func handleTap(item: AppGridItem) {
       switch item {
       case .app(let app):
@@ -150,7 +150,7 @@ struct PagedGridView: View {
          selectedCategory = category
       }
    }
-   
+
    private func setupEventMonitoring() {
       eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.scrollWheel, .keyDown, .keyUp, .flagsChanged]) { event in
          switch event.type {
@@ -164,10 +164,10 @@ struct PagedGridView: View {
             return event
          }
       }
-      
+
       NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main) { notification in
          guard let activatedApp = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else { return }
-         
+
          Task { @MainActor in
             if activatedApp.bundleIdentifier == Bundle.main.bundleIdentifier {
                handleAppActivation()
@@ -177,32 +177,32 @@ struct PagedGridView: View {
          }
       }
    }
-   
+
    private func cleanupEventMonitoring() {
       if let monitor = eventMonitor {
          NSEvent.removeMonitor(monitor)
          eventMonitor = nil
       }
    }
-   
+
    private func handleScrollEvent(event: NSEvent) -> NSEvent? {
       guard searchText.isEmpty && selectedFolder == nil && selectedCategory == nil && showSettings == false else { return event }
-      
+
       let absX = abs(event.scrollingDeltaX)
       let absY = abs(event.scrollingDeltaY)
-      
+
       // Support both horizontal (trackpad) and vertical (mouse wheel) scrolling
       guard (absX > 0 || absY > 0) else { return event }
-      
+
       let now = Date()
       guard now.timeIntervalSince(lastScrollTime) >= settingsManager.settings.scrollDebounceInterval else { return event }
-      
+
       // Determine which direction has more movement and accumulate accordingly
       if absX >= absY {
          // Horizontal scroll (trackpad swipe)
          accumulatedScrollY = 0  // Reset vertical accumulation when scrolling horizontally
          accumulatedScrollX += event.scrollingDeltaX
-         
+
          if accumulatedScrollX <= -settingsManager.settings.scrollActivationThreshold {
             currentPage = min(currentPage + 1, totalPages - 1)
             resetScrollState(at: now)
@@ -215,10 +215,10 @@ struct PagedGridView: View {
       } else {
          // Vertical scroll (mouse wheel) - disabled on category page
          guard currentPage != 0 else { return event }
-         
+
          accumulatedScrollX = 0  // Reset horizontal accumulation when scrolling vertically
          accumulatedScrollY += event.scrollingDeltaY
-         
+
          if accumulatedScrollY <= -settingsManager.settings.scrollActivationThreshold {
             currentPage = min(currentPage + 1, totalPages - 1)
             resetScrollState(at: now)
@@ -229,29 +229,29 @@ struct PagedGridView: View {
             return nil
          }
       }
-      
+
       return event
    }
-   
+
    private func resetScrollState(at time: Date) {
       lastScrollTime = time
       accumulatedScrollX = 0
       accumulatedScrollY = 0
    }
-   
+
    private func handleFlagsChanged(event: NSEvent) -> NSEvent? {
       // Check if Alt/Option key is pressed
       let altKeyPressed = event.modifierFlags.contains(.option)
-      
+
       if altKeyPressed != isEditMode {
          withAnimation(LaunchpadConstants.fadeAnimation) {
             isEditMode = altKeyPressed
          }
       }
-      
+
       return event
    }
-   
+
    private func handleKeyEvent(event: NSEvent) -> NSEvent? {
       // Handle special keys
       switch event.keyCode {
@@ -290,7 +290,13 @@ struct PagedGridView: View {
             return nil
          }
       case KeyCodeConstants.comma:
-         showSettings = true
+         if event.modifierFlags.contains(.command) {
+            showSettings = true
+         }
+      case KeyCodeConstants.r:
+         if event.modifierFlags.contains(.command) {
+            AppManager.shared.refreshApps(appsPerPage: settingsManager.settings.appsPerPage)
+         }
       case KeyCodeConstants.enter:
          if selectedCategory != nil {
             launchAllAppsInCategory()
@@ -300,18 +306,18 @@ struct PagedGridView: View {
       default:
          break
       }
-      
+
       return event
    }
-   
+
    private func navigateToPreviousPage() {
       guard currentPage > 0 else { return }
-      
+
       withAnimation(LaunchpadConstants.springAnimation) {
          currentPage = currentPage - 1
       }
    }
-   
+
    private func navigateToNextPage() {
       if currentPage < totalPages - 1 {
          withAnimation(LaunchpadConstants.springAnimation) {
@@ -321,22 +327,22 @@ struct PagedGridView: View {
          createNewPage()
       }
    }
-   
+
    private func createNewPage() {
       pages.append([])
       withAnimation(LaunchpadConstants.springAnimation) {
          currentPage = totalPages - 1
       }
    }
-   
+
    private func launchSelectedSearchResult() {
       guard !searchText.isEmpty else { return }
       let apps = filteredApps()
       guard selectedSearchIndex >= 0 && selectedSearchIndex < apps.count else { return }
-      
+
       AppLauncher.launch(path: apps[selectedSearchIndex].path)
    }
-   
+
    private func launchAllAppsInCategory() {
       guard selectedCategory != nil else { return }
       let categoryApps = CategoryManager.shared.getAppsForCategory(category: selectedCategory!, from: allApps())
@@ -344,39 +350,39 @@ struct PagedGridView: View {
          AppLauncher.launch(path: app.path)
       }
    }
-   
+
    private func handleSort(sortOrder: SortOrder) {
       AppManager.shared.sortItems(by: sortOrder, appsPerPage: settingsManager.settings.appsPerPage)
    }
-   
+
    private func navigateSearchLeft() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       selectedSearchIndex = NavigationHelper.navigateLeft(currentIndex: selectedSearchIndex, itemCount: apps.count)
    }
-   
+
    private func navigateSearchRight() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       selectedSearchIndex = NavigationHelper.navigateRight(currentIndex: selectedSearchIndex, itemCount: apps.count)
    }
-   
+
    private func navigateSearchUp() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       selectedSearchIndex = NavigationHelper.navigateUp(currentIndex: selectedSearchIndex, itemCount: apps.count, columns: settingsManager.settings.columns)
    }
    
    private func navigateSearchDown() {
       let apps = filteredApps()
       guard !apps.isEmpty else { return }
-      
+
       selectedSearchIndex = NavigationHelper.navigateDown(currentIndex: selectedSearchIndex, itemCount: apps.count, columns: settingsManager.settings.columns)
    }
-   
+
    private func handleAppActivation() {
       if settingsManager.settings.resetOnRelaunch {
          currentPage = 1
@@ -384,7 +390,7 @@ struct PagedGridView: View {
          selectedCategory = nil
          searchText = ""
       }
-      
+
       if !SettingsManager.shared.settings.isActivated {
          showSettings = true
       }
