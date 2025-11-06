@@ -30,8 +30,7 @@ final class AppManager: ObservableObject {
       print("Load grid items.")
       let apps = discoverApps()
       let gridItems = loadLayoutFromUserDefaults(for: apps)
-      let visibleItems = gridItems.filter { item in !isItemHidden(item) }
-      pages = groupItemsByPage(items: visibleItems, appsPerPage: appsPerPage)
+      pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
    }
    
    func saveAppGridItems() {
@@ -62,8 +61,7 @@ final class AppManager: ObservableObject {
       print("Refresh apps.")
       let apps = discoverApps()
       let gridItems = loadLayoutFromUserDefaults(for: apps)
-      let visibleItems = gridItems.filter { item in !isItemHidden(item) }
-      pages = groupItemsByPage(items: visibleItems, appsPerPage: appsPerPage)
+      pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
       saveAppGridItems()
    }
    
@@ -77,9 +75,7 @@ final class AppManager: ObservableObject {
       }
       
       var gridItems = importManager.readOldLaunchpadLayout(currentApps: apps)
-      
       addRemainingApps(items: &gridItems, apps: apps)
-      
       pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
       saveAppGridItems()
       
@@ -256,7 +252,7 @@ final class AppManager: ObservableObject {
    }
    
    private func groupItemsByPage(items: [AppGridItem], appsPerPage: Int) -> [[AppGridItem]] {
-      let groupedByPage = Dictionary(grouping: items.uniqueOrDefault(by: \.path)) { $0.page }
+      let groupedByPage = Dictionary(grouping: items.filter { item in !isItemHidden(item) }.uniqueOrDefault(by: \.path)) { $0.page }
       let pageCount = max(groupedByPage.keys.max() ?? 1, 1)
       var pages: [[AppGridItem]] = []
       var currentPage = 0
@@ -295,9 +291,10 @@ final class AppManager: ObservableObject {
             return (false, "Invalid JSON format")
          }
          
-         let allApps = discoverApps()
-         let appsByPath = Dictionary(uniqueKeysWithValues: allApps.unique(by: \.path).map { ($0.path, $0) })
-         let gridItems = parseAppGridItems(from: itemsArray, appsByPath: appsByPath)
+         let apps = discoverApps()
+         let appsByPath = Dictionary(uniqueKeysWithValues: apps.unique(by: \.path).map { ($0.path, $0) })
+         var gridItems = parseAppGridItems(from: itemsArray, appsByPath: appsByPath)
+         addRemainingApps(items: &gridItems, apps: apps)
          pages = groupItemsByPage(items: gridItems, appsPerPage: appsPerPage)
          
          print("Successfully imported layout from \(filePath.path)")
