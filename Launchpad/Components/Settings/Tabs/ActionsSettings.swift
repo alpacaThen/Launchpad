@@ -60,6 +60,20 @@ struct ActionsSettings: View {
             }
             .buttonStyle(.plain)
 
+            Button(action: refreshApps) {
+               HStack {
+                  Image(systemName: "arrow.clockwise")
+                  Text(L10n.refreshApps)
+                  Spacer()
+               }
+               .padding(.horizontal, 16)
+               .padding(.vertical, 10)
+               .background(Color.cyan.opacity(0.1))
+               .foregroundColor(.cyan)
+               .cornerRadius(8)
+            }
+            .buttonStyle(.plain)
+
             Button(action: { showingClearConfirmation = true }) {
                HStack {
                   Image(systemName: "trash")
@@ -134,6 +148,10 @@ struct ActionsSettings: View {
 
    private func clearAppGridItems() {
       appManager.clearAppGridItems(appsPerPage: settingsManager.settings.appsPerPage)
+   }
+   
+   private func refreshApps() {
+      appManager.refreshApps(appsPerPage: settingsManager.settings.appsPerPage)
    }
 
    private func forceQuitApp() {

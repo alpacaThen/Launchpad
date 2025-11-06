@@ -52,6 +52,7 @@ struct L10n {
    static let importLayout = "import_layout".localized
    static let importFromOldLaunchpad = "import_from_old_launchpad".localized
    static let clearAllApps = "clear_all_apps".localized
+   static let refreshApps = "refresh_apps".localized
    static let applicationControl = "application_control".localized
    static let forceQuit = "force_quit".localized
    

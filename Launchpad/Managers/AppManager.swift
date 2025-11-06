@@ -31,7 +31,6 @@ final class AppManager: ObservableObject {
       let apps = discoverApps()
       let gridItems = loadLayoutFromUserDefaults(for: apps)
       let visibleItems = gridItems.filter { item in !isItemHidden(item) }
-
       pages = groupItemsByPage(items: visibleItems, appsPerPage: appsPerPage)
    }
    
@@ -57,6 +56,15 @@ final class AppManager: ObservableObject {
       print("Clear grid items.")
       userDefaults.removeObject(forKey: gridItemsKey)
       loadAppGridItems(appsPerPage: appsPerPage)
+   }
+   
+   func refreshApps(appsPerPage: Int) {
+      print("Refresh apps.")
+      let apps = discoverApps()
+      let gridItems = loadLayoutFromUserDefaults(for: apps)
+      let visibleItems = gridItems.filter { item in !isItemHidden(item) }
+      pages = groupItemsByPage(items: visibleItems, appsPerPage: appsPerPage)
+      saveAppGridItems()
    }
    
    func importFromOldLaunchpad(appsPerPage: Int) -> Bool {
