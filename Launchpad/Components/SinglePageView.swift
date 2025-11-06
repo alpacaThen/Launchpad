@@ -4,6 +4,7 @@ struct SinglePageView: View {
     @Binding var pages: [[AppGridItem]]
     @Binding var draggedItem: AppGridItem?
     @Binding var isEditMode: Bool
+    let canEdit: Bool
     let pageIndex: Int
     let settings: LaunchpadSettings
     let isFolderOpen: Bool
@@ -60,7 +61,8 @@ struct SinglePageView: View {
                                 targetItem: item,
                                 targetPage: pageIndex,
                                 appsPerPage: settings.appsPerPage,
-                                isEditMode: isEditMode
+                                isEditMode: isEditMode,
+                                canEdit: canEdit
                             ))
                     }
                 }
@@ -72,7 +74,8 @@ struct SinglePageView: View {
                 pages: $pages,
                 draggedItem: $draggedItem,
                 targetPage: pageIndex,
-                appsPerPage: settings.appsPerPage
+                appsPerPage: settings.appsPerPage,
+                canEdit: canEdit
             ))
         }
     }

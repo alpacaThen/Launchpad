@@ -52,6 +52,7 @@ struct PagedGridView: View {
                         pages: $pages,
                         draggedItem: $draggedItem,
                         isEditMode: $isEditMode,
+                        canEdit: sortOrder == .defaultLayout,
                         pageIndex: pageIndex,
                         settings: settingsManager.settings,
                         isFolderOpen: selectedFolder != nil,
