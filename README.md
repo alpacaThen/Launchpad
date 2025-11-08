@@ -20,8 +20,8 @@ This fork has been improved using AI-assisted development to address key user ex
 
 This project includes comprehensive AI development documentation:
 
-- **[CHANGES.md](CHANGES.md)** - Detailed technical documentation of all improvements, root cause analysis, and solutions
-- **[PROMPTS.md](PROMPTS.md)** - Optimized AI prompts used to solve each issue, reusable for similar problems
+- **[changes.md](AI-CHANGES.md)** - Detailed technical documentation of all improvements, root cause analysis, and solutions
+- **[prompts.md](AI-PROMPTS.md)** - Optimized AI prompts used to solve each issue, reusable for similar problems
 
 These documents demonstrate how AI can be effectively used to diagnose, debug, and fix complex software issues.
 
